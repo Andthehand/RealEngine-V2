@@ -6,7 +6,10 @@ project(RealEngine)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+# Makes the spdlog static library to be linked later
 add_subdirectory(vendor/spdlog)
 
 add_executable(RealEngine src/main.cpp)
+
+# links the spdlog static library to the executable
 target_link_libraries(RealEngine spdlog)
