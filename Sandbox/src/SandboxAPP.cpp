@@ -5,18 +5,17 @@
 
 class Sandbox : public RealEngine::Application {
 public:
-	Sandbox() {
+	Sandbox(const RealEngine::ApplicationSpecification& specification) 
+		: Application(specification) {
+
 	}
 
 	~Sandbox() {
 
 	}
-
-	void Run() override {
-		RE_ASSERT(false, "Assertion failed!");
-	}
 };
 
-RealEngine::Application* RealEngine::CreateApplication() {
-	return new Sandbox();
+RealEngine::Application* RealEngine::CreateApplication(const RealEngine::ApplicationCommandLineArgs& args) {
+	ApplicationSpecification specification = { "Sandbox", args };
+	return new Sandbox(specification);
 }
