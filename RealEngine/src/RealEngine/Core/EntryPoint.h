@@ -9,6 +9,6 @@ int main(int argc, char** argv) {
 
 	auto app = RealEngine::CreateApplication();
 	RE_CORE_INFO("Application is running...");
-	app->Run();
 
+	app->Run();
 }

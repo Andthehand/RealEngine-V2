@@ -15,6 +15,9 @@
 		#define RE_DEBUGBREAK()
 #endif
 
+#define RE_EXPAND_MACRO(x) x
+#define RE_STRINGIFY_MACRO(x) #x
+
 namespace RealEngine {
 	template<typename T>
 	using Scope = std::unique_ptr<T>;

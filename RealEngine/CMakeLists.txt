@@ -12,7 +12,7 @@ add_subdirectory(vendor/spdlog)
 
 add_library(RealEngine STATIC 
 "src/RealEngine/Core/EntryPoint.h" "src/RealEngine/Core/Application.h" "src/RealEngine/Core/Application.cpp" 
-"src/RealEngine.h"   "src/RealEngine/Core/Core.h" "src/RealEngine/Core/Log.h" "src/RealEngine/Core/Log.cpp")
+"src/RealEngine.h" "src/RealEngine/Core/Core.h" "src/RealEngine/Core/Log.h" "src/RealEngine/Core/Log.cpp" "src/RealEngine/Core/Assert.h")
 
 # links the spdlog static library to the executable
 target_link_libraries(RealEngine spdlog)

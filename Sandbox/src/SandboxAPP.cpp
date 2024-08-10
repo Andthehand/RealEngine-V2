@@ -13,7 +13,7 @@ public:
 	}
 
 	void Run() override {
-		std::cout << "Hello, RealEngine!" << std::endl;
+		RE_ASSERT(false, "Assertion failed!");
 	}
 };
 
