@@ -19,6 +19,8 @@ add_library(RealEngine STATIC
 "src/RealEngine/Core/EntryPoint.h" "src/RealEngine/Core/Application.h" "src/RealEngine/Core/Application.cpp" 
 "src/RealEngine.h" "src/RealEngine/Core/Core.h" "src/RealEngine/Core/Log.h" "src/RealEngine/Core/Log.cpp" "src/RealEngine/Core/Assert.h" "src/RealEngine/Core/Profiler.h")
 
+target_precompile_headers(RealEngine PRIVATE "src/repch.h")
+
 # links the spdlog static library to the executable
 target_link_libraries(RealEngine 
 spdlog Tracy::TracyClient)
