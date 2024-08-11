@@ -1,5 +1,6 @@
 #pragma once
 
+#define TRACY_CALLSTACK 8
 #include <tracy/Tracy.hpp>
 
 #define RE_PROFILE 1
