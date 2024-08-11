@@ -21,11 +21,14 @@
 
 	#define RE_PROFILE_SECTION() ZoneScoped
 
-	#define RE_INTERNAL_PROFILE_TRACE_TRACE(...)    ::RealEngine::InternalProfilelog(std::format(__VA_ARGS__))
-	#define RE_INTERNAL_PROFILE_TRACE_INFO(...)     ::RealEngine::InternalProfilelogColor(std::format(__VA_ARGS__), tracy::Color::Green)
-	#define RE_INTERNAL_PROFILE_TRACE_WARN(...)     ::RealEngine::InternalProfilelogColor(std::format(__VA_ARGS__), tracy::Color::Yellow)
-	#define RE_INTERNAL_PROFILE_TRACE_ERROR(...)    ::RealEngine::InternalProfilelogColor(std::format(__VA_ARGS__), tracy::Color::Red)
-	#define RE_INTERNAL_PROFILE_TRACE_CRITICAL(...) ::RealEngine::InternalProfilelogColor(std::format(__VA_ARGS__), tracy::Color::Blue)
+
+	#define RE_INTERNAL_PROFILE_FORMAT(text, ...) text
+
+	#define RE_INTERNAL_PROFILE_TRACE_TRACE(text, ...)		::RealEngine::InternalProfilelog(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(std::format(text, __VA_ARGS__) ,) text))
+	#define RE_INTERNAL_PROFILE_TRACE_INFO(text, ...)		::RealEngine::InternalProfilelogColor( RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(std::format(text, __VA_ARGS__) ,) text), tracy::Color::Green)
+	#define RE_INTERNAL_PROFILE_TRACE_WARN(text, ...)		::RealEngine::InternalProfilelogColor(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(std::format(text, __VA_ARGS__) ,) text), tracy::Color::Yellow)
+	#define RE_INTERNAL_PROFILE_TRACE_ERROR(text, ...)		::RealEngine::InternalProfilelogColor(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(std::format(text, __VA_ARGS__) ,) text), tracy::Color::Red)
+	#define RE_INTERNAL_PROFILE_TRACE_CRITICAL(text, ...)	::RealEngine::InternalProfilelogColor(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(std::format(text, __VA_ARGS__) ,) text), tracy::Color::Blue)
 
 #else
 	#define RE_PROFILE_FRAME()

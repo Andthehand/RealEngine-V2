@@ -17,7 +17,11 @@ namespace RealEngine {
 			};
 
 			for (const auto& message : messages) {
+				RE_CORE_TRACE(message);
 				RE_CORE_INFO(message);
+				RE_CORE_WARN(message);
+				RE_CORE_ERROR(message);
+				RE_CORE_CRITICAL(message);
 			}
 		}
 	}

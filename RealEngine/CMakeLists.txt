@@ -2,10 +2,6 @@ cmake_minimum_required(VERSION 3.20)
 
 project(RealEngine)
 
-# specify the C++ standard
-set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-
 # Enables the full Tracy project
 option ( TRACY_ENABLE "" ON )
 # only starts profiling when connected to the Tracy Profiler
@@ -24,6 +20,9 @@ include_directories(Sandbox PRIVATE
 )
 
 target_precompile_headers(RealEngine PRIVATE "src/repch.h")
+
+# This is to enable the use of __VA_OPT__
+target_compile_options(RealEngine PUBLIC "/Zc:preprocessor")
 
 # links the spdlog static library to the executable
 target_link_libraries(RealEngine 
