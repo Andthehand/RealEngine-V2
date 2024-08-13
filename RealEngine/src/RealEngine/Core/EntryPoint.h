@@ -13,4 +13,6 @@ int main(int argc, char** argv) {
 	auto app = RealEngine::CreateApplication({ argc, argv });
 
 	app->Run();
+
+	delete app;
 }

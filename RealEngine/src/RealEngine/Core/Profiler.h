@@ -20,7 +20,7 @@
 
 	#define RE_PROFILE_FUNCTION() ZoneScoped
 
-	#define RE_PROFILE_SECTION() ZoneScoped
+	#define RE_PROFILE_SCOPE(name) ZoneScopedN(name)
 
 
 	#define RE_INTERNAL_PROFILE_FORMAT(text, ...) text

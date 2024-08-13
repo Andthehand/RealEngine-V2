@@ -3,26 +3,41 @@
 
 namespace RealEngine {
 	Application::Application(const ApplicationSpecification& specification)
-		: m_Specification(specification) {}
+		: m_Specification(specification) {
+		RE_PROFILE_FUNCTION();
+		
+		RE_CORE_ASSERT(!s_Instance, "Application already exists!");
+		s_Instance = this;
+	}
+
+	void Application::PushLayer(Layer* layer) {
+		RE_PROFILE_FUNCTION();
+
+		m_LayerStack.PushLayer(layer);
+	}
 
 	void Application::Run() {
 		RE_CORE_INFO("Application is running...");
 
 		//TODO: replace true with if the window is still open
-		while (true) {
-			std::vector<std::string> messages = {
-				"Hello, World! ",
-				"Hello, World! ",
-				"Hello, World! "
-			};
+		while (false) {
+			RE_PROFILE_FRAME();
 
-			for (const auto& message : messages) {
-				RE_CORE_TRACE(message);
-				RE_CORE_INFO(message);
-				RE_CORE_WARN(message);
-				RE_CORE_ERROR(message);
-				RE_CORE_CRITICAL(message);
+			{
+				RE_PROFILE_SCOPE("OnUpdate");
+				for (Layer* layer : m_LayerStack) {
+					layer->OnUpdate();
+				}
 			}
+
+			{
+				RE_PROFILE_SCOPE("OnImGui");
+				for (Layer* layer : m_LayerStack) {
+					layer->OnImGui();
+				}
+			}
+
+			std::this_thread::sleep_for(std::chrono::milliseconds(33));
 		}
 	}
 }

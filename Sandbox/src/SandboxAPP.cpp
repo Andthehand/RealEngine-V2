@@ -3,16 +3,16 @@
 
 #include <iostream>
 
+#include "SandboxLayer.h"
+
 class Sandbox : public RealEngine::Application {
 public:
 	Sandbox(const RealEngine::ApplicationSpecification& specification) 
 		: Application(specification) {
-
+		PushLayer(new SandboxLayer());
 	}
 
-	~Sandbox() {
-
-	}
+	~Sandbox() = default;
 };
 
 RealEngine::Application* RealEngine::CreateApplication(const RealEngine::ApplicationCommandLineArgs& args) {

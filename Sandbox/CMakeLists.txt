@@ -6,7 +6,7 @@ project(Sandbox)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-add_executable(Sandbox "src/SandboxAPP.cpp")
+add_executable(Sandbox "src/SandboxAPP.cpp" "src/SandboxLayer.h" "src/SandboxLayer.cpp")
 
 include_directories(Sandbox PRIVATE
   ${CMAKE_SOURCE_DIR}/RealEngine/src
