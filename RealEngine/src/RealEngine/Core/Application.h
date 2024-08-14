@@ -1,6 +1,7 @@
 #pragma once
 #include "RealEngine/Core/Assert.h"
 #include "RealEngine/Core/LayerStack.h"
+#include "RealEngine/Platforms/Window.h"
 
 namespace RealEngine {
 	struct ApplicationCommandLineArgs {
@@ -22,7 +23,7 @@ namespace RealEngine {
 	class Application {
 	public:
 		Application(const ApplicationSpecification& specification);
-		virtual ~Application() = default;
+		virtual ~Application();
 
 		//You should never Pop a layer
 		void PushLayer(Layer* layer);
@@ -36,6 +37,8 @@ namespace RealEngine {
 		const ApplicationSpecification m_Specification;
 
 		LayerStack m_LayerStack;
+
+		Window m_Window;
 	};
 
 	Application* CreateApplication(const ApplicationCommandLineArgs& args);

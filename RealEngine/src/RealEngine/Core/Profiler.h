@@ -1,11 +1,10 @@
 #pragma once
-
-#define TRACY_CALLSTACK 8
-#include <tracy/Tracy.hpp>
-
 #define RE_PROFILE 1
 
 #if RE_PROFILE
+	#define TRACY_CALLSTACK 8
+	#include <tracy/Tracy.hpp>
+
 	namespace RealEngine {
 		inline void InternalProfilelog(std::string text) {
 			TracyMessage(text.c_str(), text.length());
@@ -36,7 +35,7 @@
 
 	#define RE_PROFILE_FUNCTION()
 
-	#define RE_PROFILE_SECTION()
+	#define RE_PROFILE_SCOPE(name)
 
 	#define RE_INTERNAL_PROFILE_TRACE_TRACE(...)    
 	#define RE_INTERNAL_PROFILE_TRACE_INFO(...)     
