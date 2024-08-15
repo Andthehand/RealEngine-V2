@@ -2,6 +2,8 @@
 #include "Log.h"
 
 namespace RealEngine {
+#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
+
 	Application::Application(const ApplicationSpecification& specification)
 		: m_Specification(specification) {
 		RE_PROFILE_FUNCTION();
@@ -9,6 +11,7 @@ namespace RealEngine {
 		RE_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
 
+		m_Window.SetEventCallback(BIND_EVENT_FN(OnEvent));
 		m_Window.Init(m_Specification.Name.c_str(), 1280, 720);
 	}
 
@@ -46,8 +49,12 @@ namespace RealEngine {
 					layer->OnImGui();
 				}
 			}
-
-			std::this_thread::sleep_for(std::chrono::milliseconds(33));
 		}
+	}
+
+	void Application::OnEvent(Event& e) {
+		RE_PROFILE_FUNCTION();
+
+		RE_CORE_INFO("{0}", e);
 	}
 }

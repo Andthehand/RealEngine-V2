@@ -12,5 +12,4 @@ void SandboxLayer::OnDetach() {
 }
 
 void SandboxLayer::OnUpdate() {
-	RE_CORE_INFO("SandboxLayer Updated");
 }

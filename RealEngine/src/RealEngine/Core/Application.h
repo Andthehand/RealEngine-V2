@@ -2,6 +2,7 @@
 #include "RealEngine/Core/Assert.h"
 #include "RealEngine/Core/LayerStack.h"
 #include "RealEngine/Platforms/Window.h"
+#include "RealEngine/Events/Event.h"
 
 namespace RealEngine {
 	struct ApplicationCommandLineArgs {
@@ -29,6 +30,7 @@ namespace RealEngine {
 		void PushLayer(Layer* layer);
 
 		void Run();
+		void OnEvent(Event& e);
 
 		static Application& Get() { return *s_Instance; }
 	private:

@@ -1,4 +1,6 @@
 #pragma once
+#include <spdlog/fmt/bundled/format.h>
+
 #define RE_PROFILE 1
 
 #if RE_PROFILE
@@ -24,11 +26,11 @@
 
 	#define RE_INTERNAL_PROFILE_FORMAT(text, ...) text
 
-	#define RE_INTERNAL_PROFILE_TRACE_TRACE(text, ...)		::RealEngine::InternalProfilelog(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(std::format(text, __VA_ARGS__) ,) text))
-	#define RE_INTERNAL_PROFILE_TRACE_INFO(text, ...)		::RealEngine::InternalProfilelogColor( RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(std::format(text, __VA_ARGS__) ,) text), tracy::Color::Green)
-	#define RE_INTERNAL_PROFILE_TRACE_WARN(text, ...)		::RealEngine::InternalProfilelogColor(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(std::format(text, __VA_ARGS__) ,) text), tracy::Color::Yellow)
-	#define RE_INTERNAL_PROFILE_TRACE_ERROR(text, ...)		::RealEngine::InternalProfilelogColor(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(std::format(text, __VA_ARGS__) ,) text), tracy::Color::Red)
-	#define RE_INTERNAL_PROFILE_TRACE_CRITICAL(text, ...)	::RealEngine::InternalProfilelogColor(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(std::format(text, __VA_ARGS__) ,) text), tracy::Color::Blue)
+	#define RE_INTERNAL_PROFILE_TRACE_TRACE(text, ...)		::RealEngine::InternalProfilelog(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(fmt::format(text, __VA_ARGS__) ,) text))
+	#define RE_INTERNAL_PROFILE_TRACE_INFO(text, ...)		::RealEngine::InternalProfilelogColor(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(fmt::format(text, __VA_ARGS__) ,) text), tracy::Color::Green)
+	#define RE_INTERNAL_PROFILE_TRACE_WARN(text, ...)		::RealEngine::InternalProfilelogColor(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(fmt::format(text, __VA_ARGS__) ,) text), tracy::Color::Yellow)
+	#define RE_INTERNAL_PROFILE_TRACE_ERROR(text, ...)		::RealEngine::InternalProfilelogColor(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(fmt::format(text, __VA_ARGS__) ,) text), tracy::Color::Red)
+	#define RE_INTERNAL_PROFILE_TRACE_CRITICAL(text, ...)	::RealEngine::InternalProfilelogColor(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(fmt::format(text, __VA_ARGS__) ,) text), tracy::Color::Blue)
 
 #else
 	#define RE_PROFILE_FRAME()
