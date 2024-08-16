@@ -16,7 +16,7 @@ add_library(RealEngine STATIC
 "src/RealEngine/Core/EntryPoint.h" "src/RealEngine/Core/Application.h" "src/RealEngine/Core/Application.cpp" 
 "src/RealEngine.h" "src/RealEngine/Core/Core.h" "src/RealEngine/Core/Log.h" "src/RealEngine/Core/Log.cpp" 
 "src/RealEngine/Core/Assert.h" "src/RealEngine/Core/Profiler.h" "src/RealEngine/Core/Layer.h" "src/RealEngine/Core/Layer.cpp" 
-"src/RealEngine/Core/LayerStack.h" "src/RealEngine/Core/LayerStack.cpp" "src/RealEngine/Platforms/Window.h" "src/RealEngine/Platforms/Window.cpp" "src/RealEngine/Events/Event.h" "src/RealEngine/Events/WindowEvents.h" "src/RealEngine/Events/MouseEvents.h" "src/RealEngine/Events/KeyEvents.h")
+"src/RealEngine/Core/LayerStack.h" "src/RealEngine/Core/LayerStack.cpp" "src/RealEngine/Core/Window.h" "src/RealEngine/Core/Window.cpp" "src/RealEngine/Events/Event.h" "src/RealEngine/Events/WindowEvents.h" "src/RealEngine/Events/MouseEvents.h" "src/RealEngine/Events/KeyEvents.h" "src/RealEngine/Core/KeyCodes.h")
 
 include_directories(Sandbox PRIVATE
   src
@@ -24,8 +24,10 @@ include_directories(Sandbox PRIVATE
 
 target_precompile_headers(RealEngine PRIVATE "src/repch.h")
 
-# This is to enable the use of __VA_OPT__
-target_compile_options(RealEngine PUBLIC "/Zc:preprocessor")
+if(MSVC)
+	# This is to enable the use of __VA_OPT__
+	target_compile_options(RealEngine PUBLIC "/Zc:preprocessor")
+endif()
 
 # links the spdlog static library to the executable
 target_link_libraries(RealEngine 
