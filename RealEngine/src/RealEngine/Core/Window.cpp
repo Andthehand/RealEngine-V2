@@ -88,6 +88,23 @@ namespace RealEngine {
 				MouseMovedEvent event((float)xpos, (float)ypos);
 				callback(event);
 			});
+
+			glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods) {
+				std::function<void(Event&)> callback = *(std::function<void(Event&)>*)glfwGetWindowUserPointer(window);
+
+				switch (action) {
+				case GLFW_PRESS: {
+					MouseButtonPressedEvent event(button);
+					callback(event);
+					break;
+				}
+				case GLFW_RELEASE: {
+					MouseButtonReleasedEvent event(button);
+					callback(event);
+					break;
+				}
+				}
+			});
 		}
 	}
 
@@ -99,15 +116,13 @@ namespace RealEngine {
 	}
 
 	void Window::OnUpdate() {
-		RE_PROFILE_FUNCTION();
-
 		{
-			RE_PROFILE_SCOPE("Poll Events");
+			RE_PROFILE_SCOPE("Window Poll Events");
 			glfwPollEvents();
 		}
 
 		{
-			RE_PROFILE_SCOPE("Swap Buffers");
+			RE_PROFILE_SCOPE("Window Swap Buffers");
 			glfwSwapBuffers(m_Window);
 		}
 	}

@@ -1,8 +1,9 @@
 #pragma once
 #include "RealEngine/Core/Assert.h"
 #include "RealEngine/Core/LayerStack.h"
-#include "RealEngine/Platforms/Window.h"
+#include "RealEngine/Core/Window.h"
 #include "RealEngine/Events/Event.h"
+#include <RealEngine/Events/WindowEvents.h>
 
 namespace RealEngine {
 	struct ApplicationCommandLineArgs {
@@ -32,15 +33,19 @@ namespace RealEngine {
 		void Run();
 		void OnEvent(Event& e);
 
+		bool OnWindowClose(WindowCloseEvent& e);
+
+		Window& GetWindow() { return m_Window; }
+
 		static Application& Get() { return *s_Instance; }
 	private:
 		inline static Application* s_Instance = nullptr;
-
 		const ApplicationSpecification m_Specification;
 
 		LayerStack m_LayerStack;
-
 		Window m_Window;
+
+		bool m_Running = true;
 	};
 
 	Application* CreateApplication(const ApplicationCommandLineArgs& args);

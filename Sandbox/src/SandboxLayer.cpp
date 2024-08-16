@@ -13,3 +13,6 @@ void SandboxLayer::OnDetach() {
 
 void SandboxLayer::OnUpdate() {
 }
+
+void SandboxLayer::OnEvent(const RealEngine::Event& event) {
+}

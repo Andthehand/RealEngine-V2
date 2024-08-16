@@ -1,13 +1,14 @@
 #pragma once
 #include "RealEngine/Events/Event.h"
+#include "RealEngine/Core/KeyCodes.h"
 
 namespace RealEngine {
 	class KeyPressedEvent : public Event {
 	public:
-		KeyPressedEvent(int keycode)
+		KeyPressedEvent(const KeyCode keycode)
 			: m_KeyCode(keycode) {}
 
-		inline int GetKeyCode() const { return m_KeyCode; }
+		inline KeyCode GetKeyCode() const { return m_KeyCode; }
 
 		std::string ToString() const override {
 			std::stringstream ss;
@@ -17,16 +18,15 @@ namespace RealEngine {
 
 		EVENT_CLASS_TYPE(KeyPressed)
 	private:
-		//TODO: Change
-		int m_KeyCode;
+		const KeyCode m_KeyCode;
 	};
 
 	class KeyReleasedEvent : public Event {
 	public:
-		KeyReleasedEvent(int keycode)
+		KeyReleasedEvent(const KeyCode keycode)
 			: m_KeyCode(keycode) {}
 
-		inline int GetKeyCode() const { return m_KeyCode; }
+		inline KeyCode GetKeyCode() const { return m_KeyCode; }
 
 		std::string ToString() const override {
 			std::stringstream ss;
@@ -36,7 +36,6 @@ namespace RealEngine {
 
 		EVENT_CLASS_TYPE(KeyReleased)
 	private:
-		//TODO: Change
-		int m_KeyCode;
+		const KeyCode m_KeyCode;
 	};
 }

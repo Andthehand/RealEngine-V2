@@ -19,9 +19,6 @@ namespace RealEngine {
 		int GetHeight() const { return m_Height; }
 
 		void SetEventCallback(const std::function<void(Event&)>& callback) { m_EventCallback = callback; }
-
-		//Temp
-		bool ShouldClose() { return glfwWindowShouldClose(m_Window); }
 	private:
 		std::function<void(Event&)> m_EventCallback;
 

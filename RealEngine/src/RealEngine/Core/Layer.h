@@ -1,4 +1,5 @@
 #pragma once
+#include "RealEngine/Events/Event.h"
 
 namespace RealEngine {
 
@@ -12,7 +13,7 @@ namespace RealEngine {
 
 		virtual void OnUpdate() {}
 		virtual void OnImGui() {}
-		virtual void OnEvent() {}
+		virtual void OnEvent(const Event& event) {}
 
 		inline const std::string& GetName() const { return m_DebugName; }
 	protected:

@@ -1,10 +1,11 @@
 #pragma once
 #include "RealEngine/Events/Event.h"
+#include "RealEngine/Core/MouseCodes.h"
 
 namespace RealEngine {
 	class MouseButtonPressedEvent : public Event {
 	public:
-		MouseButtonPressedEvent(int button)
+		MouseButtonPressedEvent(MouseCode button)
 			: m_Button(button) {}
 
 		inline int GetButton() const { return m_Button; }
@@ -17,13 +18,12 @@ namespace RealEngine {
 
 		EVENT_CLASS_TYPE(MouseButtonPressed)
 	private:
-		//TODO: Change
-		int m_Button;
+		MouseCode m_Button;
 	};
 
 	class MouseButtonReleasedEvent : public Event {
 	public:
-		MouseButtonReleasedEvent(int button)
+		MouseButtonReleasedEvent(MouseCode button)
 			: m_Button(button) {}
 
 		inline int GetButton() const { return m_Button; }
@@ -36,8 +36,7 @@ namespace RealEngine {
 
 		EVENT_CLASS_TYPE(MouseButtonReleased)
 	private:
-		//TODO: Change
-		int m_Button;
+		MouseCode m_Button;
 	};
 
 	class MouseMovedEvent : public Event {

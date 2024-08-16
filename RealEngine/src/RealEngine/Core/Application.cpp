@@ -31,7 +31,7 @@ namespace RealEngine {
 		RE_CORE_INFO("Application is running...");
 
 		//TODO: replace true with if the window is still open
-		while (!m_Window.ShouldClose()) {
+		while (m_Running) {
 			RE_PROFILE_FRAME();
 
 			{
@@ -55,6 +55,22 @@ namespace RealEngine {
 	void Application::OnEvent(Event& e) {
 		RE_PROFILE_FUNCTION();
 
-		RE_CORE_INFO("{0}", e);
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+
+		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();) {
+			(*--it)->OnEvent(e);
+			if (e.Handled) {
+				break;
+			}
+		}
+	}
+
+	bool Application::OnWindowClose(WindowCloseEvent& e) {
+		RE_PROFILE_FUNCTION();
+
+		m_Running = false;
+
+		return true;
 	}
 }
