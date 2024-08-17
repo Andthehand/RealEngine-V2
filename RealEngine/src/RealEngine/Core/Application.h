@@ -1,4 +1,6 @@
 #pragma once
+#pragma warning( disable : 4100 )
+
 #include "RealEngine/Core/Assert.h"
 #include "RealEngine/Core/LayerStack.h"
 #include "RealEngine/Core/Window.h"

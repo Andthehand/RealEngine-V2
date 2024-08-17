@@ -17,7 +17,6 @@ namespace RealEngine {
 
 	class Event {
 	public:
-		Event() = default;
 		virtual ~Event() = default;
 
 		virtual const char* GetName() const = 0;

@@ -54,6 +54,9 @@ namespace RealEngine {
 
 		{
 			RE_PROFILE_SCOPE("SetGLFWCallbacks");
+
+			glfwSetErrorCallback(GLFWErrorCallback);
+
 			glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window) {
 				std::function<void(Event&)> callback = *(std::function<void(Event&)>*)glfwGetWindowUserPointer(window);
 				WindowCloseEvent event;
@@ -66,7 +69,7 @@ namespace RealEngine {
 				callback(event);
 			});
 
-			glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
+			glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int /*scancode*/, int action, int /*mods*/) {
 				std::function<void(Event&)> callback = *(std::function<void(Event&)>*)glfwGetWindowUserPointer(window);
 
 				switch (action) {
@@ -89,17 +92,17 @@ namespace RealEngine {
 				callback(event);
 			});
 
-			glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods) {
+			glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int /*mods*/) {
 				std::function<void(Event&)> callback = *(std::function<void(Event&)>*)glfwGetWindowUserPointer(window);
 
 				switch (action) {
 				case GLFW_PRESS: {
-					MouseButtonPressedEvent event(button);
+					MouseButtonPressedEvent event((MouseCode)button);
 					callback(event);
 					break;
 				}
 				case GLFW_RELEASE: {
-					MouseButtonReleasedEvent event(button);
+					MouseButtonReleasedEvent event((MouseCode)button);
 					callback(event);
 					break;
 				}
