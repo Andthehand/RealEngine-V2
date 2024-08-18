@@ -5,18 +5,23 @@ project(RealEngine)
 # Enables the full Tracy project
 option ( TRACY_ENABLE "" ON )
 
+set(XXHASH_BUILD_ENABLE_INLINE_API ON) #optional
+set(XXHASH_BUILD_XXHSUM OFF) #optional
+set(BUILD_SHARED_LIBS OFF) #optional
+
 # Makes the spdlog static library to be linked later
 add_subdirectory(vendor/spdlog)
 add_subdirectory(vendor/tracy)
 add_subdirectory(vendor/glfw)
 add_subdirectory(vendor/glad)
 add_subdirectory(vendor/glm)
+add_subdirectory(vendor/xxHash/cmake_unofficial)
 
 add_library(RealEngine STATIC 
 "src/RealEngine/Core/EntryPoint.h" "src/RealEngine/Core/Application.h" "src/RealEngine/Core/Application.cpp" 
 "src/RealEngine.h" "src/RealEngine/Core/Core.h" "src/RealEngine/Core/Log.h" "src/RealEngine/Core/Log.cpp" 
 "src/RealEngine/Core/Assert.h" "src/RealEngine/Core/Profiler.h" "src/RealEngine/Core/Layer.h" "src/RealEngine/Core/Layer.cpp" 
-"src/RealEngine/Core/LayerStack.h" "src/RealEngine/Core/LayerStack.cpp" "src/RealEngine/Core/Window.h" "src/RealEngine/Core/Window.cpp" "src/RealEngine/Events/Event.h" "src/RealEngine/Events/WindowEvents.h" "src/RealEngine/Events/MouseEvents.h" "src/RealEngine/Events/KeyEvents.h" "src/RealEngine/Core/KeyCodes.h" "src/RealEngine/Core/MouseCodes.h" "src/RealEngine/Core/Inputs.h" "src/RealEngine/Core/Inputs.cpp" "src/RealEngine/Core/UUID.h" "src/RealEngine/Core/UUID.cpp")
+"src/RealEngine/Core/LayerStack.h" "src/RealEngine/Core/LayerStack.cpp" "src/RealEngine/Core/Window.h" "src/RealEngine/Core/Window.cpp" "src/RealEngine/Events/Event.h" "src/RealEngine/Events/WindowEvents.h" "src/RealEngine/Events/MouseEvents.h" "src/RealEngine/Events/KeyEvents.h" "src/RealEngine/Core/KeyCodes.h" "src/RealEngine/Core/MouseCodes.h" "src/RealEngine/Core/Inputs.h" "src/RealEngine/Core/Inputs.cpp" "src/RealEngine/Types/UUID.h" "src/RealEngine/Types/UUID.cpp" "src/RealEngine/Types/StringHash.h" "src/RealEngine/Types/StringHash.cpp")
 
 include_directories(Sandbox PRIVATE
   src
@@ -31,4 +36,4 @@ endif()
 
 # links the spdlog static library to the executable
 target_link_libraries(RealEngine 
-spdlog Tracy::TracyClient glfw glad glm)
+spdlog Tracy::TracyClient glfw glad glm xxHash::xxhash)
