@@ -1,8 +1,6 @@
 #include "Application.h"
 #include "Log.h"
 
-#include "RealEngine/Types/StringHash.h"
-
 namespace RealEngine {
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
@@ -59,8 +57,6 @@ namespace RealEngine {
 
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
-
-		StringHash eventType = StringHash(e.ToString());
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();) {
 			(*--it)->OnEvent(e);

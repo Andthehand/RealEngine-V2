@@ -44,14 +44,5 @@ namespace RealEngine {
 	private:
 		Event& m_Event;
 	};
-
-	//I hate this format overloading so much
-	template <typename T>
-	struct fmt::formatter<T, std::enable_if_t<std::is_base_of<RealEngine::Event, T>::value, char>> :
-		fmt::formatter<std::string> {
-		auto format(const RealEngine::Event& e, format_context& ctx) const {
-			return fmt::formatter<std::string>::format(e.ToString(), ctx);
-		}
-	};
 }
 
