@@ -45,7 +45,9 @@ jobs:
           sudo apt install libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libxext-dev libwayland-dev libxkbcommon-dev
   
       - name: Configure CMake
-        run: cmake -B ${{ github.workspace }}/build 
+        run: >
+          cmake -B ${{ github.workspace }}/build 
+          -DTRACY_ENABLE=OFF
       
       - name: Build
         # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
