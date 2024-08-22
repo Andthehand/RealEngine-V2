@@ -1,0 +1,56 @@
+# This starter workflow is for a CMake project running on multiple platforms. There is a different starter workflow if you just want a single platform.
+# See: https://github.com/actions/starter-workflows/blob/main/ci/cmake-single-platform.yml
+name: CMake on multiple platforms
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-windows-vs2022:
+    name: Windows (VS2022)
+    runs-on: windows-latest
+    timeout-minutes: 6
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Git Submodules
+      run: git submodule update --init
+
+    - name: Configure CMake
+      run: >
+        cmake -B ${{ github.workspace }}/build 
+        -DTRACY_ENABLE=OFF
+    
+    - name: Build
+      run: cmake --build ${{ github.workspace }}/build --parallel
+
+  build-linux-clang:
+      name: Linux (Clang)
+      runs-on: ubuntu-latest
+      timeout-minutes: 6
+      env:
+        CC: clang
+      
+      steps:
+      - uses: actions/checkout@v4
+  
+      - name: Git Submodules
+        run: git submodule update --init
+
+      - name: Install dependencies
+        run: |
+          sudo apt update
+          sudo apt install libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libxext-dev libwayland-dev libxkbcommon-dev
+  
+      - name: Configure CMake
+        run: >
+          cmake -B ${{ github.workspace }}/build 
+          -DTRACY_ENABLE=OFF
+      
+      - name: Build
+        run: cmake --build ${{ github.workspace }}/build --parallel
