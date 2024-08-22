@@ -4,15 +4,16 @@ name: CMake on multiple platforms
 
 on:
   push:
-    branches: [ "Workflow" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "Workflow" ]
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
   build-windows-vs2022:
     name: Windows (VS2022)
     runs-on: windows-latest
+    timeout-minutes: 6
     
     steps:
     - uses: actions/checkout@v4
@@ -31,6 +32,7 @@ jobs:
   build-linux-clang:
       name: Linux (Clang)
       runs-on: ubuntu-latest
+      timeout-minutes: 6
       env:
         CC: clang
       
