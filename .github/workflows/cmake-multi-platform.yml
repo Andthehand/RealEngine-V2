@@ -21,10 +21,11 @@ jobs:
       run: git submodule update --init
 
     - name: Configure CMake
-      run: cmake -B ${{ github.workspace }}/build 
+      run: >
+        cmake -B ${{ github.workspace }}/build 
+        -DTRACY_ENABLE=OFF
     
     - name: Build
-      # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
       run: cmake --build ${{ github.workspace }}/build --parallel
 
   build-linux-clang:
@@ -50,5 +51,4 @@ jobs:
           -DTRACY_ENABLE=OFF
       
       - name: Build
-        # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
         run: cmake --build ${{ github.workspace }}/build --parallel
