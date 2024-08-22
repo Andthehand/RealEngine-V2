@@ -17,9 +17,8 @@ jobs:
     
     steps:
     - uses: actions/checkout@v4
-
-    - name: Git Submodules
-      run: git submodule update --init
+      with:
+        submodules: 'recursive'
 
     - name: Configure CMake
       run: >
@@ -38,9 +37,8 @@ jobs:
       
       steps:
       - uses: actions/checkout@v4
-  
-      - name: Git Submodules
-        run: git submodule update --init
+        with:
+          submodules: 'recursive'
 
       - name: Install dependencies
         run: |
