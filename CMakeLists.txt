@@ -19,4 +19,4 @@ if(UNIX AND NOT APPLE)
 endif()
 
 add_subdirectory(RealEngine)
-add_subdirectory(Sandbox)
+add_subdirectory(Editor)
