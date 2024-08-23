@@ -9,6 +9,7 @@ namespace RealEngine {
 		virtual void OnAttach() override;
 		virtual void OnDetach() override;
 		virtual void OnUpdate() override;
+		virtual void OnImGui() override;
 		virtual void OnEvent(const Event& event) override;
 	};
 }

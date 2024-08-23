@@ -1,5 +1,7 @@
 #include "EditorLayer.h"
 
+#include <imgui.h>
+
 namespace RealEngine {
 	EditorLayer::EditorLayer()
 		: Layer("Editor") {}
@@ -14,6 +16,11 @@ namespace RealEngine {
 
 	void EditorLayer::OnUpdate() {
 		RenderCommands::Clear();
+	}
+
+	void EditorLayer::OnImGui() {
+		static bool show = true;
+		ImGui::ShowDemoWindow(&show);
 	}
 
 	void EditorLayer::OnEvent(const Event& event) {

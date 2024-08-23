@@ -7,6 +7,8 @@ namespace RealEngine {
 		LayerStack() = default;
 		~LayerStack();
 
+		void Clear();
+
 		void PushLayer(Layer* layer);
 		void PopLayer(Layer* layer);
 

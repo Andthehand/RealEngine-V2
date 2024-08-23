@@ -13,3 +13,7 @@
 [submodule "RealEngine/vendor/xxHash"]
 	path = RealEngine/vendor/xxHash
 	url = https://github.com/Cyan4973/xxHash.git
+[submodule "RealEngine/vendor/ImGui"]
+	path = RealEngine/vendor/ImGui
+	url = https://github.com/Andthehand/imgui.git
+	branch = docking

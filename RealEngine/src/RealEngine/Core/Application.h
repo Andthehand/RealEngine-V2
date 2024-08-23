@@ -4,8 +4,11 @@
 #include "RealEngine/Core/Assert.h"
 #include "RealEngine/Core/LayerStack.h"
 #include "RealEngine/Core/Window.h"
+
 #include "RealEngine/Events/Event.h"
-#include <RealEngine/Events/WindowEvents.h>
+#include "RealEngine/Events/WindowEvents.h"
+
+#include "RealEngine/ImGui/ImGuiLayer.h"
 
 namespace RealEngine {
 	struct ApplicationCommandLineArgs {
@@ -44,6 +47,8 @@ namespace RealEngine {
 	private:
 		inline static Application* s_Instance = nullptr;
 		const ApplicationSpecification m_Specification;
+
+		ImGuiLayer* m_ImGuiLayer;
 
 		LayerStack m_LayerStack;
 		Window m_Window;

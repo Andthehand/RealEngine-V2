@@ -13,11 +13,15 @@ namespace RealEngine {
 
 		m_Window.SetEventCallback(BIND_EVENT_FN(OnEvent));
 		m_Window.Init(m_Specification.Name.c_str(), 1280, 720);
+
+		m_ImGuiLayer = new ImGuiLayer();
+		PushLayer(m_ImGuiLayer);
 	}
 
 	Application::~Application() {
 		RE_PROFILE_FUNCTION();
 
+		m_LayerStack.Clear();
 		m_Window.Shutdown();
 	}
 
@@ -45,9 +49,12 @@ namespace RealEngine {
 
 			{
 				RE_PROFILE_SCOPE("OnImGui");
+
+				m_ImGuiLayer->Begin();
 				for (Layer* layer : m_LayerStack) {
 					layer->OnImGui();
 				}
+				m_ImGuiLayer->End();
 			}
 		}
 	}
