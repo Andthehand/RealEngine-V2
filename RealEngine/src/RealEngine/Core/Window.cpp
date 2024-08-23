@@ -40,9 +40,7 @@ namespace RealEngine {
 			}
 		}
 
-
 		glfwMakeContextCurrent(m_Window);
-		glfwSwapInterval(1);
 
 		{
 			RE_PROFILE_SCOPE("gladLoader");
@@ -128,5 +126,11 @@ namespace RealEngine {
 			RE_PROFILE_SCOPE("Window Swap Buffers");
 			glfwSwapBuffers(m_Window);
 		}
+	}
+
+	void Window::SetVSync(bool enabled) {
+		RE_PROFILE_FUNCTION();
+
+		glfwSwapInterval(enabled);
 	}
 }

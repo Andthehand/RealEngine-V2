@@ -11,6 +11,8 @@
 
 #include "RealEngine/Core/Profiler.h"
 
+#include "RealEngine/Render/RenderCommands.h"
+
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 

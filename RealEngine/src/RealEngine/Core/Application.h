@@ -36,6 +36,7 @@ namespace RealEngine {
 		void OnEvent(Event& e);
 
 		bool OnWindowClose(WindowCloseEvent& e);
+		bool OnWindowResize(WindowResizeEvent& e);
 
 		Window& GetWindow() { return m_Window; }
 

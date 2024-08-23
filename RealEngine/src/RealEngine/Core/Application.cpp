@@ -57,6 +57,7 @@ namespace RealEngine {
 
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(OnWindowResize));
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();) {
 			(*--it)->OnEvent(e);
@@ -72,5 +73,13 @@ namespace RealEngine {
 		m_Running = false;
 
 		return true;
+	}
+
+	bool Application::OnWindowResize(WindowResizeEvent& e) {
+		RE_PROFILE_FUNCTION();
+
+		RenderCommands::SetViewport(0, 0, e.GetWidth(), e.GetHeight());
+
+		return false;
 	}
 }

@@ -15,6 +15,8 @@ namespace RealEngine {
 
 		void OnUpdate();
 
+		void SetVSync(bool enabled);
+
 		GLFWwindow* GetNativeWindow() const { return m_Window; }
 
 		int GetWidth() const { return m_Width; }
