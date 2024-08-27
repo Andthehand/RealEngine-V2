@@ -27,6 +27,7 @@ namespace RealEngine {
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+			//glfwWindowHint(GLFW_SCALE_TO_MONITOR, TRUE);
 
 #ifdef RE_DEBUG
 			glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
@@ -106,6 +107,14 @@ namespace RealEngine {
 				}
 				}
 			});
+
+			glfwSetWindowContentScaleCallback(m_Window, [](GLFWwindow* window, float xscale, float yscale) {
+				std::function<void(Event&)> callback = *(std::function<void(Event&)>*)glfwGetWindowUserPointer(window);
+
+				//x and y scale are the same
+				WindowRescaledEvent event(xscale);
+				callback(event);
+			});
 		}
 	}
 
@@ -132,5 +141,15 @@ namespace RealEngine {
 		RE_PROFILE_FUNCTION();
 
 		glfwSwapInterval(enabled);
+	}
+
+	float Window::GetScale() {
+		RE_PROFILE_FUNCTION();
+		RE_CORE_ASSERT(m_Window);
+
+		float scale;
+		glfwGetWindowContentScale(m_Window, &scale, &scale);
+
+		return scale;
 	}
 }

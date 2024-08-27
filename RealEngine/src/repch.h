@@ -11,6 +11,11 @@
 
 #include "RealEngine/Core/Profiler.h"
 
+#include "RealEngine/Events/Event.h"
+#include "RealEngine/Events/KeyEvents.h"
+#include "RealEngine/Events/MouseEvents.h"
+#include "RealEngine/Events/WindowEvents.h"
+
 #include "RealEngine/Render/RenderCommands.h"
 
 #include <GLFW/glfw3.h>

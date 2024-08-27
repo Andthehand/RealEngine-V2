@@ -6,7 +6,7 @@
 namespace RealEngine {
 	enum class EventType {
 		None = 0,
-		WindowClose, WindowResize,
+		WindowClose, WindowResize, WindowRescaled,
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
 		KeyPressed, KeyReleased
 	};

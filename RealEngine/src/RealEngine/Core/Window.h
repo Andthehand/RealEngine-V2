@@ -21,6 +21,8 @@ namespace RealEngine {
 
 		int GetWidth() const { return m_Width; }
 		int GetHeight() const { return m_Height; }
+		
+		float GetScale();
 
 		void SetEventCallback(const std::function<void(Event&)>& callback) { m_EventCallback = callback; }
 	private:

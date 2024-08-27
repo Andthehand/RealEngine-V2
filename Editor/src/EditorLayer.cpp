@@ -58,6 +58,6 @@ namespace RealEngine {
 		ImGui::ShowDemoWindow(&show);
 	}
 
-	void EditorLayer::OnEvent(const Event& event) {
+	void EditorLayer::OnEvent(Event& event) {
 	}
 }

@@ -5,6 +5,8 @@
 #include <imgui_impl_opengl3.h>
 
 namespace RealEngine {
+#define BIND_EVENT_FN(x) std::bind(&ImGuiLayer::x, this, std::placeholders::_1)
+
 	ImGuiLayer::ImGuiLayer()
 		: Layer("ImGuiLayer") {
 	}
@@ -28,6 +30,7 @@ namespace RealEngine {
 			style.WindowRounding = 0.0f;
 			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 		}
+		SetScale(Application::Get().GetWindow().GetScale());
 
 		Application& app = Application::Get();
 		GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
@@ -42,6 +45,29 @@ namespace RealEngine {
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
+	}
+
+
+	void ImGuiLayer::OnEvent(Event& event) {
+		EventDispatcher dispatcher(event);
+		dispatcher.Dispatch<WindowRescaledEvent>(BIND_EVENT_FN(OnWindowRescaled));
+	}
+
+	bool ImGuiLayer::OnWindowRescaled(WindowRescaledEvent& e) {
+		SetScale(e.GetScale());
+
+		return true;
+	}
+
+	void ImGuiLayer::SetScale(float scale) {
+		RE_PROFILE_FUNCTION();
+
+		ImGuiStyle& style = ImGui::GetStyle();
+		style = ImGuiStyle();
+		style.ScaleAllSizes(scale + SCALE_OFFSET);
+
+		ImGuiIO& io = ImGui::GetIO();
+		io.FontGlobalScale = scale + SCALE_OFFSET;
 	}
 
 	void ImGuiLayer::Begin() {

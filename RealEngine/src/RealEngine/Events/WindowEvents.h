@@ -21,6 +21,19 @@ namespace RealEngine {
 		unsigned int m_Width, m_Height;
 	};
 
+	class WindowRescaledEvent : public Event {
+	public:
+		WindowRescaledEvent(float scale)
+			: m_Scale(scale) {}
+
+		inline float GetScale() const { return m_Scale; }
+
+		EVENT_CLASS_TYPE(WindowRescaled)
+
+	private:
+		float m_Scale;
+	};
+
 	class WindowCloseEvent : public Event {
 	public:
 		WindowCloseEvent() = default;
