@@ -1,6 +1,5 @@
 #include "ImGuiLayer.h"
 
-#define GLFW_INCLUDE_NONE
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
@@ -11,6 +10,8 @@ namespace RealEngine {
 	}
 
 	void ImGuiLayer::OnAttach() {
+		RE_PROFILE_FUNCTION();
+
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImGui::StyleColorsDark();
@@ -36,23 +37,34 @@ namespace RealEngine {
 	}
 
 	void ImGuiLayer::OnDetach() {
+		RE_PROFILE_FUNCTION();
+
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
 	}
 
 	void ImGuiLayer::Begin() {
+		RE_PROFILE_FUNCTION();
+		
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 	}
 
 	void ImGuiLayer::End() {
+		RE_PROFILE_FUNCTION();
+		
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
-		// Update and Render additional Platform Windows
-		ImGui::UpdatePlatformWindows();
-		ImGui::RenderPlatformWindowsDefault();
+		{
+			RE_PROFILE_SCOPE("Updating viewports");
+			// Update and Render additional Platform Windows
+			GLFWwindow* backup_current_context = glfwGetCurrentContext();
+			ImGui::UpdatePlatformWindows();
+			ImGui::RenderPlatformWindowsDefault();
+			glfwMakeContextCurrent(backup_current_context);
+		}
 	}
 }

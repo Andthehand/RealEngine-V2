@@ -36,6 +36,8 @@ namespace RealEngine {
 		void PushLayer(Layer* layer);
 
 		void Run();
+		void Stop();
+
 		void OnEvent(Event& e);
 
 		bool OnWindowClose(WindowCloseEvent& e);
@@ -45,6 +47,7 @@ namespace RealEngine {
 
 		static Application& Get() { return *s_Instance; }
 	private:
+		//Singleton
 		inline static Application* s_Instance = nullptr;
 		const ApplicationSpecification m_Specification;
 

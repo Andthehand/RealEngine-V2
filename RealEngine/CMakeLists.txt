@@ -9,6 +9,10 @@ set(XXHASH_BUILD_ENABLE_INLINE_API ON) #optional
 set(XXHASH_BUILD_XXHSUM OFF) #optional
 set(BUILD_SHARED_LIBS OFF) #optional
 
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+
 # Makes the spdlog static library to be linked later
 add_subdirectory(vendor/spdlog)
 add_subdirectory(vendor/tracy)

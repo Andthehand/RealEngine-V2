@@ -59,6 +59,12 @@ namespace RealEngine {
 		}
 	}
 
+	void Application::Stop() {
+		RE_PROFILE_FUNCTION();
+
+		m_Running = false;
+	}
+
 	void Application::OnEvent(Event& e) {
 		RE_PROFILE_FUNCTION();
 
@@ -77,7 +83,7 @@ namespace RealEngine {
 	bool Application::OnWindowClose(WindowCloseEvent& e) {
 		RE_PROFILE_FUNCTION();
 
-		m_Running = false;
+		Stop();
 
 		return true;
 	}
