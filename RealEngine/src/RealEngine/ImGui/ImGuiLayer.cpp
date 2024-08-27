@@ -5,8 +5,6 @@
 #include <imgui_impl_opengl3.h>
 
 namespace RealEngine {
-#define BIND_EVENT_FN(x) std::bind(&ImGuiLayer::x, this, std::placeholders::_1)
-
 	ImGuiLayer::ImGuiLayer()
 		: Layer("ImGuiLayer") {
 	}
@@ -50,7 +48,7 @@ namespace RealEngine {
 
 	void ImGuiLayer::OnEvent(Event& event) {
 		EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<WindowRescaledEvent>(BIND_EVENT_FN(OnWindowRescaled));
+		dispatcher.Dispatch<WindowRescaledEvent>(RE_BIND_EVENT_FN(ImGuiLayer::OnWindowRescaled));
 	}
 
 	bool ImGuiLayer::OnWindowRescaled(WindowRescaledEvent& e) {

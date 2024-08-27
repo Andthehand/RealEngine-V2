@@ -18,6 +18,8 @@
 #define RE_EXPAND_MACRO(x) x
 #define RE_STRINGIFY_MACRO(x) #x
 
+#define RE_BIND_EVENT_FN(fn) [this](auto&&... args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
+
 namespace RealEngine {
 	template<typename T>
 	using Scope = std::unique_ptr<T>;
