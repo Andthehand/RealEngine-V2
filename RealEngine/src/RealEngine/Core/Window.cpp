@@ -19,14 +19,12 @@ namespace RealEngine {
 
 			int success = glfwInit();
 			RE_CORE_ASSERT(success, "Failed to initialize GLFW");
+			glfwSetErrorCallback(GLFWErrorCallback);
 		}
 
 		{
 			RE_PROFILE_SCOPE("glfwCreateWindow");
 
-			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 			glfwWindowHint(GLFW_SCALE_TO_MONITOR, false);
 
 #ifdef RE_DEBUG
@@ -53,8 +51,6 @@ namespace RealEngine {
 
 		{
 			RE_PROFILE_SCOPE("SetGLFWCallbacks");
-
-			glfwSetErrorCallback(GLFWErrorCallback);
 
 			glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window) {
 				std::function<void(Event&)> callback = *(std::function<void(Event&)>*)glfwGetWindowUserPointer(window);
