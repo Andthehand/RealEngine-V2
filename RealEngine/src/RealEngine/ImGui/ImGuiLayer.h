@@ -1,7 +1,7 @@
 #pragma once
 #include "RealEngine/Core/Layer.h"
 
-#define SCALE_OFFSET 0.25f
+#define SCALE_OFFSET 0.1f
 
 namespace RealEngine {
 	class ImGuiLayer : public Layer {
