@@ -1,6 +1,8 @@
 #include "Application.h"
 #include "Log.h"
 
+#include "RealEngine/Render/Renderer.h"
+
 namespace RealEngine {
 	Application::Application(const ApplicationSpecification& specification)
 		: m_Specification(specification) {
@@ -12,6 +14,8 @@ namespace RealEngine {
 		m_Window.SetEventCallback(RE_BIND_EVENT_FN(Application::OnEvent));
 		m_Window.Init(m_Specification.Name.c_str(), 1280, 720);
 
+		Renderer::Init();
+
 		m_ImGuiLayer = new ImGuiLayer();
 		PushLayer(m_ImGuiLayer);
 	}
@@ -20,6 +24,7 @@ namespace RealEngine {
 		RE_PROFILE_FUNCTION();
 
 		m_LayerStack.Clear();
+		Renderer::Shutdown();
 		m_Window.Shutdown();
 	}
 
@@ -88,7 +93,6 @@ namespace RealEngine {
 
 	bool Application::OnWindowResize(WindowResizeEvent& e) {
 		RE_PROFILE_FUNCTION();
-
 		RenderCommands::SetViewport(0, 0, e.GetWidth(), e.GetHeight());
 
 		return false;

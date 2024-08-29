@@ -32,7 +32,8 @@ add_library(RealEngine STATIC
 "src/RealEngine/Core/MouseCodes.h" "src/RealEngine/Core/Inputs.h" "src/RealEngine/Core/Inputs.cpp" 
 "src/RealEngine/Types/UUID.h" "src/RealEngine/Types/UUID.cpp" "src/RealEngine/Types/StringHash.h" 
 "src/RealEngine/Types/StringHash.cpp" "src/RealEngine/Render/RenderCommands.h" "src/RealEngine/ImGui/ImGuiLayer.cpp" 
-"src/RealEngine/ImGui/ImGuiLayer.h")
+"src/RealEngine/ImGui/ImGuiLayer.h" "src/RealEngine/Render/Renderer.h" "src/RealEngine/Render/Renderer.cpp" 
+"src/RealEngine/Render/Framebuffer.h" "src/RealEngine/Render/Framebuffer.cpp")
 
 include_directories(RealEngine PRIVATE
   src

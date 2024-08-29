@@ -9,13 +9,25 @@ namespace RealEngine {
 	void EditorLayer::OnAttach() {
 		Application::Get().GetWindow().SetVSync(true);
 		RenderCommands::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+
+		FramebufferSpecification spec;
+		spec.Width = 1280;
+		spec.Height = 720;
+		spec.Attachments = { FramebufferTextureFormat::RGBA8 };
+
+		m_Framebuffer = CreateRef<Framebuffer>(spec);
 	}
 
 	void EditorLayer::OnDetach() {
 	}
 
 	void EditorLayer::OnUpdate() {
+		m_Framebuffer->Bind();
 		RenderCommands::Clear();
+
+		Renderer::Get()->Render();
+
+		m_Framebuffer->Unbind();
 	}
 
 	void EditorLayer::OnImGui() {
@@ -53,6 +65,23 @@ namespace RealEngine {
 		}
 
 		ImGui::End();
+
+		//ImGui Viewport Window/Panel
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+		ImGui::Begin("Viewport");
+		auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
+		auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
+		auto viewportOffset = ImGui::GetWindowPos();
+
+		ImVec2 viewpoerPanelSize = ImGui::GetContentRegionAvail();
+		m_ViewportSize = { viewpoerPanelSize.x, viewpoerPanelSize.y };
+
+		uint64_t textureID = m_Framebuffer->GetAttachmentRendererID();
+		ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
+
+		ImGui::End();
+		ImGui::PopStyleVar();
+
 
 		static bool show = true;
 		ImGui::ShowDemoWindow(&show);
