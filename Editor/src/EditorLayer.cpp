@@ -53,16 +53,28 @@ namespace RealEngine {
 		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
 		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 
-		if (ImGui::BeginMenuBar()) {
-			if (ImGui::BeginMenu("File")) {
-				if (ImGui::MenuItem("Exit"))
+		if(ImGui::BeginMenuBar()) {
+			if(ImGui::BeginMenu("File")) {
+				if(ImGui::MenuItem("Exit"))
 					Application::Get().Stop();
+
+				ImGui::EndMenu();
+			}
+
+			if (ImGui::BeginMenu("View")) {
+				ImGui::MenuItem("Properties", NULL, &m_PropertiesPanel.IsVisible);
+				ImGui::MenuItem("FileExplorer", NULL, &m_FileExplorerPanel.IsVisible);
 
 				ImGui::EndMenu();
 			}
 
 			ImGui::EndMenuBar();
 		}
+
+		if (m_PropertiesPanel.IsVisible)
+			m_PropertiesPanel.OnImGui();
+		if (m_FileExplorerPanel.IsVisible)
+			m_FileExplorerPanel.OnImGui();
 
 		ImGui::End();
 
@@ -82,11 +94,10 @@ namespace RealEngine {
 		ImGui::End();
 		ImGui::PopStyleVar();
 
-
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
+		ImGui::ShowDemoWindow();
 	}
 
 	void EditorLayer::OnEvent(Event& event) {
+		m_PropertiesPanel.OnEvent(event);
 	}
 }

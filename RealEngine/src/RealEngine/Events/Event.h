@@ -8,7 +8,10 @@ namespace RealEngine {
 		None = 0,
 		WindowClose, WindowResize, WindowRescaled,
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
-		KeyPressed, KeyReleased
+		KeyPressed, KeyReleased,
+
+		// Editor events
+		PannelFolderSelect
 	};
 
 	#define EVENT_CLASS_TYPE(type)  static EventType GetStaticType() { return EventType::type; }\
