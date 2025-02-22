@@ -13,12 +13,16 @@ namespace RealEngine {
 	}
 	
 	void PropertiesPanel::OnImGui() {
+		RE_PROFILE_FUNCTION();
+
 		ImGui::Begin("Properties");
 		ImGui::Text(("Selected Folder: " + m_SelectedFolder.string()).c_str());
 		ImGui::End();
 	}
 
 	void PropertiesPanel::OnEvent(Event& event) {
+		RE_PROFILE_FUNCTION();
+
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<PannelFolderSelectEvent>([this](PannelFolderSelectEvent& e) {
 			SelectFolder(e.GetPath());

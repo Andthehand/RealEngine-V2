@@ -7,6 +7,8 @@ namespace RealEngine {
 		: Layer("Editor") {}
 
 	void EditorLayer::OnAttach() {
+		RE_PROFILE_FUNCTION();
+
 		Application::Get().GetWindow().SetVSync(true);
 		RenderCommands::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 
@@ -22,6 +24,8 @@ namespace RealEngine {
 	}
 
 	void EditorLayer::OnUpdate() {
+		RE_PROFILE_FUNCTION();
+
 		m_Framebuffer->Bind();
 		RenderCommands::Clear();
 
@@ -31,6 +35,8 @@ namespace RealEngine {
 	}
 
 	void EditorLayer::OnImGui() {
+		RE_PROFILE_FUNCTION();
+
 		static bool s_DockspaceOpen = true;
 		static ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking 
 			| ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize 
@@ -98,6 +104,8 @@ namespace RealEngine {
 	}
 
 	void EditorLayer::OnEvent(Event& event) {
+		RE_PROFILE_FUNCTION();
+
 		m_PropertiesPanel.OnEvent(event);
 	}
 }

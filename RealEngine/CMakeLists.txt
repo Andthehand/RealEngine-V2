@@ -13,7 +13,7 @@ set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 
-# Makes the spdlog static library to be linked later
+# Makes static libraries to be linked later
 add_subdirectory(vendor/spdlog)
 add_subdirectory(vendor/tracy)
 add_subdirectory(vendor/glfw)
@@ -33,10 +33,13 @@ add_library(RealEngine STATIC
 "src/RealEngine/Types/UUID.h" "src/RealEngine/Types/UUID.cpp" "src/RealEngine/Types/StringHash.h" 
 "src/RealEngine/Types/StringHash.cpp" "src/RealEngine/Render/RenderCommands.h" "src/RealEngine/ImGui/ImGuiLayer.cpp" 
 "src/RealEngine/ImGui/ImGuiLayer.h" "src/RealEngine/Render/Renderer.h" "src/RealEngine/Render/Renderer.cpp" 
-"src/RealEngine/Render/Framebuffer.h" "src/RealEngine/Render/Framebuffer.cpp")
+"src/RealEngine/Render/Framebuffer.h" "src/RealEngine/Render/Framebuffer.cpp" "src/RealEngine/Render/Texture.h" "src/RealEngine/Render/Texture.cpp" 
+"src/RealEngine/Types/PathHash.h" "src/RealEngine/Types/PathHash.cpp"
+"vendor/stb/stb_image.h")
 
 include_directories(RealEngine PRIVATE
   src
+  vendor/stb
 )
 
 target_precompile_headers(RealEngine PRIVATE "src/repch.h")

@@ -9,6 +9,8 @@ namespace RealEngine {
 		: m_CurrentDirectory(std::filesystem::current_path()) {}
 
 	void FileExplorerPanel::OnImGui() {
+		RE_PROFILE_FUNCTION();
+
 		ImGui::Begin("File Explorer");
 		
 		if (ImGui::Button("<-")) {

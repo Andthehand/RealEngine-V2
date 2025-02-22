@@ -1,4 +1,5 @@
 #pragma once 
+#include "Texture.h"
 
 namespace RealEngine {
 	class Renderer {
@@ -11,6 +12,8 @@ namespace RealEngine {
 		void Render();
 	private:
 		static inline Renderer* m_Renderer = nullptr;
+
+		static inline Scope<Texture2D> m_Texture;
 
 		static inline uint32_t m_ShaderProgram = 0;
 		static inline uint32_t m_VAO = 0;
