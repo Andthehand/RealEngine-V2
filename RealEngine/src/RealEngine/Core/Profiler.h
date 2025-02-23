@@ -3,7 +3,7 @@
 
 #define RE_PROFILE 1
 
-#if defined(RE_PROFILE) && defined(TRACY_ENABLE) 
+#if RE_PROFILE && defined(TRACY_ENABLE) 
 	#define TRACY_CALLSTACK 8
 	#include <tracy/Tracy.hpp>
 

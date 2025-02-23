@@ -18,3 +18,6 @@
 #include "RealEngine/Render/RenderCommands.h"
 #include "RealEngine/Render/Renderer.h"
 #include "RealEngine/Render/Framebuffer.h"
+
+#include "RealEngine/Types/PathHash.h"
+#include "RealEngine/Types/StringHash.h"

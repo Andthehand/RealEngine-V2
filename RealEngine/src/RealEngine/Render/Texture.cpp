@@ -21,16 +21,11 @@ namespace RealEngine {
 		m_Height = height;
 
 		GLenum internalFormat = 0, dataFormat = 0;
-		if (channels == 4) {
-			internalFormat = GL_RGBA8;
-			dataFormat = GL_RGBA;
+		switch (channels) {
+			case 3: internalFormat = GL_RGB8; dataFormat = GL_RGB; break;
+			case 4: internalFormat = GL_RGBA8; dataFormat = GL_RGBA; break;
+			default: RE_CORE_ASSERT(false, "Grayscale Images are not supported!");
 		}
-		else if (channels == 3) {
-			internalFormat = GL_RGB8;
-			dataFormat = GL_RGB;
-		}
-
-		RE_CORE_ASSERT(internalFormat & dataFormat, "Format not supported!");
 
 		// TODO: Only creates 1 mipmap level ?fix?
 		// Allocate memory for the texture
