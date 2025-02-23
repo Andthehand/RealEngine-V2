@@ -100,7 +100,7 @@ namespace RealEngine {
 		ImGui::End();
 		ImGui::PopStyleVar();
 
-		ImGui::ShowDemoWindow();
+		//ImGui::ShowDemoWindow();
 	}
 
 	void EditorLayer::OnEvent(Event& event) {

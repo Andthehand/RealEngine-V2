@@ -1,5 +1,6 @@
 #pragma once 
 #include "Texture.h"
+#include "Buffer.h"
 
 namespace RealEngine {
 	class Renderer {
@@ -17,7 +18,7 @@ namespace RealEngine {
 
 		static inline uint32_t m_ShaderProgram = 0;
 		static inline uint32_t m_VAO = 0;
-		static inline uint32_t m_VBO = 0;
+		static inline Scope<VertexBuffer> m_VBO;
 		static inline uint32_t m_EBO = 0;
 	};
 }

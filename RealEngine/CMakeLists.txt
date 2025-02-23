@@ -35,7 +35,7 @@ add_library(RealEngine STATIC
 "src/RealEngine/ImGui/ImGuiLayer.h" "src/RealEngine/Render/Renderer.h" "src/RealEngine/Render/Renderer.cpp" 
 "src/RealEngine/Render/Framebuffer.h" "src/RealEngine/Render/Framebuffer.cpp" "src/RealEngine/Render/Texture.h" "src/RealEngine/Render/Texture.cpp" 
 "src/RealEngine/Types/PathHash.h" "src/RealEngine/Types/PathHash.cpp"
-"vendor/stb/stb_image.h")
+"vendor/stb/stb_image.h" "src/RealEngine/Render/Buffer.h" "src/RealEngine/Render/Buffer.cpp")
 
 include_directories(RealEngine PRIVATE
   src
