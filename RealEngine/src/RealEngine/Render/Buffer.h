@@ -10,6 +10,11 @@ namespace RealEngine {
 		Float3	= 3
 	};
 
+	enum BufferType {
+		VertexBuffer	= GL_ARRAY_BUFFER,
+		ElementBuffer	= GL_ELEMENT_ARRAY_BUFFER
+	};
+
 	struct BufferAttribute {
 		DataType type;
 		uint32_t stride;
@@ -28,16 +33,17 @@ namespace RealEngine {
 		std::vector<BufferAttribute> m_VertexAttribs;
 	};
 
-	class VertexBuffer {
+	class Buffer {
 	public:
-		VertexBuffer(uint32_t size);
-		VertexBuffer(void* data, uint32_t size);
-		~VertexBuffer();
+		Buffer(BufferType type, uint32_t size);
+		Buffer(BufferType type, void* data, uint32_t size);
+		~Buffer();
 
 		void Bind() const;
 	private:
 		void CreateBuffer(void* data, uint32_t size);
 	private:
 		uint32_t m_RendererID;
+		BufferType m_Type;
 	};
 }

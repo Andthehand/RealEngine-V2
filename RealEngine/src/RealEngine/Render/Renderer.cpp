@@ -70,14 +70,12 @@ namespace RealEngine {
             1, 2, 3   // second Triangle
         };
         glGenVertexArrays(1, &m_VAO);
-        glGenBuffers(1, &m_EBO);
         // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
 
-        m_VBO = CreateScope<VertexBuffer>(vertices, (uint32_t)sizeof(vertices));
+        m_VBO = CreateScope<Buffer>(VertexBuffer, vertices, (uint32_t)sizeof(vertices));
         glBindVertexArray(m_VAO);
 
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+        m_EBO = CreateScope<Buffer>(ElementBuffer, indices, (uint32_t)sizeof(indices));
 
         // position attribute
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
@@ -103,7 +101,6 @@ namespace RealEngine {
 		RE_CORE_ASSERT(m_Renderer, "Renderer is not initialized");
 
         glDeleteVertexArrays(1, &m_VAO);
-        glDeleteBuffers(1, &m_EBO);
         glDeleteProgram(m_ShaderProgram);
 
 		delete m_Renderer;

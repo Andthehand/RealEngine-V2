@@ -18,7 +18,7 @@ namespace RealEngine {
 
 		static inline uint32_t m_ShaderProgram = 0;
 		static inline uint32_t m_VAO = 0;
-		static inline Scope<VertexBuffer> m_VBO;
-		static inline uint32_t m_EBO = 0;
+		static inline Scope<Buffer> m_VBO;
+		static inline Scope<Buffer> m_EBO;
 	};
 }

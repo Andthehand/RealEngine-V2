@@ -3,25 +3,27 @@
 #include <glad/glad.h>
 
 namespace RealEngine {
-	VertexBuffer::VertexBuffer(uint32_t size) {
+	Buffer::Buffer(BufferType type, uint32_t size) 
+		: m_Type(type) {
 		CreateBuffer(nullptr, size);
 	}
 
-	VertexBuffer::VertexBuffer(void* data, uint32_t size) {
+	Buffer::Buffer(BufferType type, void* data, uint32_t size) 
+		: m_Type(type) {
 		CreateBuffer(data, size);
 	}
 
-	VertexBuffer::~VertexBuffer() {
+	Buffer::~Buffer() {
 		glDeleteBuffers(1, &m_RendererID);
 	}
 
-	void VertexBuffer::Bind() const {
-		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
+	void Buffer::Bind() const {
+		glBindBuffer(m_Type, m_RendererID);
 	}
 
-	void VertexBuffer::CreateBuffer(void* data, uint32_t size) {
+	void Buffer::CreateBuffer(void* data, uint32_t size) {
 		glGenBuffers(1, &m_RendererID);
-		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
-		glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW); // Customize draw type
+		glBindBuffer(m_Type, m_RendererID);
+		glBufferData(m_Type, size, data, GL_STATIC_DRAW); // Customize draw type
 	}
 }
