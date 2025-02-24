@@ -7,24 +7,7 @@ namespace RealEngine {
 		RE_CORE_ASSERT(!m_Renderer, "Renderer is already initialized");
 		m_Renderer = new Renderer();
 
-        const char* vertexShaderSource = "#version 330 core\n"
-            "layout (location = 0) in vec3 aPos;\n"
-            "layout (location = 1) in vec2 aTexCoord;"
-			"out vec2 TexCoord;"
-            "void main()\n"
-            "{\n"
-            "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-            "   TexCoord = vec2(aTexCoord.x, aTexCoord.y);"
-            "}\0";
-        const char* fragmentShaderSource = "#version 330 core\n"
-            "out vec4 FragColor;\n"
-			"in vec2 TexCoord;"
-            "uniform sampler2D texture1;"
-            "void main()\n"
-            "{\n"
-            "   FragColor = texture(texture1, TexCoord);"
-            "}\n\0";
-		m_Shader = CreateScope<Shader>(vertexShaderSource, fragmentShaderSource);
+        m_Shader = CreateScope<Shader>("assets/shaders/uber.shader");
 
         float vertices[] = {
             // positions          // texture coords
