@@ -4,12 +4,50 @@
 #include <vector>
 
 namespace RealEngine {
-	enum DataType : uint8_t {
-		Float	= 1,
-		Float2	= 2,
-		Float3	= 3,
+	class DataType {
+	public:
+		enum Type : uint8_t {
+			Float = 1,
+			Float2 = 2,
+			Float3 = 3,
 
-		Undefined
+			Undefined
+		};
+	public:
+		DataType() = delete;
+		DataType(Type type) : m_Type(type) {}
+
+		uint8_t GetTypeElementCount() { return m_Type; }
+
+		uint8_t GetTypeSizeOf() { 
+			switch (m_Type)
+			{
+				case DataType::Float:
+				case DataType::Float2:
+				case DataType::Float3:
+					return sizeof(float);
+				case RealEngine::DataType::Undefined:
+					RE_CORE_ASSERT(false, "Undefined is your selected DataType?");
+					return 0;
+			}
+
+			RE_CORE_ASSERT(false, "DataType not implmented yet!");
+			return 0;
+		}
+
+		GLint GetGLType() const {
+			switch (m_Type) {
+				case DataType::Float:	
+				case DataType::Float2:	
+				case DataType::Float3:	
+					return GL_FLOAT;
+			}
+
+			RE_CORE_ASSERT(false, "DataType not implmented yet!");
+			return Undefined;
+		}
+	private:
+		Type m_Type;
 	};
 
 	enum BufferType {
@@ -19,23 +57,12 @@ namespace RealEngine {
 
 	struct BufferAttribute {
 		DataType Type;
-		uint32_t Size = 0;
+		uint8_t Size = 0;
 		uint32_t Offset = 0;
 
 		BufferAttribute() = delete;
 		BufferAttribute(DataType type)
 			: Type(type) {}
-
-		GLint GetGLType() const {
-			switch (Type) {
-				case RealEngine::Float:		return GL_FLOAT;
-				case RealEngine::Float2:	return GL_FLOAT;
-				case RealEngine::Float3:	return GL_FLOAT;
-			}
-
-			RE_CORE_ASSERT(false, "DataType not implemented yet");
-			return Undefined;
-		}
 	};
 
 	struct BufferAttributes {
@@ -44,8 +71,8 @@ namespace RealEngine {
 			uint32_t offset = 0;
 			for (BufferAttribute& attrib : m_VertexAttribs) {
 				attrib.Offset = offset;
-				offset += attrib.Type * sizeof(float); // TODO: change from float to lookup
-				attrib.Size = attrib.Type;
+				offset += attrib.Type.GetTypeElementCount() * attrib.Type.GetTypeSizeOf();
+				attrib.Size = attrib.Type.GetTypeElementCount();
 			}
 			Stride = offset;
 		}

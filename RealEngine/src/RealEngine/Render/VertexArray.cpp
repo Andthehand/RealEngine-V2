@@ -34,7 +34,7 @@ namespace RealEngine {
 		const std::vector<BufferAttribute>& attribs = layout.m_VertexAttribs;
 		for (uint8_t i = 0; i < attribs.size(); i++) {
 			const BufferAttribute& attrib = attribs[i];
-            glVertexAttribPointer(i, attrib.Size, attrib.GetGLType(), GL_FALSE, layout.Stride, (void*)(uintptr_t)attrib.Offset);
+            glVertexAttribPointer(i, attrib.Size, attrib.Type.GetGLType(), GL_FALSE, layout.Stride, (void*)(uintptr_t)attrib.Offset);
 			glEnableVertexAttribArray(i);
 		}
 	}

@@ -27,8 +27,8 @@ namespace RealEngine {
         Ref<IndexBuffer> ebo = CreateRef<IndexBuffer>(indices, (uint32_t)sizeof(indices));
         Ref<VertexBuffer> vbo = CreateRef<VertexBuffer>(vertices, (uint32_t)sizeof(vertices));
         vbo->SetLayout(BufferAttributes{
-			{ Float3 },
-			{ Float2 }
+			{ DataType::Float3 },
+			{ DataType::Float2 }
 		});
 
 
