@@ -4,10 +4,14 @@
 
 namespace RealEngine {
 	VertexArray::VertexArray() {
+		RE_PROFILE_FUNCTION();
+
 		glGenVertexArrays(1, &m_RendererID);
 	}
 	
 	VertexArray::~VertexArray() {
+		RE_PROFILE_FUNCTION();
+
 		glDeleteVertexArrays(1, &m_RendererID);
 	}
 
@@ -15,10 +19,17 @@ namespace RealEngine {
 		glBindVertexArray(m_RendererID);
 	}
 
+	void VertexArray::Unbind() const {
+		glBindVertexArray(0);
+	}
+
 	void VertexArray::SetVertexBuffer(Ref<VertexBuffer> vertexBuffer) {
+		RE_PROFILE_FUNCTION();
+
 		m_VertexBuffer = vertexBuffer;
 		
 		Bind();
+		m_VertexBuffer->Bind();
 		const BufferAttributes& layout = m_VertexBuffer->GetLayout();
 		const std::vector<BufferAttribute>& attribs = layout.m_VertexAttribs;
 		for (uint8_t i = 0; i < attribs.size(); i++) {
@@ -26,5 +37,13 @@ namespace RealEngine {
             glVertexAttribPointer(i, attrib.Size, attrib.GetGLType(), GL_FALSE, layout.Stride, (void*)(uintptr_t)attrib.Offset);
 			glEnableVertexAttribArray(i);
 		}
+	}
+
+	void VertexArray::SetIndexBuffer(Ref<IndexBuffer> indexBuffer) {
+		RE_PROFILE_FUNCTION();
+
+		m_IndexBuffer = indexBuffer;
+		Bind();
+		m_IndexBuffer->Bind();
 	}
 }

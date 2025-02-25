@@ -21,9 +21,15 @@ namespace RealEngine {
 		glBindBuffer(m_Type, m_RendererID);
 	}
 
+	void Buffer::Unbind() const {
+		glBindBuffer(m_Type, 0);
+	}
+
 	void Buffer::CreateBuffer(void* data, uint32_t size) {
+		RE_PROFILE_FUNCTION();
+
 		glGenBuffers(1, &m_RendererID);
-		glBindBuffer(m_Type, m_RendererID);
+		Bind();
 		glBufferData(m_Type, size, data, GL_STATIC_DRAW); // Customize draw type
 	}
 

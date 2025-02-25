@@ -61,6 +61,7 @@ namespace RealEngine {
 		~Buffer();
 
 		void Bind() const;
+		void Unbind() const;
 
 		BufferType GetType() const { return m_Type; }
 	private:

@@ -20,6 +20,5 @@ namespace RealEngine {
 
 		static inline Scope<Shader> m_Shader;
 		static inline Scope<VertexArray> m_VAO;
-		static inline Scope<IndexBuffer> m_EBO;
 	};
 }

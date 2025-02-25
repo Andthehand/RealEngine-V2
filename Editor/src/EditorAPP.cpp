@@ -15,6 +15,8 @@ namespace RealEngine {
 	};
 
 	Application* CreateApplication(const ApplicationCommandLineArgs& args) {
+		RE_PROFILE_FUNCTION();
+
 		ApplicationSpecification specification = { "Editor", args };
 		return new Editor(specification);
 	}
