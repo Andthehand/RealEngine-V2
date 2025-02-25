@@ -20,20 +20,19 @@ namespace RealEngine {
             0, 1, 3,  // first Triangle
             1, 2, 3   // second Triangle
         };
-        glGenVertexArrays(1, &m_VAO);
+
+		m_VAO = CreateScope<VertexArray>();
         // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
 
-        m_VBO = CreateScope<Buffer>(VertexBuffer, vertices, (uint32_t)sizeof(vertices));
-        glBindVertexArray(m_VAO);
+        Ref<VertexBuffer> vbo = CreateRef<VertexBuffer>(vertices, (uint32_t)sizeof(vertices));
+        vbo->SetLayout(BufferAttributes{
+			{ Float3 },
+			{ Float2 }
+		});
 
-        m_EBO = CreateScope<Buffer>(ElementBuffer, indices, (uint32_t)sizeof(indices));
+		m_VAO->SetVertexBuffer(vbo);
 
-        // position attribute
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-        glEnableVertexAttribArray(0);
-        // texture coord attribute
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-        glEnableVertexAttribArray(1);
+        m_EBO = CreateScope<IndexBuffer>(indices, (uint32_t)sizeof(indices));
 
         // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
         glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -51,15 +50,13 @@ namespace RealEngine {
 	void Renderer::Shutdown() {
 		RE_CORE_ASSERT(m_Renderer, "Renderer is not initialized");
 
-        glDeleteVertexArrays(1, &m_VAO);
-
 		delete m_Renderer;
 	}
 
 	void Renderer::Render() {
         m_Shader->Bind();
         m_Texture->Bind();
-        glBindVertexArray(m_VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
+		m_VAO->Bind();
         //glDrawArrays(GL_TRIANGLES, 0, 6);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	}

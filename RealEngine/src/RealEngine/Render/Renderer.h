@@ -2,6 +2,7 @@
 #include "Texture.h"
 #include "Buffer.h"
 #include "Shader.h"
+#include "VertexArray.h"
 
 namespace RealEngine {
 	class Renderer {
@@ -18,8 +19,7 @@ namespace RealEngine {
 		static inline Scope<Texture2D> m_Texture;
 
 		static inline Scope<Shader> m_Shader;
-		static inline uint32_t m_VAO = 0;
-		static inline Scope<Buffer> m_VBO;
-		static inline Scope<Buffer> m_EBO;
+		static inline Scope<VertexArray> m_VAO;
+		static inline Scope<IndexBuffer> m_EBO;
 	};
 }

@@ -26,4 +26,16 @@ namespace RealEngine {
 		glBindBuffer(m_Type, m_RendererID);
 		glBufferData(m_Type, size, data, GL_STATIC_DRAW); // Customize draw type
 	}
+
+	VertexBuffer::VertexBuffer(uint32_t size)
+		: Buffer(VertexBufferType, size) {}
+
+	VertexBuffer::VertexBuffer(void* data, uint32_t size)
+		: Buffer(VertexBufferType, data, size) {}
+
+	IndexBuffer::IndexBuffer(uint32_t size)
+		: Buffer(IndexBufferType, size) {}
+	
+	IndexBuffer::IndexBuffer(void* data, uint32_t size)
+		: Buffer(IndexBufferType, data, size) {}
 }
