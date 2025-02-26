@@ -4,6 +4,8 @@
 #include <glm/glm.hpp>
 #include <glm/ext/matrix_transform.hpp>
 
+#include "RealEngine/Resources/TextureManager.h"
+
 namespace RealEngine {
     struct QuadData {
         glm::vec3 Vertices;
@@ -63,7 +65,7 @@ namespace RealEngine {
         s_RenderData.QuadVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
 
         s_RenderData.QuadShader = CreateScope<Shader>("assets/shaders/uber.shader");
-        m_Texture = CreateScope<Texture2D>("assets/textures/RGBA_Test.png");
+        m_Texture = TextureManager::LoadTexture("assets/textures/RGBA_Test.png");
 	}
 
 	void Renderer::Shutdown() {

@@ -34,4 +34,7 @@ namespace RealEngine {
 	constexpr Ref<T> CreateRef(Args&& ... args) {
 		return std::make_shared<T>(std::forward<Args>(args)...);
 	}
+
+	template<typename T>
+	using Weak_Ref = std::weak_ptr<T>;
 }

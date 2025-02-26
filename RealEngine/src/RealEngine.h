@@ -21,3 +21,5 @@
 
 #include "RealEngine/Types/PathHash.h"
 #include "RealEngine/Types/StringHash.h"
+
+#include "RealEngine/Resources/TextureManager.h"

@@ -4,6 +4,8 @@
 #include "Shader.h"
 #include "VertexArray.h"
 
+#include "glm/glm.hpp"
+
 namespace RealEngine {
 	class Renderer {
 	public:
@@ -18,6 +20,6 @@ namespace RealEngine {
 	private:
 		static inline Renderer* m_Renderer = nullptr;
 
-		static inline Scope<Texture2D> m_Texture;
+		static inline Ref<Texture2D> m_Texture;
 	};
 }

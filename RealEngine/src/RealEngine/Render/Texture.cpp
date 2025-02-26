@@ -14,8 +14,6 @@ namespace RealEngine {
 		int width, height, channels;
 		unsigned char* data = stbi_load(path.string().c_str(), &width, &height, &channels, 0);
 		
-		RE_CORE_INFO("Working Directory: {0}", std::filesystem::current_path().string());
-
 		RE_CORE_ASSERT(data, "Failed to load image!");
 		m_Width = width;
 		m_Height = height;
