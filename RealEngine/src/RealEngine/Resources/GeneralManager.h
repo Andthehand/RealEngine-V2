@@ -1,6 +1,4 @@
 #pragma once
-#include <WeakReference.h>
-
 #include "RealEngine/Types/PathHash.h"
 
 namespace RealEngine {
