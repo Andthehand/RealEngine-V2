@@ -29,6 +29,7 @@ namespace RealEngine {
 		m_Framebuffer->Bind();
 		RenderCommands::Clear();
 
+		Renderer::Get()->DrawQuad({ 0.0f, 0.0f, 0.0f });
 		Renderer::Get()->Render();
 
 		m_Framebuffer->Unbind();

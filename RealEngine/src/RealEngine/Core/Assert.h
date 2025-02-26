@@ -18,6 +18,8 @@
 	// Currently accepts at least the condition and one additional parameter (the message) being optional
 	#define RE_ASSERT(...) RE_EXPAND_MACRO( RE_INTERNAL_ASSERT_GET_MACRO(__VA_ARGS__)(_, __VA_ARGS__) )
 	#define RE_CORE_ASSERT(...) RE_EXPAND_MACRO( RE_INTERNAL_ASSERT_GET_MACRO(__VA_ARGS__)(_CORE_, __VA_ARGS__) )
+
+	#define RE_CORE_STATIC_ASSERT(...) static_assert(__VA_ARGS__)
 #else
 #pragma warning( disable : 4552 4189 )
 	#define RE_ASSERT(...)

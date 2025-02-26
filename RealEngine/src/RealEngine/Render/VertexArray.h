@@ -10,11 +10,12 @@ namespace RealEngine {
 		void Unbind() const;
 
 		void SetVertexBuffer(Ref<VertexBuffer> vertexBuffer);
+		void SetVertexBuffers(std::vector<Ref<VertexBuffer>> vertexBuffers);
 		void SetIndexBuffer(Ref<IndexBuffer> indexBuffer);
 	private:
 		uint32_t m_RendererID;
 
-		Ref<VertexBuffer> m_VertexBuffer;
+		std::vector<Ref<VertexBuffer>> m_VertexBuffer;
 		Ref<IndexBuffer> m_IndexBuffer;
 	};
 }

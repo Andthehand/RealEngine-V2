@@ -57,12 +57,15 @@ namespace RealEngine {
 
 	struct BufferAttribute {
 		DataType Type;
+		uint32_t InstanceDivisor = 0;
 		uint8_t Size = 0;
 		uint32_t Offset = 0;
 
 		BufferAttribute() = delete;
 		BufferAttribute(DataType type)
 			: Type(type) {}
+		BufferAttribute(DataType type, uint32_t instanceDivisor)
+			: Type(type), InstanceDivisor(instanceDivisor) {}
 	};
 
 	struct BufferAttributes {
@@ -83,8 +86,8 @@ namespace RealEngine {
 
 	class Buffer {
 	public:
-		Buffer(BufferType type, uint32_t size);
-		Buffer(BufferType type, void* data, uint32_t size);
+		Buffer(BufferType type, const uint32_t size);
+		Buffer(BufferType type, void* data, const uint32_t size);
 		~Buffer();
 
 		void Bind() const;
@@ -93,15 +96,18 @@ namespace RealEngine {
 		BufferType GetType() const { return m_Type; }
 	private:
 		void CreateBuffer(void* data, uint32_t size);
-	private:
+	protected:
 		uint32_t m_RendererID;
+		uint32_t m_Size;
 		BufferType m_Type;
 	};
 
 	class VertexBuffer : public Buffer {
 	public:
-		VertexBuffer(uint32_t size);
-		VertexBuffer(void* data, uint32_t size);
+		VertexBuffer(const uint32_t size);
+		VertexBuffer(void* data, const uint32_t size);
+
+		void SetData(void* data, const uint32_t size);
 
 		void SetLayout(const BufferAttributes& attributes) { m_Attributes = attributes; }
 		const BufferAttributes& GetLayout() const { return m_Attributes;  }
@@ -112,7 +118,7 @@ namespace RealEngine {
 	//This is just a wrapper around the buffer class for typdefing
 	class IndexBuffer : public Buffer {
 	public:
-		IndexBuffer(uint32_t size);
-		IndexBuffer(void* data, uint32_t size);
+		IndexBuffer(const uint32_t size);
+		IndexBuffer(void* data, const uint32_t size);
 	};
 }

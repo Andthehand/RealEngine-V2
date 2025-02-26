@@ -24,18 +24,28 @@ namespace RealEngine {
 	}
 
 	void VertexArray::SetVertexBuffer(Ref<VertexBuffer> vertexBuffer) {
-		RE_PROFILE_FUNCTION();
+		std::vector<Ref<VertexBuffer>> buffers = { vertexBuffer };
+		SetVertexBuffers(buffers);
+	}
 
-		m_VertexBuffer = vertexBuffer;
+	void VertexArray::SetVertexBuffers(std::vector<Ref<VertexBuffer>> vertexBuffers) {
+		RE_PROFILE_FUNCTION();
+		m_VertexBuffer = vertexBuffers;
 		
 		Bind();
-		m_VertexBuffer->Bind();
-		const BufferAttributes& layout = m_VertexBuffer->GetLayout();
-		const std::vector<BufferAttribute>& attribs = layout.m_VertexAttribs;
-		for (uint8_t i = 0; i < attribs.size(); i++) {
-			const BufferAttribute& attrib = attribs[i];
-            glVertexAttribPointer(i, attrib.Size, attrib.Type.GetGLType(), GL_FALSE, layout.Stride, (void*)(uintptr_t)attrib.Offset);
-			glEnableVertexAttribArray(i);
+		uint8_t index = 0; // Since there are multiple VBO we need to keep track of the what the gloabal index is
+		for (const Ref<VertexBuffer> vertexBuffer : vertexBuffers) {
+			vertexBuffer->Bind();
+
+			const BufferAttributes& layout = vertexBuffer->GetLayout();
+			const std::vector<BufferAttribute>& attribs = layout.m_VertexAttribs;
+			for (uint8_t i = 0; i < attribs.size(); i++) {
+				const BufferAttribute& attrib = attribs[i];
+				glVertexAttribPointer(index, attrib.Size, attrib.Type.GetGLType(), GL_FALSE, layout.Stride, (void*)(uintptr_t)attrib.Offset);
+				glVertexAttribDivisor(index, attrib.InstanceDivisor);
+				glEnableVertexAttribArray(index);
+				index++;
+			}
 		}
 	}
 

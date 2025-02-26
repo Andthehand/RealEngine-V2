@@ -10,6 +10,8 @@ namespace RealEngine {
 		static void Init();
 		static void Shutdown();
 
+		static void DrawQuad(const glm::vec3& position);
+
 		static Renderer* Get() { return m_Renderer; }
 
 		void Render();
@@ -17,8 +19,5 @@ namespace RealEngine {
 		static inline Renderer* m_Renderer = nullptr;
 
 		static inline Scope<Texture2D> m_Texture;
-
-		static inline Scope<Shader> m_Shader;
-		static inline Scope<VertexArray> m_VAO;
 	};
 }
