@@ -9,7 +9,6 @@ namespace RealEngine {
 	void EditorLayer::OnAttach() {
 		RE_PROFILE_FUNCTION();
 
-		Application::Get().GetWindow().SetVSync(true);
 		RenderCommands::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 
 		FramebufferSpecification spec;
@@ -71,6 +70,14 @@ namespace RealEngine {
 			if (ImGui::BeginMenu("View")) {
 				ImGui::MenuItem("Properties", NULL, &m_PropertiesPanel.IsVisible);
 				ImGui::MenuItem("FileExplorer", NULL, &m_FileExplorerPanel.IsVisible);
+
+				ImGui::EndMenu();
+			}
+
+			if (ImGui::BeginMenu("Window")) {
+				if (ImGui::MenuItem("Vsync", NULL, Application::Get().GetWindow().GetVsync())) {
+					Application::Get().GetWindow().SetVSync(!Application::Get().GetWindow().GetVsync());
+				}
 
 				ImGui::EndMenu();
 			}

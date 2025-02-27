@@ -47,6 +47,11 @@ namespace RealEngine {
 			RE_CORE_ASSERT(success, "Failed to initialize Glad");
 		}
 
+		{
+			RE_PROFILE_SCOPE("glfwSettings");
+			SetVSync(true);
+		}
+
 		glfwSetWindowUserPointer(m_Window, &m_EventCallback);
 
 		{
@@ -130,12 +135,17 @@ namespace RealEngine {
 		{
 			RE_PROFILE_SCOPE("Window Swap Buffers");
 			glfwSwapBuffers(m_Window);
+
+			float currentTime = (float)glfwGetTime();
+			m_DeltaTime = currentTime - m_LastFrameTime;
+			m_LastFrameTime = currentTime;
 		}
 	}
 
 	void Window::SetVSync(bool enabled) {
 		RE_PROFILE_FUNCTION();
 
+		m_Vsync = enabled;
 		glfwSwapInterval(enabled);
 	}
 

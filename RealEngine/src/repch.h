@@ -40,7 +40,3 @@
 #include <string>
 #include <vector>
 #include <unordered_set>
-
-#ifdef RE_PLATFORM_WINDOWS
-	#include <Windows.h>
-#endif 

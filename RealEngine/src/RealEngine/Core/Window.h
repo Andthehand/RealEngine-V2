@@ -15,9 +15,12 @@ namespace RealEngine {
 
 		void OnUpdate();
 
+		bool GetVsync() const { return m_Vsync;  }
 		void SetVSync(bool enabled);
 
 		GLFWwindow* GetNativeWindow() const { return m_Window; }
+
+		const float GetDeltaTime() const { return m_DeltaTime; }
 
 		int GetWidth() const { return m_Width; }
 		int GetHeight() const { return m_Height; }
@@ -30,5 +33,9 @@ namespace RealEngine {
 
 		GLFWwindow* m_Window;
 		int m_Width, m_Height;
+		bool m_Vsync = true;
+
+		float m_DeltaTime = 0;
+		float m_LastFrameTime = 0;
 	};
 }

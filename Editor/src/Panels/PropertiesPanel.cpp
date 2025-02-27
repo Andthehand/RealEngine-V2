@@ -17,6 +17,11 @@ namespace RealEngine {
 
 		ImGui::Begin("Properties");
 		ImGui::Text(("Selected Folder: " + m_SelectedFolder.string()).c_str());
+
+		float dt = Application::Get().GetWindow().GetDeltaTime();
+		float fps = 1.0f / dt;
+		ImGui::Text("FPS: %f", fps);
+		ImGui::Text("DeltaTime: %f", dt);
 		ImGui::End();
 	}
 
