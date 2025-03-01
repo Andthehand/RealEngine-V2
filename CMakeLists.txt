@@ -48,6 +48,15 @@ include_directories(RealEngine PRIVATE
 
 target_precompile_headers(RealEngine PRIVATE "src/repch.h")
 
+# Platform detection
+if (WIN32)
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX")
+
+	add_compile_definitions(RE_PLATFORM_WINDOWS)
+elseif(UNIX AND NOT APPLE)
+	add_compile_definitions(RE_PLATFORM_LINUX)
+endif()
+
 if(MSVC)
 	# This is to enable the use of __VA_OPT__
 	target_compile_options(RealEngine PUBLIC "/Zc:preprocessor")
