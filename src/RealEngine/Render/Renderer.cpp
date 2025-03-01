@@ -65,7 +65,7 @@ namespace RealEngine {
         s_RenderData.QuadVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
 
         s_RenderData.QuadShader = CreateScope<Shader>("assets/shaders/uber.shader");
-        m_Texture = TextureManager::LoadTexture("assets/textures/RGBA_Test.png");
+        m_Texture = CreateRef<Texture2D>("assets/textures/RGBA_Test.png");
 	}
 
 	void Renderer::Shutdown() {
