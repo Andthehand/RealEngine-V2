@@ -2,7 +2,7 @@
 #include "RealEngine.h"
 #include "Log.h"
 
-#if defined(RE_PLATFORM_WINDOWS)
+#ifdef RE_PLATFORM_WINDOWS
 extern "C"
 {
 	__declspec(dllexport) unsigned long NvOptimusEnablement = 0x00000001;
