@@ -5,6 +5,10 @@ project(RealEngine)
 # Enables the full Tracy project
 option ( TRACY_ENABLE "" ON )
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DRE_DEBUG")
+
 set(XXHASH_BUILD_ENABLE_INLINE_API ON) #optional
 set(XXHASH_BUILD_XXHSUM OFF) #optional
 set(BUILD_SHARED_LIBS OFF) #optional
