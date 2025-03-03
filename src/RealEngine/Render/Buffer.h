@@ -3,7 +3,43 @@
 #include <initializer_list>
 #include <vector>
 
+#define BUFFER_CLASS_TYPE(type) type(const uint32_t size) : Utils::Buffer(Utils::type, size) {}\
+								type(void* data, const uint32_t size) : Utils::Buffer(Utils::type, data, size) {}\
+								virtual const char* GetName() const override { return #type; }
+
 namespace RealEngine {
+	namespace Utils {
+		enum BufferType {
+			VertexBuffer = GL_ARRAY_BUFFER,
+			IndexBuffer = GL_ELEMENT_ARRAY_BUFFER,
+			ShaderStorageBuffer = GL_SHADER_STORAGE_BUFFER,
+		};
+		
+		//This should never be used outside of the buffer class
+		class Buffer {
+		public:
+			Buffer(BufferType type, const uint32_t size);
+			Buffer(BufferType type, void* data, const uint32_t size);
+			~Buffer();
+
+			virtual const char* GetName() const = 0;
+			virtual std::string ToString() const { return std::string(GetName()) + " RenderId: " + std::to_string(m_RendererID); };
+
+			void Bind() const;
+			void Unbind() const;
+
+			void SetData(void* data, const uint32_t size);
+
+			BufferType GetType() const { return m_Type; }
+		private:
+			void CreateBuffer(void* data, uint32_t size);
+		protected:
+			uint32_t m_RendererID;
+			uint32_t m_Size;
+			BufferType m_Type;
+		};
+	}
+
 	class DataType {
 	public:
 		enum Type : uint8_t {
@@ -50,11 +86,6 @@ namespace RealEngine {
 		Type m_Type;
 	};
 
-	enum BufferType {
-		VertexBufferType	= GL_ARRAY_BUFFER,
-		IndexBufferType		= GL_ELEMENT_ARRAY_BUFFER
-	};
-
 	struct BufferAttribute {
 		DataType Type;
 		uint32_t InstanceDivisor = 0;
@@ -84,31 +115,11 @@ namespace RealEngine {
 		std::vector<BufferAttribute> m_VertexAttribs;
 	};
 
-	class Buffer {
+	class VertexBuffer : public Utils::Buffer {
 	public:
-		Buffer(BufferType type, const uint32_t size);
-		Buffer(BufferType type, void* data, const uint32_t size);
-		~Buffer();
+		BUFFER_CLASS_TYPE(VertexBuffer)
 
-		void Bind() const;
-		void Unbind() const;
-
-		BufferType GetType() const { return m_Type; }
-	private:
-		void CreateBuffer(void* data, uint32_t size);
-	protected:
-		uint32_t m_RendererID;
-		uint32_t m_Size;
-		BufferType m_Type;
-	};
-
-	class VertexBuffer : public Buffer {
-	public:
-		VertexBuffer(const uint32_t size);
-		VertexBuffer(void* data, const uint32_t size);
-
-		void SetData(void* data, const uint32_t size);
-
+		//This is used in the Vertex Array class to set the layout of the buffer
 		void SetLayout(const BufferAttributes& attributes) { m_Attributes = attributes; }
 		const BufferAttributes& GetLayout() const { return m_Attributes;  }
 	private:
@@ -116,9 +127,13 @@ namespace RealEngine {
 	};
 
 	//This is just a wrapper around the buffer class for typdefing
-	class IndexBuffer : public Buffer {
+	class IndexBuffer : public Utils::Buffer {
 	public:
-		IndexBuffer(const uint32_t size);
-		IndexBuffer(void* data, const uint32_t size);
+		BUFFER_CLASS_TYPE(IndexBuffer)
+	};
+
+	class ShaderStorageBuffer : public Utils::Buffer {
+	public:
+		BUFFER_CLASS_TYPE(ShaderStorageBuffer)
 	};
 }

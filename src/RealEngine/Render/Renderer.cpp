@@ -66,6 +66,7 @@ namespace RealEngine {
 
         s_RenderData.QuadShader = CreateScope<Shader>("assets/shaders/uber.shader");
         m_Texture = CreateRef<Texture2D>("assets/textures/RGBA_Test.png");
+        RE_CORE_WARN(s_RenderData.VBO->ToString());
 	}
 
 	void Renderer::Shutdown() {
