@@ -47,7 +47,6 @@ namespace RealEngine {
 			s_RenderData.Indices[i + 5] = i + 0;
         }
 
-		s_RenderData.VAO = CreateScope<VertexArray>();
         Ref<IndexBuffer> ebo = CreateRef<IndexBuffer>(s_RenderData.Indices, (uint32_t)sizeof(s_RenderData.Indices));
         s_RenderData.VBO = CreateRef<VertexBuffer>((uint32_t)sizeof(s_RenderData.RenderData));
         s_RenderData.VBO->SetLayout(BufferAttributes{
