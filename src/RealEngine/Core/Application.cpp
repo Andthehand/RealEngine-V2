@@ -39,7 +39,6 @@ namespace RealEngine {
 	void Application::Run() {
 		RE_CORE_INFO("Application is running...");
 
-		//TODO: replace true with if the window is still open
 		while (m_Running) {
 			RE_PROFILE_FRAME();
 
@@ -47,8 +46,10 @@ namespace RealEngine {
 				RE_PROFILE_SCOPE("OnUpdate");
 				m_Window.OnUpdate();
 
+				float deltaTime = m_Window.GetDeltaTime();
+
 				for (Layer* layer : m_LayerStack) {
-					layer->OnUpdate();
+					layer->OnUpdate(deltaTime);
 				}
 			}
 

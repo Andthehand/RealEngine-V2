@@ -11,7 +11,7 @@ namespace RealEngine {
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
 
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(const float deltaTime) {}
 		virtual void OnImGui() {}
 		virtual void OnEvent(Event& event) {}
 
