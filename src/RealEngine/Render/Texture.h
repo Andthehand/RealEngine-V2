@@ -13,6 +13,8 @@ namespace RealEngine {
 
 		uint32_t GetWidth() const { return m_Width; }
 		uint32_t GetHeight() const { return m_Height; }
+
+		static Ref<Texture2D> Create(const std::filesystem::path& path) { return CreateRef<Texture2D>(path); }
 	private:
 		uint32_t m_Width, m_Height;
 		uint32_t m_RendererID;

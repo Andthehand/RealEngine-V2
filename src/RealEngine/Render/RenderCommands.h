@@ -8,6 +8,7 @@ namespace RealEngine {
 	class RenderCommands {
 	public:
 		static void Init() {
+			RE_PROFILE_FUNCTION();
 			//glEnable(GL_BLEND);
 			//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			//glEnable(GL_DEPTH_TEST);
@@ -36,6 +37,7 @@ namespace RealEngine {
 		}
 
 		static void DrawIndexed(Ref<VertexArray> vertexArray, uint32_t indexCount = 0) {
+			RE_PROFILE_FUNCTION();
 			vertexArray->Bind();
 
 			uint32_t count = indexCount == 0 ? vertexArray->GetIndexBuffer()->GetCount() : indexCount;
@@ -44,7 +46,9 @@ namespace RealEngine {
 
 		//TODO: If you pass in 0 for count, it will draw the entire buffer by querying the buffer size from the vertexArray
 		static void DrawArrays(Ref<VertexArray> vertexArray, uint32_t count) {
+			RE_PROFILE_FUNCTION();
 			vertexArray->Bind();
+
 			glDrawArrays(GL_TRIANGLES, 0, count);
 		}
 	};

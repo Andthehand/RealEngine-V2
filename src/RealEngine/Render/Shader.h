@@ -25,6 +25,8 @@ namespace RealEngine {
 
 		void Bind() const;
 
+		static Ref<Shader> Create(const std::filesystem::path& file) { return CreateRef<Shader>(file); }
+		static Ref<Shader> Create(const char* vertexShaderSource, const char* fragmentShaderSource) { return CreateRef<Shader>(vertexShaderSource, fragmentShaderSource); }
 	private:
 		void CompileShader(const std::vector<ShaderProcessing>& shaderProcessing);
 		void ParseFile(const std::filesystem::path& file);

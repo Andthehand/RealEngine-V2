@@ -3,9 +3,16 @@
 #include <initializer_list>
 #include <vector>
 
-#define BUFFER_CLASS_TYPE(type) type(uint32_t size) : Utils::Buffer(Utils::type, size) {}\
-								type(void* data, uint32_t size) : Utils::Buffer(Utils::type, data, size) {}\
-								virtual const char* GetName() const override { return #type; }
+#define BUFFER_CLASS_TYPE(type)		type(uint32_t size) : Utils::Buffer(Utils::type, size) {}\
+									type(const void* data, uint32_t size) : Utils::Buffer(Utils::type, data, size) {}\
+									BUFFER_CLASS_CREATE(type)\
+									BUFFER_CLASS_NAME(type)
+
+#define BUFFER_CLASS_CREATE(type)	static Ref<type> Create(uint32_t size) { return CreateRef<type>(size); }\
+									static Ref<type> Create(const void* data, uint32_t size) { return CreateRef<type>(data, size); }
+
+
+#define BUFFER_CLASS_NAME(type)		virtual const char* GetName() const override { return #type; }
 
 namespace RealEngine {
 	namespace Utils {
@@ -131,12 +138,13 @@ namespace RealEngine {
 	public:
 		IndexBuffer(uint32_t count);
 		IndexBuffer(const uint32_t* data, uint32_t count);
-		
-		uint32_t GetCount() const { return m_Count; }
 
-		virtual const char* GetName() const override {
-			return "IndexBuffer";
-		}
+		static Ref<IndexBuffer> Create(uint32_t size) { return CreateRef<IndexBuffer>(size); } 
+		static Ref<IndexBuffer> Create(const uint32_t* data, uint32_t size) { return CreateRef<IndexBuffer>(data, size); }
+
+		BUFFER_CLASS_NAME(IndexBuffer)
+
+		uint32_t GetCount() const { return m_Count; }
 	private:
 		const uint32_t m_Count;
 	};

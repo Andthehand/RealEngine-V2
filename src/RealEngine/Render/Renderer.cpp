@@ -47,14 +47,14 @@ namespace RealEngine {
 			s_RenderData.Indices[i + 5] = i + 0;
         }
 
-        Ref<IndexBuffer> ebo = CreateRef<IndexBuffer>(s_RenderData.Indices, (uint32_t)sizeof(s_RenderData.Indices));
-        s_RenderData.VBO = CreateRef<VertexBuffer>((uint32_t)sizeof(s_RenderData.RenderData));
+        Ref<IndexBuffer> ebo = IndexBuffer::Create(s_RenderData.Indices, (uint32_t)sizeof(s_RenderData.Indices));
+        s_RenderData.VBO = VertexBuffer::Create((uint32_t)sizeof(s_RenderData.RenderData));
         s_RenderData.VBO->SetLayout(BufferAttributes{
 			{ DataType::Float3 },
 			{ DataType::Float2 }
 		});
 
-        s_RenderData.VAO = CreateScope<VertexArray>();
+        s_RenderData.VAO = VertexArray::Create();
         s_RenderData.VAO->SetVertexBuffer(s_RenderData.VBO);
         s_RenderData.VAO->SetIndexBuffer(ebo);
 
@@ -63,8 +63,8 @@ namespace RealEngine {
         s_RenderData.QuadVertexPositions[2] = { 0.5f,  0.5f, 0.0f, 1.0f };
         s_RenderData.QuadVertexPositions[3] = { -0.5f,  0.5f, 0.0f, 1.0f };
 
-        s_RenderData.QuadShader = CreateScope<Shader>("assets/shaders/uber.shader");
-        m_Texture = CreateRef<Texture2D>("assets/textures/RGBA_Test.png");
+        s_RenderData.QuadShader = Shader::Create("assets/shaders/uber.shader");
+        m_Texture = Texture2D::Create("assets/textures/RGBA_Test.png");
         RE_CORE_WARN(s_RenderData.VBO->ToString());
 	}
 
