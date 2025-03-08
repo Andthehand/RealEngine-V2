@@ -7,6 +7,7 @@ namespace RealEngine {
 	enum ShaderTypes {
 		Fragment,
 		Vertex,
+		Compute,
 
 		Unknown
 	};

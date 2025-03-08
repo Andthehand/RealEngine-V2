@@ -20,18 +20,31 @@ namespace RealEngine {
 				std::equal(a.begin(), a.end(), b.begin(), ichar_equals);
 		}
 
-		inline ShaderTypes CheckShaderType(const std::string_view view) {
+		inline ShaderTypes CheckShaderTypeString(const std::string_view view) {
 			if (iequals(view, "fragment"))	return Fragment;
 			if (iequals(view, "vertex"))	return Vertex;
+			if (iequals(view, "compute"))	return Compute;
 
 			RE_CORE_ASSERT(false, "Unknown Shader Type when parsing!");
 			return Unknown;
+		}
+
+		inline const std::string_view ShaderTypeToString(const ShaderTypes shaderType) {
+			switch (shaderType) {
+				case Fragment: return "Fragment";
+				case Vertex: return "Vertex";
+				case Compute: return "Compute";
+			}
+
+			RE_CORE_ASSERT(false, "ShaderType not implemented yet");
+			return "Unknown";
 		}
 
 		inline GLint ShaderTypeToGLType(const ShaderTypes shaderType) {
 			switch (shaderType) {
 				case Fragment: return GL_FRAGMENT_SHADER;
 				case Vertex: return GL_VERTEX_SHADER;
+				case Compute: return GL_COMPUTE_SHADER;
 			}
 
 			RE_CORE_ASSERT(false, "ShaderType not implemented yet");
@@ -80,7 +93,7 @@ namespace RealEngine {
                 glGetShaderInfoLog(shaderIDs.back(), maxLength, &maxLength, &infoLog[0]);
 
                 glGetShaderInfoLog(shaderIDs.back(), 512, NULL, &infoLog[0]);
-                RE_CORE_ERROR("Vertex shader compilation failed: {0}", infoLog.data());
+                RE_CORE_ERROR("{0} shader compilation failed: {1}", Utils::ShaderTypeToString(shaderCode.ShaderType), infoLog.data());
             }
         }
 
@@ -123,11 +136,6 @@ namespace RealEngine {
 		// Read in file to string
 		std::string fileString((std::istreambuf_iterator<char>(stream)), std::istreambuf_iterator<char>());
 
-		constexpr Utils::ValidShaderName shaderNames[] = {
-			{"fragment", Fragment},
-			{"vertex", Vertex}
-		};
-
 		std::vector<ShaderProcessing> shaderProcessing;
 		size_t offset = fileString.find("#type");
 		RE_CORE_ASSERT(offset != std::string::npos, "No shader code found in file!");
@@ -136,7 +144,7 @@ namespace RealEngine {
 			size_t endOfShaderType = fileString.find_first_of('\n', offset);
 
 			std::string_view shaderTypeString = std::string_view(fileString.data() + offset, endOfShaderType - offset);
-			ShaderTypes shaderType = Utils::CheckShaderType(shaderTypeString);
+			ShaderTypes shaderType = Utils::CheckShaderTypeString(shaderTypeString);
 
 			offset = fileString.find("#type", offset); // Get position of next shader code
 			shaderProcessing.push_back({ fileString.substr(endOfShaderType, offset - endOfShaderType), shaderType});
