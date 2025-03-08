@@ -2,6 +2,8 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 
+#include "VertexArray.h"
+
 namespace RealEngine {
 	class RenderCommands {
 	public:
@@ -31,6 +33,19 @@ namespace RealEngine {
 
 		static void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) {
 			glViewport(x, y, width, height);
+		}
+
+		static void DrawIndexed(Ref<VertexArray> vertexArray, uint32_t indexCount = 0) {
+			vertexArray->Bind();
+
+			uint32_t count = indexCount == 0 ? vertexArray->GetIndexBuffer()->GetCount() : indexCount;
+			glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+		}
+
+		//TODO: If you pass in 0 for count, it will draw the entire buffer by querying the buffer size from the vertexArray
+		static void DrawArrays(Ref<VertexArray> vertexArray, uint32_t count) {
+			vertexArray->Bind();
+			glDrawArrays(GL_TRIANGLES, 0, count);
 		}
 	};
 }

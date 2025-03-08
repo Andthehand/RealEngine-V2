@@ -3,8 +3,8 @@
 #include <initializer_list>
 #include <vector>
 
-#define BUFFER_CLASS_TYPE(type) type(const uint32_t size) : Utils::Buffer(Utils::type, size) {}\
-								type(void* data, const uint32_t size) : Utils::Buffer(Utils::type, data, size) {}\
+#define BUFFER_CLASS_TYPE(type) type(uint32_t size) : Utils::Buffer(Utils::type, size) {}\
+								type(void* data, uint32_t size) : Utils::Buffer(Utils::type, data, size) {}\
 								virtual const char* GetName() const override { return #type; }
 
 namespace RealEngine {
@@ -18,8 +18,8 @@ namespace RealEngine {
 		//This should never be used outside of the buffer class
 		class Buffer {
 		public:
-			Buffer(BufferType type, const uint32_t size);
-			Buffer(BufferType type, void* data, const uint32_t size);
+			Buffer(BufferType type, uint32_t size);
+			Buffer(BufferType type, const void* data, uint32_t size);
 			~Buffer();
 
 			virtual const char* GetName() const = 0;
@@ -32,7 +32,7 @@ namespace RealEngine {
 
 			BufferType GetType() const { return m_Type; }
 		private:
-			void CreateBuffer(void* data, uint32_t size);
+			void CreateBuffer(const void* data, uint32_t size);
 		protected:
 			uint32_t m_RendererID;
 			uint32_t m_Size;
@@ -129,7 +129,16 @@ namespace RealEngine {
 	//This is just a wrapper around the buffer class for typdefing
 	class IndexBuffer : public Utils::Buffer {
 	public:
-		BUFFER_CLASS_TYPE(IndexBuffer)
+		IndexBuffer(uint32_t count);
+		IndexBuffer(const uint32_t* data, uint32_t count);
+		
+		uint32_t GetCount() const { return m_Count; }
+
+		virtual const char* GetName() const override {
+			return "IndexBuffer";
+		}
+	private:
+		const uint32_t m_Count;
 	};
 
 	class ShaderStorageBuffer : public Utils::Buffer {
