@@ -36,6 +36,10 @@ namespace RealEngine {
 			glViewport(x, y, width, height);
 		}
 
+		static void SetWireframe(bool enabled) {
+			glPolygonMode(GL_FRONT_AND_BACK, enabled ? GL_LINE : GL_FILL);
+		}
+
 		static void DrawIndexed(Ref<VertexArray> vertexArray, uint32_t indexCount = 0) {
 			RE_PROFILE_FUNCTION();
 			vertexArray->Bind();
