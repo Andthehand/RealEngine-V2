@@ -109,6 +109,12 @@ namespace RealEngine {
 				}
 			});
 
+			glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xoffset, double yoffset) {
+				std::function<void(Event&)> callback = *(std::function<void(Event&)>*)glfwGetWindowUserPointer(window);
+				MouseScrolledEvent event((float)xoffset, (float)yoffset);
+				callback(event);
+			});
+
 			glfwSetWindowContentScaleCallback(m_Window, [](GLFWwindow* window, float xscale, float yscale) {
 				std::function<void(Event&)> callback = *(std::function<void(Event&)>*)glfwGetWindowUserPointer(window);
 

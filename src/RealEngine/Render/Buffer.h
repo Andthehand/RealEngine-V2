@@ -36,7 +36,7 @@ namespace RealEngine {
 			void Bind() const;
 			void Unbind() const;
 
-			void SetData(void* data, const uint32_t size);
+			virtual void SetData(void* data, const uint32_t size);
 
 			BufferType GetType() const { return m_Type; }
 		private:
@@ -160,6 +160,8 @@ namespace RealEngine {
 	public:
 		UniformBuffer(uint32_t size, uint32_t binding);
 		UniformBuffer(const void* data, uint32_t size, uint32_t binding);
+
+		virtual void SetData(void* data, const uint32_t size) override;
 
 		void SetBinding(uint32_t binding);
 		uint32_t GetBinding() const { return m_Binding; }

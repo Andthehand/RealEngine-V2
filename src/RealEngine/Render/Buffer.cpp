@@ -61,6 +61,13 @@ namespace RealEngine {
 		SetBinding(binding);
 	}
 
+	void UniformBuffer::SetData(void* data, const uint32_t size) {
+		RE_PROFILE_FUNCTION();
+		RE_CORE_ASSERT(size <= m_Size, "Data size is greater than buffer size");
+
+		glNamedBufferSubData(m_RendererID, 0, size, data);
+	}
+
 	void UniformBuffer::SetBinding(uint32_t binding) {
 		m_Binding = binding;
 		glBindBufferBase(GL_UNIFORM_BUFFER, binding, m_RendererID);

@@ -18,6 +18,12 @@
 #include "RealEngine/Render/RenderCommands.h"
 #include "RealEngine/Render/Renderer.h"
 #include "RealEngine/Render/Framebuffer.h"
+#include "RealEngine/Render/Texture.h"
+#include "RealEngine/Render/Shader.h"
+#include "RealEngine/Render/VertexArray.h"
+#include "RealEngine/Render/Buffer.h"
+
+#include "RealEngine/Render/EditorCamera.h"
 
 #include "RealEngine/Types/PathHash.h"
 #include "RealEngine/Types/StringHash.h"
