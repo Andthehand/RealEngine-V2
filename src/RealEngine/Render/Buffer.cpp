@@ -50,4 +50,19 @@ namespace RealEngine {
 	IndexBuffer::IndexBuffer(const uint32_t* data, uint32_t count)
 		: Buffer(Utils::BufferType::IndexBuffer, (void*)data, count * sizeof(uint32_t)), m_Count(count) {
 	}
+
+	UniformBuffer::UniformBuffer(uint32_t size, uint32_t binding) 
+		: Buffer(Utils::BufferType::UniformBuffer, size) {
+		SetBinding(binding);
+	}
+
+	UniformBuffer::UniformBuffer(const void* data, uint32_t size, uint32_t binding)
+		: Buffer(Utils::BufferType::UniformBuffer, data, size) {
+		SetBinding(binding);
+	}
+
+	void UniformBuffer::SetBinding(uint32_t binding) {
+		m_Binding = binding;
+		glBindBufferBase(GL_UNIFORM_BUFFER, binding, m_RendererID);
+	}
 }

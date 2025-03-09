@@ -20,6 +20,7 @@ namespace RealEngine {
 			VertexBuffer = GL_ARRAY_BUFFER,
 			IndexBuffer = GL_ELEMENT_ARRAY_BUFFER,
 			ShaderStorageBuffer = GL_SHADER_STORAGE_BUFFER,
+			UniformBuffer = GL_UNIFORM_BUFFER
 		};
 		
 		//This should never be used outside of the buffer class
@@ -139,12 +140,12 @@ namespace RealEngine {
 		IndexBuffer(uint32_t count);
 		IndexBuffer(const uint32_t* data, uint32_t count);
 
-		static Ref<IndexBuffer> Create(uint32_t size) { return CreateRef<IndexBuffer>(size); } 
-		static Ref<IndexBuffer> Create(const uint32_t* data, uint32_t size) { return CreateRef<IndexBuffer>(data, size); }
+		uint32_t GetCount() const { return m_Count; }
 
 		BUFFER_CLASS_NAME(IndexBuffer)
 
-		uint32_t GetCount() const { return m_Count; }
+		static Ref<IndexBuffer> Create(uint32_t size) { return CreateRef<IndexBuffer>(size); }
+		static Ref<IndexBuffer> Create(const uint32_t* data, uint32_t size) { return CreateRef<IndexBuffer>(data, size); }
 	private:
 		const uint32_t m_Count;
 	};
@@ -152,5 +153,22 @@ namespace RealEngine {
 	class ShaderStorageBuffer : public Utils::Buffer {
 	public:
 		BUFFER_CLASS_TYPE(ShaderStorageBuffer)
+	};
+
+	// You must set the binging point in the shader does not support automatic binding
+	class UniformBuffer : public Utils::Buffer {
+	public:
+		UniformBuffer(uint32_t size, uint32_t binding);
+		UniformBuffer(const void* data, uint32_t size, uint32_t binding);
+
+		void SetBinding(uint32_t binding);
+		uint32_t GetBinding() const { return m_Binding; }
+
+		BUFFER_CLASS_NAME(UniformBuffer)
+
+		static Ref<UniformBuffer> Create(uint32_t size, uint32_t binding) { return CreateRef<UniformBuffer>(size, binding); }
+		static Ref<UniformBuffer> Create(const void* data, uint32_t size, uint32_t binding) { return CreateRef<UniformBuffer>(data, size, binding); }
+	private:
+		uint32_t m_Binding;
 	};
 }
