@@ -51,9 +51,20 @@ namespace RealEngine {
 	class DataType {
 	public:
 		enum Type : uint8_t {
-			Float = 1,
-			Float2 = 2,
-			Float3 = 3,
+			Float,
+			Float2,
+			Float3,
+			Float4,
+
+			Uint,
+			Uint2,
+			Uint3,
+			Uint4,
+
+			Int,
+			Int2,
+			Int3,
+			Int4,
 
 			Undefined
 		};
@@ -61,7 +72,42 @@ namespace RealEngine {
 		DataType() = delete;
 		DataType(Type type) : m_Type(type) {}
 
-		uint8_t GetTypeElementCount() { return m_Type; }
+		Type GetType() const { return m_Type; }
+
+		uint8_t GetTypeElementCount() { 
+			switch (m_Type) {
+				case RealEngine::DataType::Float:
+					return 1;
+				case RealEngine::DataType::Float2:
+					return 2;
+				case RealEngine::DataType::Float3:
+					return 3;
+				case RealEngine::DataType::Float4:
+					return 4;
+				case RealEngine::DataType::Uint:
+					return 1;
+				case RealEngine::DataType::Uint2:
+					return 2;
+				case RealEngine::DataType::Uint3:
+					return 3;
+				case RealEngine::DataType::Uint4:
+					return 4;
+				case RealEngine::DataType::Int:
+					return 1;
+				case RealEngine::DataType::Int2:
+					return 2;
+				case RealEngine::DataType::Int3:
+					return 3;
+				case RealEngine::DataType::Int4:
+					return 4;
+				case RealEngine::DataType::Undefined:
+					RE_CORE_ASSERT(false, "Undefined is your selected DataType?");
+					return 0;
+			}
+
+			RE_CORE_ASSERT(false, "DataType not implmented yet!");
+			return 0;
+		}
 
 		uint8_t GetTypeSizeOf() { 
 			switch (m_Type)
@@ -69,7 +115,18 @@ namespace RealEngine {
 				case DataType::Float:
 				case DataType::Float2:
 				case DataType::Float3:
+				case DataType::Float4:
 					return sizeof(float);
+				case DataType::Uint:
+				case DataType::Uint2:
+				case DataType::Uint3:
+				case DataType::Uint4:
+					return sizeof(uint32_t);
+				case DataType::Int:
+				case DataType::Int2:
+				case DataType::Int3:
+				case DataType::Int4:
+					return sizeof(int32_t);
 				case RealEngine::DataType::Undefined:
 					RE_CORE_ASSERT(false, "Undefined is your selected DataType?");
 					return 0;
@@ -84,7 +141,21 @@ namespace RealEngine {
 				case DataType::Float:	
 				case DataType::Float2:	
 				case DataType::Float3:	
+				case DataType::Float4:
 					return GL_FLOAT;
+				case DataType::Uint:
+				case DataType::Uint2:
+				case DataType::Uint3:
+				case DataType::Uint4:
+					return GL_UNSIGNED_INT;
+				case DataType::Int:
+				case DataType::Int2:
+				case DataType::Int3:
+				case DataType::Int4:
+					return GL_INT;
+				case RealEngine::DataType::Undefined:
+					RE_CORE_ASSERT(false, "Undefined is your selected DataType?");
+					return 0;
 			}
 
 			RE_CORE_ASSERT(false, "DataType not implmented yet!");

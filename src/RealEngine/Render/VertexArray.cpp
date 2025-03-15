@@ -41,7 +41,24 @@ namespace RealEngine {
 			const std::vector<BufferAttribute>& attribs = layout.m_VertexAttribs;
 			for (uint8_t i = 0; i < attribs.size(); i++) {
 				const BufferAttribute& attrib = attribs[i];
-				glVertexAttribPointer(index, attrib.Size, attrib.Type.GetGLType(), GL_FALSE, layout.Stride, (void*)(uintptr_t)attrib.Offset);
+				
+				switch (attrib.Type.GetType()) {
+					case DataType::Float:
+					case DataType::Float2:
+					case DataType::Float3:
+					case DataType::Float4:
+						glVertexAttribPointer(index, attrib.Size, attrib.Type.GetGLType(), GL_FALSE, layout.Stride, (void*)(uintptr_t)attrib.Offset);
+						break;
+					case DataType::Uint:
+					case DataType::Uint2:
+					case DataType::Uint3:
+					case DataType::Uint4:
+						glVertexAttribIPointer(index, attrib.Size, attrib.Type.GetGLType(), layout.Stride, (void*)(uintptr_t)attrib.Offset);
+						break;
+					default:
+						RE_CORE_ASSERT(false, "DataType not supported yet!");
+						break;
+				}
 				glVertexAttribDivisor(index, attrib.InstanceDivisor);
 				glEnableVertexAttribArray(index);
 				index++;
