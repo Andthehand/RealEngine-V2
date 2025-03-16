@@ -66,6 +66,9 @@ namespace RealEngine {
 			Int3,
 			Int4,
 
+			Byte,
+			UByte,
+
 			Undefined
 		};
 	public:
@@ -76,30 +79,20 @@ namespace RealEngine {
 
 		uint8_t GetTypeElementCount() { 
 			switch (m_Type) {
-				case RealEngine::DataType::Float:
-					return 1;
-				case RealEngine::DataType::Float2:
-					return 2;
-				case RealEngine::DataType::Float3:
-					return 3;
-				case RealEngine::DataType::Float4:
-					return 4;
-				case RealEngine::DataType::Uint:
-					return 1;
-				case RealEngine::DataType::Uint2:
-					return 2;
-				case RealEngine::DataType::Uint3:
-					return 3;
-				case RealEngine::DataType::Uint4:
-					return 4;
-				case RealEngine::DataType::Int:
-					return 1;
-				case RealEngine::DataType::Int2:
-					return 2;
-				case RealEngine::DataType::Int3:
-					return 3;
-				case RealEngine::DataType::Int4:
-					return 4;
+				case RealEngine::DataType::Float:		return 1;
+				case RealEngine::DataType::Float2:		return 2;
+				case RealEngine::DataType::Float3:		return 3;
+				case RealEngine::DataType::Float4:		return 4;
+				case RealEngine::DataType::Uint:		return 1;
+				case RealEngine::DataType::Uint2:		return 2;
+				case RealEngine::DataType::Uint3:		return 3;
+				case RealEngine::DataType::Uint4:		return 4;
+				case RealEngine::DataType::Int:			return 1;
+				case RealEngine::DataType::Int2:		return 2;
+				case RealEngine::DataType::Int3:		return 3;
+				case RealEngine::DataType::Int4:		return 4;
+				case RealEngine::DataType::Byte:		return 1;
+				case RealEngine::DataType::UByte:		return 1;
 				case RealEngine::DataType::Undefined:
 					RE_CORE_ASSERT(false, "Undefined is your selected DataType?");
 					return 0;
@@ -127,6 +120,9 @@ namespace RealEngine {
 				case DataType::Int3:
 				case DataType::Int4:
 					return sizeof(int32_t);
+				case DataType::Byte:
+				case DataType::UByte:
+					return sizeof(uint8_t);
 				case RealEngine::DataType::Undefined:
 					RE_CORE_ASSERT(false, "Undefined is your selected DataType?");
 					return 0;
@@ -153,6 +149,10 @@ namespace RealEngine {
 				case DataType::Int3:
 				case DataType::Int4:
 					return GL_INT;
+				case DataType::Byte:
+					return GL_BYTE;
+				case DataType::UByte:
+					return GL_UNSIGNED_BYTE;
 				case RealEngine::DataType::Undefined:
 					RE_CORE_ASSERT(false, "Undefined is your selected DataType?");
 					return 0;

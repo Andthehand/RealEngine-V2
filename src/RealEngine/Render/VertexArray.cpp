@@ -53,6 +53,8 @@ namespace RealEngine {
 					case DataType::Uint2:
 					case DataType::Uint3:
 					case DataType::Uint4:
+					case DataType::Byte:
+					case DataType::UByte:
 						glVertexAttribIPointer(index, attrib.Size, attrib.Type.GetGLType(), layout.Stride, (void*)(uintptr_t)attrib.Offset);
 						break;
 					default:

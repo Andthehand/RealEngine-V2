@@ -21,4 +21,26 @@ namespace RealEngine {
 	
 		PathHash m_FilePath;
 	};
+
+	class Texture2DArray {
+	public:
+		Texture2DArray(const std::initializer_list<std::filesystem::path> paths, uint32_t mipLevels = 1);
+		~Texture2DArray();
+
+		void Bind(uint32_t slot = 0) const;
+
+		uint32_t GetWidth() const { return m_Width; }
+		uint32_t GetHeight() const { return m_Height; }
+
+		static Ref<Texture2DArray> Create(const std::initializer_list<std::filesystem::path> paths) { return CreateRef<Texture2DArray>(paths); }
+	private:
+		struct TextureData {
+			int Width = 0;
+			int Height = 0;
+			int Channels = 0;
+		};
+	private:
+		uint32_t m_Width, m_Height;
+		uint32_t m_RendererID;
+	};
 }
