@@ -10,15 +10,46 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-windows-vs2022:
-    name: Windows (VS2022)
-    runs-on: windows-latest
-    timeout-minutes: 6
-    
+  build:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
     steps:
-    - uses: actions/checkout@v4
+    - name: Install dependencies
+      if: matrix.os == 'ubuntu-latest'
+      uses: awalsh128/cache-apt-pkgs-action@latest
       with:
-        submodules: 'recursive'
+        packages: libwayland-dev libxkbcommon-dev xorg-dev
+        version: 1.0
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+          submodules: true # Pull down submodules then check if we have a valid chache
+
+    - name: Submodule Hash
+      id: submodule-hash
+      uses: Andthehand/submodule-version-hash-action@main
+      with: 
+        path: '.'
+
+    - name : Cache Submodules
+      id: cache-submodule
+      uses: actions/cache@v4
+      with:
+        path: |
+          vendor
+          build/vendor
+        key: ${{ matrix.os }}-submodules-${{ steps.submodule-hash.outputs.sha256 }}
+
+    - name: Update git submodules
+      if: steps.cache-submodule.outputs.cache-hit != 'true'
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
 
     - name: Configure CMake
       run: >
@@ -27,28 +58,3 @@ jobs:
     
     - name: Build
       run: cmake --build ${{ github.workspace }}/build --parallel
-
-  build-linux-clang:
-      name: Linux (Clang)
-      runs-on: ubuntu-latest
-      timeout-minutes: 6
-      env:
-        CC: clang
-      
-      steps:
-      - uses: actions/checkout@v4
-        with:
-          submodules: 'recursive'
-
-      - name: Install dependencies
-        run: |
-          sudo apt update
-          sudo apt install libwayland-dev libxkbcommon-dev xorg-dev
-  
-      - name: Configure CMake
-        run: >
-          cmake -B ${{ github.workspace }}/build 
-          -DTRACY_ENABLE=OFF
-      
-      - name: Build
-        run: cmake --build ${{ github.workspace }}/build --parallel
