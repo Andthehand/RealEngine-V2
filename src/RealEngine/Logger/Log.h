@@ -1,6 +1,6 @@
 #pragma once
-#include "Core.h"
-#include "Profiler.h"
+#include "RealEngine/Core/Core.h"
+#include "RealEngine/Core/Profiler.h"
 
 // This ignores all warnings raised inside External headers
 #pragma warning(push, 0)
