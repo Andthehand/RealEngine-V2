@@ -1,5 +1,4 @@
 #include "Application.h"
-#include "Log.h"
 
 #include "RealEngine/Render/Renderer.h"
 

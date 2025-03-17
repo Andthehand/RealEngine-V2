@@ -2,7 +2,7 @@
 #include <filesystem>
 
 #include "RealEngine/Core/Core.h"
-#include "RealEngine/Core/Log.h"
+#include "RealEngine/Logger/Log.h"
 
 #ifdef RE_ENABLE_ASSERTS
 

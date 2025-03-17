@@ -1,6 +1,7 @@
 #pragma once
 #include "RealEngine.h"
-#include "Log.h"
+#include "RealEngine/Logger/Log.h"
+#include "RealEngine/Logger/GLMFormatter.h"
 
 #ifdef RE_PLATFORM_WINDOWS
 extern "C"

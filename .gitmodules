@@ -17,3 +17,6 @@
 	path = vendor/ImGui
 	url = https://github.com/Andthehand/imgui.git
 	branch = docking
+[submodule "vendor/rapidyaml"]
+	path = vendor/rapidyaml
+	url = https://github.com/biojppm/rapidyaml.git
