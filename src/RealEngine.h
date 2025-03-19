@@ -11,6 +11,8 @@
 
 #include "RealEngine/Logger/Log.h"
 #include "RealEngine/Logger/GLMFormatter.h"
+#include "RealEngine/Logger/YAMLFormatter.h"
+#include "RealEngine/Logger/STDFormatter.h"
 
 #include "RealEngine/Events/Event.h"
 #include "RealEngine/Events/KeyEvents.h"

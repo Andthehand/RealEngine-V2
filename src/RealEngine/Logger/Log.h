@@ -18,7 +18,6 @@ namespace RealEngine {
 		static Ref<spdlog::logger> s_CoreLogger;
 		static Ref<spdlog::logger> s_ClientLogger;
 	};
-
 }
 
 //Core log macros

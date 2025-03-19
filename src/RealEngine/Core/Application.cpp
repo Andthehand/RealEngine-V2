@@ -2,6 +2,8 @@
 
 #include "RealEngine/Render/Renderer.h"
 
+#include "yaml.h"
+
 namespace RealEngine {
 	Application::Application(const ApplicationSpecification& specification)
 		: m_Specification(specification) {
@@ -9,6 +11,8 @@ namespace RealEngine {
 		
 		RE_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
+
+		SetYAMLErrorCallbacks();
 
 		m_Window.SetEventCallback(RE_BIND_EVENT_FN(Application::OnEvent));
 		m_Window.Init(m_Specification.Name.c_str(), 1280, 720);
