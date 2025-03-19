@@ -7,7 +7,6 @@ option ( TRACY_ENABLE "" ON )
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DRE_DEBUG")
 
 set(XXHASH_BUILD_ENABLE_INLINE_API ON) #optional
 set(XXHASH_BUILD_XXHSUM OFF) #optional
@@ -50,14 +49,19 @@ include_directories(RealEngine PRIVATE
 )
 
 target_precompile_headers(RealEngine PRIVATE "src/repch.h")
+target_compile_definitions(RealEngine
+    PUBLIC
+      $<$<CONFIG:Debug>:RE_DEBUG>
+      $<$<CONFIG:RelWithDebInfo>:RE_DEBUG>
+)
 
 # Platform detection
 if (WIN32)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX")
+	target_compile_options(RealEngine PUBLIC /W4 /WX)
 
-	add_compile_definitions(RE_PLATFORM_WINDOWS)
+	target_compile_definitions(RealEngine PUBLIC RE_PLATFORM_WINDOWS)
 elseif(UNIX AND NOT APPLE)
-	add_compile_definitions(RE_PLATFORM_LINUX)
+	target_compile_definitions(RealEngine PUBLIC RE_PLATFORM_LINUX)
 endif()
 
 if(MSVC)
