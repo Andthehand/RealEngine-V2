@@ -59,19 +59,31 @@ namespace RealEngine {
 
 
 	Texture2DArray::Texture2DArray(const std::initializer_list<std::filesystem::path> paths, uint32_t mipLevels) {
+		LoadTextures(paths.begin(), (uint32_t)paths.size(), mipLevels);
+	}
+
+	Texture2DArray::Texture2DArray(const std::vector<std::filesystem::path>& paths, uint32_t mipLevels) {
+		LoadTextures(paths.begin(), (uint32_t)paths.size(), mipLevels);
+	}
+
+	Texture2DArray::~Texture2DArray() {
+		RE_PROFILE_FUNCTION();
+		glDeleteTextures(1, &m_RendererID);
+	}
+
+	template<class It>
+	void Texture2DArray::LoadTextures(It begin, uint32_t numTextures, uint32_t mipLevels) {
 		RE_PROFILE_FUNCTION();
 
-		uint32_t numTextures = (uint32_t)paths.size();
 		RE_CORE_ASSERT(numTextures != 0, "Can't make Texuture without any textures");
-
 		TextureData* textureData = new TextureData[numTextures];
-		stbi_uc** data = new stbi_uc *[numTextures];
+		stbi_uc** data = new stbi_uc * [numTextures];
 
 		int checkChannel = -1;
 		stbi_set_flip_vertically_on_load(1);
 		//Load all of the images into memory
 		for (uint32_t i = 0; i < numTextures; i++) {
-			const std::filesystem::path& path = *(paths.begin() + i);
+			const std::filesystem::path& path = *(begin + i);
 
 			RE_CORE_ASSERT(i < numTextures, "i is outside the range of allocated memory");
 			data[i] = stbi_load(path.string().c_str(), &textureData[i].Width, &textureData[i].Height, &textureData[i].Channels, 0);
@@ -92,9 +104,9 @@ namespace RealEngine {
 
 		GLenum internalFormat = 0, dataFormat = 0;
 		switch (checkChannel) {
-			case 3: internalFormat = GL_RGB8; dataFormat = GL_RGB; break;
-			case 4: internalFormat = GL_RGBA8; dataFormat = GL_RGBA; break;
-			default: RE_CORE_ASSERT(false, "Grayscale Images are not supported!");
+		case 3: internalFormat = GL_RGB8; dataFormat = GL_RGB; break;
+		case 4: internalFormat = GL_RGBA8; dataFormat = GL_RGBA; break;
+		default: RE_CORE_ASSERT(false, "Grayscale Images are not supported!");
 		}
 
 		//Create TextureArray and allocate memory
@@ -121,11 +133,6 @@ namespace RealEngine {
 		}
 		delete[] data;
 		delete[] textureData;
-	}
-
-	Texture2DArray::~Texture2DArray() {
-		RE_PROFILE_FUNCTION();
-		glDeleteTextures(1, &m_RendererID);
 	}
 
 	void Texture2DArray::Bind(uint32_t slot) const {
