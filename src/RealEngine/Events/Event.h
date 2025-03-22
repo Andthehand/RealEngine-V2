@@ -1,8 +1,6 @@
 #pragma once
 #include <string>
 
-#include <spdlog/fmt/bundled/core.h>
-
 namespace RealEngine {
 	enum class EventType {
 		None = 0,

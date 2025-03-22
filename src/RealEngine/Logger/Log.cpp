@@ -1,29 +1,33 @@
 #include "Log.h"
 
-#include <spdlog/sinks/stdout_color_sinks.h>
-#include <spdlog/sinks/basic_file_sink.h>
+#pragma warning(push, 0)
+#include <quill/Backend.h>
+#include <quill/Frontend.h>
+#include <quill/sinks/ConsoleSink.h>
+#include <quill/sinks/FileSink.h>
+#pragma warning(pop)
 
 namespace RealEngine {
-
-	Ref<spdlog::logger> Log::s_CoreLogger;
-	Ref<spdlog::logger> Log::s_ClientLogger;
+	quill::Logger* Log::s_CoreLogger;
+	quill::Logger* Log::s_ClientLogger;
 
 	void Log::Init() {
-		std::vector<spdlog::sink_ptr> logSinks;
-		logSinks.emplace_back(CreateRef<spdlog::sinks::stdout_color_sink_mt>());
-		logSinks.emplace_back(CreateRef<spdlog::sinks::basic_file_sink_mt>("logs/RealEngine.log", true));
+		quill::Backend::start();
 
-		logSinks[0]->set_pattern("%^[%T] %n: %v%$");
-		logSinks[1]->set_pattern("[%T] [%l] %n: %v");
+		auto console_sink = quill::Frontend::create_or_get_sink<quill::ConsoleSink>("RealEngine_Console_Sink");
+		auto file_sink = quill::Frontend::create_or_get_sink<quill::FileSink>("log/RealEngine.log", []() {
+			quill::FileSinkConfig cfg;
+			cfg.set_open_mode('w');
+			cfg.set_filename_append_option(quill::FilenameAppendOption::None);
+			return cfg;
+		}(), quill::FileEventNotifier{});
 
-		s_CoreLogger = CreateRef<spdlog::logger>("RealEngine", begin(logSinks), end(logSinks));
-		spdlog::register_logger(s_CoreLogger);
-		s_CoreLogger->set_level(spdlog::level::trace);
-		s_CoreLogger->flush_on(spdlog::level::trace);
+		s_CoreLogger = quill::Frontend::create_or_get_logger("RealEngine", { console_sink, file_sink },
+			quill::PatternFormatterOptions("[%(time)] [%(log_level)] %(logger): %(message)", "%H:%M:%S"));
+		s_ClientLogger = quill::Frontend::create_or_get_logger("APP", { console_sink, file_sink },
+			quill::PatternFormatterOptions("[%(time)] [%(log_level)] %(logger): %(message)", "%H:%M:%S"));
 
-		s_ClientLogger = CreateRef<spdlog::logger>("APP", begin(logSinks), end(logSinks));
-		spdlog::register_logger(s_ClientLogger);
-		s_ClientLogger->set_level(spdlog::level::trace);
-		s_ClientLogger->flush_on(spdlog::level::trace);
+		s_CoreLogger->set_log_level(quill::LogLevel::TraceL1);
+		s_ClientLogger->set_log_level(quill::LogLevel::TraceL1);
 	}
 }

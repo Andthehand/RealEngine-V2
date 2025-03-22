@@ -1,7 +1,6 @@
 #pragma once
-#include <spdlog/fmt/bundled/format.h>
 
-#define RE_PROFILE 1
+#define RE_PROFILE 0
 
 #if RE_PROFILE && defined(TRACY_ENABLE) 
 	#define TRACY_CALLSTACK 8

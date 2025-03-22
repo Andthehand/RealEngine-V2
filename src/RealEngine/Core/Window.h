@@ -2,6 +2,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <functional>
+
 #include "RealEngine/Events/Event.h"
 
 namespace RealEngine {

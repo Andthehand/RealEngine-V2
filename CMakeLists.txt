@@ -19,7 +19,7 @@ set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(RYML_INSTALL OFF CACHE BOOL "" FORCE)
 
 # Makes static libraries to be linked later
-add_subdirectory(vendor/spdlog)
+add_subdirectory(vendor/quill)
 add_subdirectory(vendor/tracy)
 add_subdirectory(vendor/glfw)
 add_subdirectory(vendor/glad)
@@ -71,4 +71,4 @@ endif()
 
 # links the spdlog static library to the executable
 target_link_libraries(RealEngine 
-spdlog Tracy::TracyClient glfw glad glm xxHash::xxhash imgui ryml::ryml)
+quill::quill Tracy::TracyClient glfw glad glm xxHash::xxhash imgui ryml::ryml)
