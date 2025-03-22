@@ -14,7 +14,7 @@ namespace RealEngine {
 		int width, height, channels;
 		unsigned char* data = stbi_load(path.string().c_str(), &width, &height, &channels, 0);
 		
-		RE_CORE_ASSERT(data, "Failed to load image!");
+		RE_CORE_ASSERT(data, "Failed to load image with path: {}", path);
 		m_Width = width;
 		m_Height = height;
 
@@ -85,9 +85,8 @@ namespace RealEngine {
 		for (uint32_t i = 0; i < numTextures; i++) {
 			const std::filesystem::path& path = *(begin + i);
 
-			RE_CORE_ASSERT(i < numTextures, "i is outside the range of allocated memory");
 			data[i] = stbi_load(path.string().c_str(), &textureData[i].Width, &textureData[i].Height, &textureData[i].Channels, 0);
-			RE_CORE_ASSERT(data[i], "Failed to load image!");
+			RE_CORE_ASSERT(data, "Failed to load image with path: {}", path);
 
 			//Set data only on the first texture upload
 			if (checkChannel == -1) {
@@ -99,14 +98,15 @@ namespace RealEngine {
 			//Make sure the channels, width, and height are the same
 			RE_CORE_ASSERT(checkChannel == textureData[i].Channels &&
 				m_Width == (uint32_t)textureData[i].Width &&
-				m_Height == (uint32_t)textureData[i].Height, "Channel, Width, or height do not match while creating TextureArray");
+				m_Height == (uint32_t)textureData[i].Height, 
+				"Channel, Width, or height do not match while creating TextureArray");
 		}
 
 		GLenum internalFormat = 0, dataFormat = 0;
 		switch (checkChannel) {
-		case 3: internalFormat = GL_RGB8; dataFormat = GL_RGB; break;
-		case 4: internalFormat = GL_RGBA8; dataFormat = GL_RGBA; break;
-		default: RE_CORE_ASSERT(false, "Grayscale Images are not supported!");
+			case 3: internalFormat = GL_RGB8; dataFormat = GL_RGB; break;
+			case 4: internalFormat = GL_RGBA8; dataFormat = GL_RGBA; break;
+			default: RE_CORE_ASSERT(false, "Grayscale Images are not supported!");
 		}
 
 		//Create TextureArray and allocate memory
@@ -125,7 +125,6 @@ namespace RealEngine {
 		glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
 
 		//Delete rescources
 		for (uint32_t i = 0; i < numTextures; i++) {
