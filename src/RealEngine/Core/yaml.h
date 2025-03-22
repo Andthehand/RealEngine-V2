@@ -9,6 +9,8 @@ namespace RealEngine {
 
 		std::filesystem::path codeFileName = std::filesystem::path(std::string_view(loc.name.begin(), loc.name.end()));
 		RE_CORE_CRITICAL("Location: {0}:{1}:{2}", codeFileName.filename(), loc.line, loc.col);
+
+		abort();
 	}
 
 	inline void SetYAMLErrorCallbacks() {
