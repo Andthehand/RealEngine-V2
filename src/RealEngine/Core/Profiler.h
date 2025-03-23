@@ -1,10 +1,11 @@
 #pragma once
 
-#define RE_PROFILE 0
+#define RE_PROFILE 1
 
 #if RE_PROFILE && defined(TRACY_ENABLE) 
 	#define TRACY_CALLSTACK 8
 	#include <tracy/Tracy.hpp>
+	#include <quill/DeferredFormatCodec.h>
 
 	namespace RealEngine {
 		inline void InternalProfilelog(std::string text) {
@@ -25,11 +26,11 @@
 
 	#define RE_INTERNAL_PROFILE_FORMAT(text, ...) text
 
-	#define RE_INTERNAL_PROFILE_TRACE_TRACE(text, ...)		::RealEngine::InternalProfilelog(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(fmt::format(text, __VA_ARGS__) ,) text))
-	#define RE_INTERNAL_PROFILE_TRACE_INFO(text, ...)		::RealEngine::InternalProfilelogColor(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(fmt::format(text, __VA_ARGS__) ,) text), tracy::Color::Green)
-	#define RE_INTERNAL_PROFILE_TRACE_WARN(text, ...)		::RealEngine::InternalProfilelogColor(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(fmt::format(text, __VA_ARGS__) ,) text), tracy::Color::Yellow)
-	#define RE_INTERNAL_PROFILE_TRACE_ERROR(text, ...)		::RealEngine::InternalProfilelogColor(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(fmt::format(text, __VA_ARGS__) ,) text), tracy::Color::Red)
-	#define RE_INTERNAL_PROFILE_TRACE_CRITICAL(text, ...)	::RealEngine::InternalProfilelogColor(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(fmt::format(text, __VA_ARGS__) ,) text), tracy::Color::Blue)
+	#define RE_INTERNAL_PROFILE_TRACE_TRACE(text, ...)		::RealEngine::InternalProfilelog(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(fmtquill::format(text, __VA_ARGS__) ,) text))
+	#define RE_INTERNAL_PROFILE_TRACE_INFO(text, ...)		::RealEngine::InternalProfilelogColor(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(fmtquill::format(text, __VA_ARGS__) ,) text), tracy::Color::Green)
+	#define RE_INTERNAL_PROFILE_TRACE_WARN(text, ...)		::RealEngine::InternalProfilelogColor(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(fmtquill::format(text, __VA_ARGS__) ,) text), tracy::Color::Yellow)
+	#define RE_INTERNAL_PROFILE_TRACE_ERROR(text, ...)		::RealEngine::InternalProfilelogColor(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(fmtquill::format(text, __VA_ARGS__) ,) text), tracy::Color::Red)
+	#define RE_INTERNAL_PROFILE_TRACE_CRITICAL(text, ...)	::RealEngine::InternalProfilelogColor(RE_INTERNAL_PROFILE_FORMAT(__VA_OPT__(fmtquill::format(text, __VA_ARGS__) ,) text), tracy::Color::Blue)
 
 #else
 	#define RE_PROFILE_FRAME()
