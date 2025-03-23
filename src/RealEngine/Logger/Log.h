@@ -5,6 +5,11 @@
 #pragma warning(push, 0)
 #include <quill/Logger.h>
 #include <quill/LogMacros.h>
+
+#include <quill/Backend.h>
+#include <quill/Frontend.h>
+#include <quill/sinks/ConsoleSink.h>
+#include <quill/sinks/FileSink.h>
 #pragma warning(pop)
 
 namespace RealEngine {
