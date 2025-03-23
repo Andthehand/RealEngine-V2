@@ -138,7 +138,7 @@ namespace RealEngine {
 
 		std::vector<ShaderProcessing> shaderProcessing;
 		size_t offset = fileString.find("#type");
-		RE_CORE_ASSERT(offset != std::string::npos, "No shader code found in file {0}", file);
+		RE_CORE_ASSERT(offset != std::string::npos, "No shader code found in file {0}", file.string());
 		while (offset != std::string::npos) {
 			offset = fileString.find_first_not_of(' ', offset += 5); // Jump to first non whitespace after #type hence += 5
 			size_t endOfShaderType = fileString.find_first_of('\n', offset);

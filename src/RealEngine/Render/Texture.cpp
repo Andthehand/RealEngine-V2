@@ -14,7 +14,7 @@ namespace RealEngine {
 		int width, height, channels;
 		unsigned char* data = stbi_load(path.string().c_str(), &width, &height, &channels, 0);
 		
-		RE_CORE_ASSERT(data, "Failed to load image with path: {}", path);
+		RE_CORE_ASSERT(data, "Failed to load image with path: {}", path.string());
 		m_Width = width;
 		m_Height = height;
 
@@ -86,7 +86,7 @@ namespace RealEngine {
 			const std::filesystem::path& path = *(begin + i);
 
 			data[i] = stbi_load(path.string().c_str(), &textureData[i].Width, &textureData[i].Height, &textureData[i].Channels, 0);
-			RE_CORE_ASSERT(data, "Failed to load image with path: {}", path);
+			RE_CORE_ASSERT(data, "Failed to load image with path: {}", path.string());
 
 			//Set data only on the first texture upload
 			if (checkChannel == -1) {
