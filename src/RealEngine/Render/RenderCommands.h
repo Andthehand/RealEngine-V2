@@ -7,7 +7,7 @@
 namespace RealEngine {
 	class RenderCommands {
 	public:
-		static void Init() {
+		static inline void Init() {
 			RE_PROFILE_FUNCTION();
 			//glEnable(GL_BLEND);
 			//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -24,23 +24,33 @@ namespace RealEngine {
 			RE_CORE_INFO("    GLSL Version: {0}", glslVersion);
 		}
 
-		static void Clear() {
+		static inline void Clear() {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
 
-		static void SetClearColor(const glm::vec4& color) {
+		static inline void SetClearColor(const glm::vec4& color) {
 			glClearColor(color.r, color.g, color.b, color.a);
 		}
 
-		static void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) {
+		static inline void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) {
 			glViewport(x, y, width, height);
 		}
 
-		static void SetWireframe(bool enabled) {
+		static inline void SetWireframe(bool enabled) {
 			glPolygonMode(GL_FRONT_AND_BACK, enabled ? GL_LINE : GL_FILL);
 		}
 
-		static void DrawIndexed(Ref<VertexArray> vertexArray, uint32_t indexCount = 0) {
+		static inline void SetFaceCulling(bool enabled) {
+			if (enabled) {
+				glEnable(GL_CULL_FACE);
+				glCullFace(GL_BACK);
+			}
+			else {
+				glDisable(GL_CULL_FACE);
+			}
+		}
+
+		static inline void DrawIndexed(Ref<VertexArray> vertexArray, uint32_t indexCount = 0) {
 			RE_PROFILE_FUNCTION();
 			vertexArray->Bind();
 
@@ -49,7 +59,7 @@ namespace RealEngine {
 		}
 
 		//TODO: If you pass in 0 for count, it will draw the entire buffer by querying the buffer size from the vertexArray
-		static void DrawArrays(Ref<VertexArray> vertexArray, uint32_t count) {
+		static inline void DrawArrays(Ref<VertexArray> vertexArray, uint32_t count) {
 			RE_PROFILE_FUNCTION();
 			vertexArray->Bind();
 
