@@ -25,6 +25,13 @@ namespace RealEngine {
 
 		void Bind() const;
 
+		void SetUniformint(const std::string& name, int value);
+
+		void SetUniformFloat(const std::string& name, float value);
+		void SetUniformVec2(const std::string& name, const glm::vec2& value);
+		void SetUniformVec3(const std::string& name, const glm::vec3& value);
+		void SetUniformVec4(const std::string& name, const glm::vec4& value);
+
 		static Ref<Shader> Create(const std::filesystem::path& file) { return CreateRef<Shader>(file); }
 		static Ref<Shader> Create(const char* vertexShaderSource, const char* fragmentShaderSource) { return CreateRef<Shader>(vertexShaderSource, fragmentShaderSource); }
 	private:
