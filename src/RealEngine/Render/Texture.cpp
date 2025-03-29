@@ -104,11 +104,11 @@ namespace RealEngine {
 	}
 
 	Texture2DArray::Texture2DArray(const Texture2DArrayCreateInfo& info, const void** data)
-		: m_Width(info.Width), m_Height(info.Height) {
+		: m_Width(info.Width), m_Length(info.Height) {
 		RE_PROFILE_FUNCTION();
 
 		RE_CORE_ASSERT(info.NumTextures > 0, "Cannot create TextureArray with no textures");
-		RE_CORE_ASSERT(m_Width > 0 && m_Height > 0, "Width and Height must be greater than 0 for TextureArray");
+		RE_CORE_ASSERT(m_Width > 0 && m_Length > 0, "Width and Height must be greater than 0 for TextureArray");
 		RE_CORE_ASSERT(info.MipLevels > 0, "MipLevels must be greater than 0 for TextureArray");
 
 		// Create an empty texture array with no data, will be filled later if needed
@@ -153,13 +153,13 @@ namespace RealEngine {
 			if (checkChannel == -1) {
 				checkChannel = textureData[i].Channels;
 				m_Width = textureData[i].Width;
-				m_Height = textureData[i].Height;
+				m_Length = textureData[i].Height;
 			}
 
 			//Make sure the channels, width, and height are the same
 			RE_CORE_ASSERT(checkChannel == textureData[i].Channels &&
 				m_Width == (uint32_t)textureData[i].Width &&
-				m_Height == (uint32_t)textureData[i].Height, 
+				m_Length == (uint32_t)textureData[i].Height, 
 				"Channel, Width, or height do not match while creating TextureArray");
 		}
 
@@ -185,18 +185,18 @@ namespace RealEngine {
 		RE_PROFILE_FUNCTION();
 		RE_CORE_ASSERT(numTextures > 0, "Cannot create TextureArray with no textures");
 
-		m_Length = numTextures; // Or Z direction
+		m_Height = numTextures; // Or Z direction
 		m_InternalFormat = internalFormat;
 		m_DataFormat = dataFormat;
 
 		//Create TextureArray and allocate memory
 		glCreateTextures(GL_TEXTURE_2D_ARRAY, 1, &m_RendererID);
-		glTextureStorage3D(m_RendererID, mipLevels, (GLenum)internalFormat, m_Width, m_Height, numTextures);
+		glTextureStorage3D(m_RendererID, mipLevels, (GLenum)internalFormat, m_Width, m_Length, numTextures);
 		
 		//Upload the images to the GPU
 		if (data != nullptr) {
 			for (uint32_t i = 0; i < numTextures; i++) {
-				glTextureSubImage3D(m_RendererID, 0, 0, 0, i, m_Width, m_Height, 1, (GLenum)dataFormat, GL_UNSIGNED_BYTE, data[i]);
+				glTextureSubImage3D(m_RendererID, 0, 0, 0, i, m_Width, m_Length, 1, (GLenum)dataFormat, GL_UNSIGNED_BYTE, data[i]);
 			}
 		}
 		
@@ -216,10 +216,10 @@ namespace RealEngine {
 	void Texture2DArray::SetSubTextureData(const void* data, uint32_t zOffset) {
 		RE_PROFILE_FUNCTION();
 
-		RE_CORE_ASSERT(zOffset < m_Length, "zOffset out of bounds for Texture2DArray. Must be less than the number of textures in the array");
+		RE_CORE_ASSERT(zOffset < m_Height, "zOffset out of bounds for Texture2DArray. Must be less than the number of textures in the array");
 		// Set the data for a specific slice in the texture array
 		// Has to be GL_RGBA because OpenGL has aninitial default pixel alignment of 4
 		// https://stackoverflow.com/questions/61429347/gltexturesubimage3d-misbehaving-with-small-image-input
-		glTextureSubImage3D(m_RendererID, 0, 0, 0, zOffset, m_Width, m_Height, 1, GL_RGBA, Utils::GetGLType(m_InternalFormat), data);
+		glTextureSubImage3D(m_RendererID, 0, 0, 0, zOffset, m_Width, m_Length, 1, GL_RGBA, Utils::GetGLType(m_InternalFormat), data);
 	}
 }

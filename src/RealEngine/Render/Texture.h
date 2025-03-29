@@ -110,7 +110,7 @@ namespace RealEngine {
 		void SetSubTextureData(const void* data, uint32_t zOffset);
 
 		uint32_t GetWidth() const { return m_Width; }
-		uint32_t GetHeight() const { return m_Height; }
+		uint32_t GetHeight() const { return m_Length; }
 
 		static Ref<Texture2DArray> Create(const Texture2DArrayCreateInfo& info, const void** data = nullptr) { return CreateRef<Texture2DArray>(info, data); }
 		static Ref<Texture2DArray> Create(const std::initializer_list<std::filesystem::path> paths, uint32_t mipLevels = 1) { return CreateRef<Texture2DArray>(paths, mipLevels); }
@@ -127,7 +127,7 @@ namespace RealEngine {
 			int Channels = 0;
 		};
 
-		uint32_t m_Width, m_Height, m_Length;
+		uint32_t m_Width, m_Length, m_Height;
 		TextureDataType m_InternalFormat;
 		TextureFormat m_DataFormat;
 		uint32_t m_RendererID;
