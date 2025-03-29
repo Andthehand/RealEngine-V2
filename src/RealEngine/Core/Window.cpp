@@ -26,6 +26,7 @@ namespace RealEngine {
 			RE_PROFILE_SCOPE("glfwCreateWindow");
 
 			glfwWindowHint(GLFW_SCALE_TO_MONITOR, false);
+			glfwWindowHint(GLFW_SAMPLES, 4);
 
 #ifdef RE_DEBUG
 			glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);

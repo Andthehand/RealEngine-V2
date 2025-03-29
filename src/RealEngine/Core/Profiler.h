@@ -5,7 +5,9 @@
 #if RE_PROFILE && defined(TRACY_ENABLE) 
 	#define TRACY_CALLSTACK 8
 	#include <tracy/Tracy.hpp>
+
 	#include <quill/DeferredFormatCodec.h>
+
 
 	namespace RealEngine {
 		inline void InternalProfilelog(std::string text) {
@@ -20,9 +22,7 @@
 	#define RE_PROFILE_FRAME() FrameMark
 
 	#define RE_PROFILE_FUNCTION() ZoneScoped
-
 	#define RE_PROFILE_SCOPE(name) ZoneScopedN(name)
-
 
 	#define RE_INTERNAL_PROFILE_FORMAT(text, ...) text
 

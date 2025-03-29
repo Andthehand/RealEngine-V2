@@ -36,9 +36,10 @@ namespace RealEngine {
 			void Bind() const;
 			void Unbind() const;
 
-			virtual void SetData(void* data, const uint32_t size);
+			void SetData(void* data, const uint32_t size);
 
 			BufferType GetType() const { return m_Type; }
+			uint32_t GetSize() const { return m_Size; }
 		private:
 			void CreateBuffer(const void* data, uint32_t size);
 		protected:
@@ -211,7 +212,18 @@ namespace RealEngine {
 
 	class ShaderStorageBuffer : public Utils::Buffer {
 	public:
-		BUFFER_CLASS_TYPE(ShaderStorageBuffer)
+		ShaderStorageBuffer(uint32_t size, uint32_t binding);
+		ShaderStorageBuffer(const void* data, uint32_t size, uint32_t binding);
+
+		void SetBinding(uint32_t binding);
+		uint32_t GetBinding() const { return m_Binding; }
+
+		BUFFER_CLASS_NAME(ShaderStorageBuffer)
+
+		static Ref<ShaderStorageBuffer> Create(uint32_t size, uint32_t binding) { return CreateRef<ShaderStorageBuffer>(size, binding); }
+		static Ref<ShaderStorageBuffer> Create(const void* data, uint32_t size, uint32_t binding) { return CreateRef<ShaderStorageBuffer>(data, size, binding); }
+	private:
+		uint32_t m_Binding;
 	};
 
 	// You must set the binging point in the shader does not support automatic binding
@@ -219,8 +231,6 @@ namespace RealEngine {
 	public:
 		UniformBuffer(uint32_t size, uint32_t binding);
 		UniformBuffer(const void* data, uint32_t size, uint32_t binding);
-
-		virtual void SetData(void* data, const uint32_t size) override;
 
 		void SetBinding(uint32_t binding);
 		uint32_t GetBinding() const { return m_Binding; }
