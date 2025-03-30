@@ -70,16 +70,6 @@ namespace RealEngine {
 		RGBA32UI =   GL_RGBA32UI	// 32-bit unsigned integer Red, Green, Blue, Alpha channels (GL_RGBA32UI)
 	};
 
-	struct Texture2DArrayCreateInfo {
-		uint32_t Width;
-		uint32_t Height;
-		uint32_t NumTextures;
-		TextureDataType InternalFormat = TextureDataType::RGBA8;
-		TextureFormat DataFormat = TextureFormat::RGBA;
-
-		uint32_t MipLevels = 1;
-	};
-
 	class Texture2D {
 	public:
 		Texture2D(const std::filesystem::path& path);
@@ -98,6 +88,17 @@ namespace RealEngine {
 		PathHash m_FilePath;
 	};
 
+	struct Texture2DArrayCreateInfo {
+		uint32_t Width;
+		uint32_t Height;
+		uint32_t NumTextures;
+		TextureDataType InternalFormat = TextureDataType::RGBA8;
+		TextureFormat DataFormat = TextureFormat::RGBA;
+
+		uint32_t MipLevels = 1;
+	};
+
+	// An array of 2D textures (this isn't a stupid comment because I was thinking this could just be called a 3d Texture array)
 	class Texture2DArray {
 	public:
 		Texture2DArray(const Texture2DArrayCreateInfo& info, const void** data = nullptr);
@@ -110,7 +111,8 @@ namespace RealEngine {
 		void SetSubTextureData(const void* data, uint32_t zOffset);
 
 		uint32_t GetWidth() const { return m_Width; }
-		uint32_t GetHeight() const { return m_Length; }
+		uint32_t GetHeight() const { return m_Height; }
+		uint32_t GetLength() const { return m_Length; }
 
 		static Ref<Texture2DArray> Create(const Texture2DArrayCreateInfo& info, const void** data = nullptr) { return CreateRef<Texture2DArray>(info, data); }
 		static Ref<Texture2DArray> Create(const std::initializer_list<std::filesystem::path> paths, uint32_t mipLevels = 1) { return CreateRef<Texture2DArray>(paths, mipLevels); }
@@ -127,7 +129,7 @@ namespace RealEngine {
 			int Channels = 0;
 		};
 
-		uint32_t m_Width, m_Length, m_Height;
+		uint32_t m_Width, m_Height, m_Length;
 		TextureDataType m_InternalFormat;
 		TextureFormat m_DataFormat;
 		uint32_t m_RendererID;
