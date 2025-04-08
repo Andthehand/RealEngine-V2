@@ -17,6 +17,11 @@ namespace RealEngine {
 	public:
 		static void Init();
 
+		inline static void Flush() { 
+			s_CoreLogger->flush_log();
+			s_ClientLogger->flush_log();
+		}
+
 		inline static quill::Logger* GetCoreLogger() { return s_CoreLogger; }
 		inline static quill::Logger* GetClientLogger() { return s_ClientLogger; }
 	private:
