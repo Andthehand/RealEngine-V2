@@ -30,7 +30,7 @@ namespace RealEngine {
 			RE_PROFILE_FUNCTION();
 
 			glCreateBuffers(1, &m_RendererID);
-			glNamedBufferData(m_RendererID, size, data, GL_DYNAMIC_DRAW); // Customize draw type
+			glNamedBufferData(m_RendererID, size, data, GL_DYNAMIC_DRAW); // TODO: Customize draw type
 		}
 
 		void Buffer::SetData(void* data, uint32_t size, uint32_t offset) {
