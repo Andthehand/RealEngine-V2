@@ -20,7 +20,8 @@ namespace RealEngine {
 			VertexBuffer = GL_ARRAY_BUFFER,
 			IndexBuffer = GL_ELEMENT_ARRAY_BUFFER,
 			ShaderStorageBuffer = GL_SHADER_STORAGE_BUFFER,
-			UniformBuffer = GL_UNIFORM_BUFFER
+			UniformBuffer = GL_UNIFORM_BUFFER,
+			CommandBuffer = GL_DRAW_INDIRECT_BUFFER,
 		};
 		
 		//This should never be used outside of the buffer class
@@ -36,7 +37,7 @@ namespace RealEngine {
 			void Bind() const;
 			void Unbind() const;
 
-			void SetData(void* data, const uint32_t size);
+			void SetData(void* data, uint32_t size, uint32_t offset = 0);
 
 			BufferType GetType() const { return m_Type; }
 			uint32_t GetSize() const { return m_Size; }
@@ -241,5 +242,10 @@ namespace RealEngine {
 		static Ref<UniformBuffer> Create(const void* data, uint32_t size, uint32_t binding) { return CreateRef<UniformBuffer>(data, size, binding); }
 	private:
 		uint32_t m_Binding;
+	};
+
+	class CommandBuffer : public Utils::Buffer {
+	public:
+		BUFFER_CLASS_TYPE(CommandBuffer)
 	};
 }

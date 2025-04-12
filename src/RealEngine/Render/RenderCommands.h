@@ -20,5 +20,7 @@ namespace RealEngine {
 		static void DrawIndexed(Ref<VertexArray> vertexArray, uint32_t indexCount = 0);
 		//TODO: If you pass in 0 for count, it will draw the entire buffer by querying the buffer size from the vertexArray
 		static void DrawArrays(Ref<VertexArray> vertexArray, uint32_t count);
+
+		static void DrawMutliIndexedIndirect(Ref<VertexArray> vertexArray, uint32_t commandCount);
 	};
 }

@@ -91,4 +91,10 @@ namespace RealEngine {
 		glDrawArrays(GL_TRIANGLES, 0, count);
 	}
 
+	void RenderCommands::DrawMutliIndexedIndirect(Ref<VertexArray> vertexArray, uint32_t commandCount) {
+		RE_PROFILE_FUNCTION();
+		vertexArray->Bind();
+
+		glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, nullptr, commandCount, 0);
+	}
 }
