@@ -20,6 +20,8 @@ namespace RealEngine {
 		bool GetVsync() const { return m_Vsync;  }
 		void SetVSync(bool enabled);
 
+		void HideCursor(bool hide);
+
 		GLFWwindow* GetNativeWindow() const { return m_Window; }
 
 		const float GetDeltaTime() const { return m_DeltaTime; }

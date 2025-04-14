@@ -149,6 +149,16 @@ namespace RealEngine {
 		}
 	}
 
+	void Window::HideCursor(bool hide) {
+		RE_PROFILE_FUNCTION();
+		if (hide) {
+			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		}
+		else {
+			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		}
+	}
+
 	void Window::SetVSync(bool enabled) {
 		RE_PROFILE_FUNCTION();
 

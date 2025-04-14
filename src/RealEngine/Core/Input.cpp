@@ -1,36 +1,37 @@
 #include "Input.h"
 
 namespace RealEngine {
-	bool Input::IsKeyPressed(KeyCode key) {
+	bool Input::IsKeyPressed(KeyCode keycode) {
 		RE_PROFILE_FUNCTION();
 
-		auto window = glfwGetCurrentContext();
-		auto state = glfwGetKey(window, static_cast<int32_t>(key));
+		auto state = glfwGetKey(Application::Get().GetWindow().GetNativeWindow(), keycode);
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
-	
+
 	bool Input::IsMouseButtonPressed(MouseCode button) {
 		RE_PROFILE_FUNCTION();
 
-		auto window = glfwGetCurrentContext();
-		auto state = glfwGetMouseButton(window, static_cast<int32_t>(button));
+		auto state = glfwGetMouseButton(Application::Get().GetWindow().GetNativeWindow(), button);
 		return state == GLFW_PRESS;
 	}
-	
-	glm::vec2 Input::GetMousePosition() {
-		RE_PROFILE_FUNCTION();
 
-		auto window = glfwGetCurrentContext();
-		double xPos, yPos;
-		glfwGetCursorPos(window, &xPos, &yPos);
-		return { (float)xPos, (float)yPos };
+	std::pair<float, float> Input::GetMousePosition() {
+		RE_PROFILE_FUNCTION();
+		
+		double xpos, ypos;
+		glfwGetCursorPos(Application::Get().GetWindow().GetNativeWindow(), &xpos, &ypos);
+		return { (float)xpos, (float)ypos };
 	}
-	
+
 	float Input::GetMouseX() {
-		return GetMousePosition().x;
+		auto [x, y] = GetMousePosition();
+		return x;
 	}
 
 	float Input::GetMouseY() {
-		return GetMousePosition().y;
+		auto [x, y] = GetMousePosition();
+		return y;
 	}
 }
+
+
