@@ -1,5 +1,4 @@
 #pragma once
-
 #include "RealEngine/Core/KeyCodes.h"
 #include "RealEngine/Core/MouseCodes.h"
 
@@ -14,7 +13,7 @@ namespace RealEngine {
          * @param key The key code to check.
          * @return True if the key is pressed or held down, false otherwise.
          */
-		static bool IsKeyPressed(KeyCode key);
+		static bool IsKeyPressed(KeyCode keycode);
 
 		static bool IsMouseButtonPressed(MouseCode button);
 		static glm::vec2 GetMousePosition();

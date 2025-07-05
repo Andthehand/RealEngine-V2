@@ -26,6 +26,7 @@ namespace RealEngine {
 			RE_PROFILE_SCOPE("glfwCreateWindow");
 
 			glfwWindowHint(GLFW_SCALE_TO_MONITOR, false);
+			glfwWindowHint(GLFW_SAMPLES, 4);
 
 #ifdef RE_DEBUG
 			glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
@@ -145,6 +146,16 @@ namespace RealEngine {
 			float currentTime = (float)glfwGetTime();
 			m_DeltaTime = currentTime - m_LastFrameTime;
 			m_LastFrameTime = currentTime;
+		}
+	}
+
+	void Window::HideCursor(bool hide) {
+		RE_PROFILE_FUNCTION();
+		if (hide) {
+			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		}
+		else {
+			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		}
 	}
 

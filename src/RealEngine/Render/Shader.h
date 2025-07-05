@@ -48,6 +48,13 @@ namespace RealEngine {
 
 		void Bind() const;
 
+		void SetUniformint(const std::string& name, int value);
+
+		void SetUniformFloat(const std::string& name, float value);
+		void SetUniformVec2(const std::string& name, const glm::vec2& value);
+		void SetUniformVec3(const std::string& name, const glm::vec3& value);
+		void SetUniformVec4(const std::string& name, const glm::vec4& value);
+
 		/**
 		 * @brief Creates a reference-counted shader from a file path.
 		 * @param file Path to the shader file.

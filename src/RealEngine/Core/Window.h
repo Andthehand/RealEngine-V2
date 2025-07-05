@@ -31,6 +31,8 @@ namespace RealEngine {
 		bool GetVsync() const { return m_Vsync;  }
 		void SetVSync(bool enabled);
 
+		void HideCursor(bool hide);
+
 		/** @return The native GLFWwindow pointer. */
 		GLFWwindow* GetNativeWindow() const { return m_Window; }
 

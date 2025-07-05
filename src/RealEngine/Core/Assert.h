@@ -20,7 +20,7 @@
 
 	// Alteratively we could use the same "default" message for both "WITH_MSG" and "NO_MSG" and
 	// provide support for custom formatting by concatenating the formatting string instead of having the format inside the default message
-	#define RE_INTERNAL_ASSERT_IMPL(type, check, msg, ...) { if(!(check)) { RE##type##CRITICAL(msg, __VA_ARGS__); RE_DEBUGBREAK(); } }
+	#define RE_INTERNAL_ASSERT_IMPL(type, check, msg, ...) { if(!(check)) { RE##type##CRITICAL(msg, __VA_ARGS__); ::RealEngine::Log::Flush(); RE_DEBUGBREAK(); } }
 	#define RE_INTERNAL_ASSERT_NO_MSG(type, check) RE_INTERNAL_ASSERT_IMPL(type, check, "Assertion failed: '{0}' {1}:{2}", RE_STRINGIFY_MACRO(check), std::filesystem::path(__FILE__).filename().string(), __LINE__)
 	#define RE_INTERNAL_ASSERT_WITH_MSG(type, check, ...) RE_INTERNAL_ASSERT_IMPL(type, check, "Assertion failed: '{0}' {1}:{2}", __VA_ARGS__, std::filesystem::path(__FILE__).filename().string(), __LINE__)
 	#define RE_INTERNAL_ASSERT_WITH_MSG_AND_ARGS(type, check, msg, ...) RE_INTERNAL_ASSERT_IMPL(type, check, "Assertion failed: '" msg "'", __VA_ARGS__)

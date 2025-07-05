@@ -74,6 +74,26 @@ namespace RealEngine {
 		glUseProgram(m_ShaderID);
 	}
 
+	void Shader::SetUniformint(const std::string& name, int value) {
+		glUniform1i(glGetUniformLocation(m_ShaderID, name.c_str()), value);
+	}
+
+	void Shader::SetUniformFloat(const std::string& name, float value) {
+		glUniform1f(glGetUniformLocation(m_ShaderID, name.c_str()), value);
+	}
+
+	void Shader::SetUniformVec2(const std::string& name, const glm::vec2& value) {
+		glUniform2f(glGetUniformLocation(m_ShaderID, name.c_str()), value.x, value.y);
+	}
+
+	void Shader::SetUniformVec3(const std::string& name, const glm::vec3& value) {
+		glUniform3f(glGetUniformLocation(m_ShaderID, name.c_str()), value.x, value.y, value.z);
+	}
+
+	void Shader::SetUniformVec4(const std::string& name, const glm::vec4& value) {
+		glUniform4f(glGetUniformLocation(m_ShaderID, name.c_str()), value.x, value.y, value.z, value.w);
+	}
+
     void Shader::CompileShader(const std::vector<ShaderProcessing>& shaderProcessing) {
 		RE_PROFILE_FUNCTION();
 		std::vector<uint32_t> shaderIDs;
