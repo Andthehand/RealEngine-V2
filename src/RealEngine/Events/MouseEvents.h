@@ -10,6 +10,7 @@ namespace RealEngine {
 
 		inline int GetButton() const { return m_Button; }
 
+		/** @return String representation of the event for logging/debugging. */
 		virtual std::string ToString() const override {
 			std::stringstream ss;
 			ss << "MouseButtonPressedEvent: " << m_Button;
@@ -28,6 +29,7 @@ namespace RealEngine {
 
 		inline int GetButton() const { return m_Button; }
 
+		/** @return String representation of the event for logging/debugging. */
 		virtual std::string ToString() const override {
 			std::stringstream ss;
 			ss << "MouseButtonReleasedEvent: " << m_Button;
@@ -47,6 +49,7 @@ namespace RealEngine {
 		inline float GetX() const { return m_X; }
 		inline float GetY() const { return m_Y; }
 
+		/** @return String representation of the event for logging/debugging. */
 		virtual std::string ToString() const override {
 			std::stringstream ss;
 			ss << "MouseMovedEvent: " << m_X << ", " << m_Y;
@@ -66,6 +69,7 @@ namespace RealEngine {
 		inline float GetXOffset() const { return m_XOffset; }
 		inline float GetYOffset() const { return m_YOffset; }
 
+		/** @return String representation of the event for logging/debugging. */
 		virtual std::string ToString() const override {
 			std::stringstream ss;
 			ss << "MouseScrolledEvent: " << m_XOffset << ", " << m_YOffset;

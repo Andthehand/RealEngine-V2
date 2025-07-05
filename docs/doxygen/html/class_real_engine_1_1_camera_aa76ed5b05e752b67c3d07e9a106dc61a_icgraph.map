@@ -1,0 +1,5 @@
+<map id="RealEngine::Camera::Camera" name="RealEngine::Camera::Camera">
+<area shape="rect" id="Node000001" title="Constructs a camera with the given projection matrix." alt="" coords="230,5,372,48"/>
+<area shape="rect" id="Node000002" href="$class_real_engine_1_1_editor_camera.html#a088b0e19917881b05a15bb436218a74e" title="Constructs an EditorCamera with given projection parameters." alt="" coords="5,5,182,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,29,182,29,182,24,214,24"/>
+</map>

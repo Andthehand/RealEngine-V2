@@ -2,6 +2,7 @@
 #include <algorithm>
 
 namespace RealEngine {
+	/// @cond NO_DOXYGEN
 	namespace Utils {
 		struct ValidShaderName {
 			const char* SymbolicName;
@@ -51,6 +52,7 @@ namespace RealEngine {
 			return Unknown;
 		}
 	}
+	/// @endcond
 
 	Shader::Shader(const std::filesystem::path& file) {
 		ParseFile(file);

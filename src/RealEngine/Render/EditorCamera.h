@@ -7,18 +7,36 @@
 #include <glm/glm.hpp>
 
 namespace RealEngine {
-
+	/**
+	 * @brief A camera designed for editor usage, supporting mouse and keyboard input for navigation.
+	 *
+	 * Controls include panning, rotating, and zooming with mouse movements and scroll.
+	 */
 	class EditorCamera : public Camera {
 	public:
-		EditorCamera() = default;
+		/**
+		 * @brief Constructs an EditorCamera with given projection parameters.
+		 * @param fov Field of view in degrees.
+		 * @param aspectRatio Aspect ratio of the viewport.
+		 * @param nearClip Near clipping plane distance.
+		 * @param farClip Far clipping plane distance.
+		 */
 		EditorCamera(float fov, float aspectRatio, float nearClip, float farClip);
+		EditorCamera() = default;
 
 		void OnUpdate(float deltaTime);
 		void OnEvent(Event& e);
 
+		/// @return Distance from the camera to its focal point.
 		inline float GetDistance() const { return m_Distance; }
+		/// @param distance Set the distance from the camera to its focal point.
 		inline void SetDistance(float distance) { m_Distance = distance; }
 
+		/**
+		 * @brief Sets the viewport size and updates the projection matrix accordingly.
+		 * @param width Viewport width in pixels.
+		 * @param height Viewport height in pixels.
+		 */
 		inline void SetViewportSize(float width, float height) { m_ViewportWidth = width; m_ViewportHeight = height; UpdateProjection(); }
 
 		const glm::mat4& GetViewMatrix() const { return m_ViewMatrix; }

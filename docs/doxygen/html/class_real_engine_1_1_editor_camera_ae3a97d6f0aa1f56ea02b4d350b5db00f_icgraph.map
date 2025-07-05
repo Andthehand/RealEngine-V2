@@ -1,0 +1,11 @@
+<map id="RealEngine::EditorCamera::UpdateView" name="RealEngine::EditorCamera::UpdateView">
+<area shape="rect" id="Node000001" title=" " alt="" coords="454,72,630,115"/>
+<area shape="rect" id="Node000002" href="$class_real_engine_1_1_editor_camera.html#a088b0e19917881b05a15bb436218a74e" title="Constructs an EditorCamera with given projection parameters." alt="" coords="230,5,406,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="453,70,392,51,393,46,454,65"/>
+<area shape="rect" id="Node000003" href="$class_real_engine_1_1_editor_camera.html#a0106e246f4ebfca3bb66aa67ac0324d3" title=" " alt="" coords="230,72,406,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="439,96,407,96,407,91,439,91"/>
+<area shape="rect" id="Node000005" href="$class_real_engine_1_1_editor_camera.html#a05cc0ddffe2a1c69a229a3ce44e6806b" title=" " alt="" coords="230,139,406,181"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="454,122,393,141,392,135,453,117"/>
+<area shape="rect" id="Node000004" href="$class_real_engine_1_1_editor_camera.html#ae9e0823690c5e38d4ae70aa0da453673" title=" " alt="" coords="5,72,182,115"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="214,96,182,96,182,91,214,91"/>
+</map>

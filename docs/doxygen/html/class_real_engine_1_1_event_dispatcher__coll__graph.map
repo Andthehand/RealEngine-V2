@@ -1,0 +1,5 @@
+<map id="RealEngine::EventDispatcher" name="RealEngine::EventDispatcher">
+<area shape="rect" id="Node000001" title="Helper to dispatch events to the appropriate handler based on type." alt="" coords="5,104,199,131"/>
+<area shape="rect" id="Node000002" href="$class_real_engine_1_1_event.html" title="Base class for all events." alt="" coords="37,5,167,32"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,48,105,104,99,104,99,48"/>
+</map>

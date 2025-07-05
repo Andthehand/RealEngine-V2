@@ -1,0 +1,5 @@
+<map id="RealEngine::Shader::ParseFile" name="RealEngine::Shader::ParseFile">
+<area shape="rect" id="Node000001" title="Parses a shader file and extracts shader code blocks by type." alt="" coords="191,5,328,48"/>
+<area shape="rect" id="Node000002" href="$class_real_engine_1_1_shader.html#a51d15140f47f7edb7198bff66aaae4b7" title="Constructs a shader by loading from a file." alt="" coords="5,5,143,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,29,143,29,143,24,175,24"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="RealEngine::Framebuffer::Invalidate" name="RealEngine::Framebuffer::Invalidate">
+<area shape="rect" id="Node000001" title="Internal function to create or recreate the framebuffer and attachments." alt="" coords="219,39,384,81"/>
+<area shape="rect" id="Node000002" href="$class_real_engine_1_1_framebuffer.html#afa18e54fd725ff61352b1a2889c41f21" title="Creates a framebuffer with the given specification." alt="" coords="5,5,171,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="203,47,171,42,172,37,204,42"/>
+<area shape="rect" id="Node000003" href="$class_real_engine_1_1_framebuffer.html#aef0a3c258a9ee53da4a258c191b17059" title=" " alt="" coords="5,72,171,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="204,78,172,83,171,78,203,73"/>
+</map>

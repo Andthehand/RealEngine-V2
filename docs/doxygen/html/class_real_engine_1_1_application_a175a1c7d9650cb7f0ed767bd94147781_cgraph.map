@@ -1,0 +1,18 @@
+<map id="RealEngine::Application::OnEvent" name="RealEngine::Application::OnEvent">
+<area shape="rect" id="Node000001" title="Handles an event and dispatches it to the appropriate handlers." alt="" coords="5,72,166,115"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="43,72,41,62,48,53,63,47,86,45,110,48,124,54,122,59,108,53,85,51,64,53,51,57,46,63,48,71"/>
+<area shape="rect" id="Node000002" href="$class_real_engine_1_1_event_dispatcher.html#a34d2d5543e872c08d2778002a2cef798" title="Dispatches the stored event to the given handler if it matches type T." alt="" coords="214,5,407,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,69,220,50,222,56,160,74"/>
+<area shape="rect" id="Node000003" href="$class_real_engine_1_1_application.html#a60a13e1dd3bc4b3a293e4b99be9bd0b4" title=" " alt="" coords="230,72,390,115"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="166,91,214,91,214,96,166,96"/>
+<area shape="rect" id="Node000005" href="$class_real_engine_1_1_application.html#aa8af476bfa3cc6a8c96990d52be4d0cb" title=" " alt="" coords="230,155,390,197"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="147,113,237,146,235,151,145,118"/>
+<area shape="rect" id="Node000004" href="$class_real_engine_1_1_application.html#a9b3766627214b13f6467179366d74698" title=" " alt="" coords="478,55,638,97"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="391,85,462,80,462,85,391,90"/>
+<area shape="rect" id="Node000006" href="$class_real_engine_1_1_window_resize_event.html#ae72a4048c182110fa7b172e77ec1f593" title=" " alt="" coords="466,121,650,164"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="391,163,450,155,450,160,391,168"/>
+<area shape="rect" id="Node000007" href="$class_real_engine_1_1_window_resize_event.html#a09e442783c7d957315d75e6d18bd92ac" title=" " alt="" coords="466,188,650,231"/>
+<area shape="poly" id="edge7_Node000005_Node000007" title=" " alt="" coords="391,184,450,192,450,197,391,189"/>
+<area shape="rect" id="Node000008" href="$class_real_engine_1_1_render_commands.html#aa0488736651417ec2ef34332208281d3" title="Sets the OpenGL viewport dimensions." alt="" coords="455,255,660,297"/>
+<area shape="poly" id="edge8_Node000005_Node000008" title=" " alt="" coords="356,195,456,240,473,247,471,252,454,245,354,200"/>
+</map>

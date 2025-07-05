@@ -1,0 +1,5 @@
+<map id="RealEngine::Shader::Shader" name="RealEngine::Shader::Shader">
+<area shape="rect" id="Node000001" title="Constructs a shader from vertex and fragment shader source code strings." alt="" coords="5,5,143,48"/>
+<area shape="rect" id="Node000002" href="$class_real_engine_1_1_shader.html#a352f3a640e9f3613bcf616eccda62d6a" title="Compiles the shader from processed source code blocks." alt="" coords="191,5,328,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,24,175,24,175,29,143,29"/>
+</map>

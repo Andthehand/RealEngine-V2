@@ -1,0 +1,19 @@
+<map id="RealEngine::EditorCamera::GetForwardDirection" name="RealEngine::EditorCamera::GetForwardDirection">
+<area shape="rect" id="Node000001" title=" " alt="" coords="903,105,1079,148"/>
+<area shape="rect" id="Node000002" href="$class_real_engine_1_1_editor_camera.html#a9b6734017b9da60078a430d3e9094e03" title=" " alt="" coords="678,75,855,117"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="887,115,855,111,856,105,888,110"/>
+<area shape="rect" id="Node000008" href="$class_real_engine_1_1_editor_camera.html#ae8f6a3fd8ae6f9cb963c3c4c623b0022" title=" " alt="" coords="454,139,630,181"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="888,137,631,156,631,151,887,132"/>
+<area shape="rect" id="Node000003" href="$class_real_engine_1_1_editor_camera.html#ae3a97d6f0aa1f56ea02b4d350b5db00f" title=" " alt="" coords="454,72,630,115"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="663,97,631,97,631,92,663,92"/>
+<area shape="rect" id="Node000004" href="$class_real_engine_1_1_editor_camera.html#a088b0e19917881b05a15bb436218a74e" title="Constructs an EditorCamera with given projection parameters." alt="" coords="230,5,406,48"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="453,70,392,51,393,46,454,65"/>
+<area shape="rect" id="Node000005" href="$class_real_engine_1_1_editor_camera.html#a0106e246f4ebfca3bb66aa67ac0324d3" title=" " alt="" coords="230,139,406,181"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="454,122,393,141,392,135,453,117"/>
+<area shape="rect" id="Node000007" href="$class_real_engine_1_1_editor_camera.html#a05cc0ddffe2a1c69a229a3ce44e6806b" title=" " alt="" coords="230,72,406,115"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="439,96,407,96,407,91,439,91"/>
+<area shape="rect" id="Node000006" href="$class_real_engine_1_1_editor_camera.html#ae9e0823690c5e38d4ae70aa0da453673" title=" " alt="" coords="5,139,182,181"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="214,163,182,163,182,157,214,157"/>
+<area shape="poly" id="edge8_Node000008_Node000005" title=" " alt="" coords="439,163,407,163,407,157,439,157"/>
+<area shape="poly" id="edge9_Node000008_Node000007" title=" " alt="" coords="453,136,392,118,393,113,454,131"/>
+</map>

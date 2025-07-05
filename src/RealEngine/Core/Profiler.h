@@ -7,21 +7,30 @@
 	#include <tracy/Tracy.hpp>
 
 	namespace RealEngine {
+		/**
+		 * @brief Send a profiling message to Tracy with default color.
+		 * @param text Message text to log.
+		 */
 		inline void InternalProfilelog(std::string text) {
 			TracyMessage(text.c_str(), text.length());
 		}
 
+		/**
+		 * @brief Send a profiling message with a custom color to Tracy.
+		 * @param text Message text to log.
+		 * @param color Color code from tracy::Color.
+		 */
 		inline void InternalProfilelogColor(std::string text, uint32_t color) {
 			TracyMessageC(text.c_str(), text.length(), color);
 		}
 	}
 
+	/// Marks the end of a profiling frame.
 	#define RE_PROFILE_FRAME() FrameMark
 
 	#define RE_PROFILE_FUNCTION() ZoneScoped
 
 	#define RE_PROFILE_SCOPE(name) ZoneScopedN(name)
-
 
 	#define RE_INTERNAL_PROFILE_FORMAT(text, ...) text
 

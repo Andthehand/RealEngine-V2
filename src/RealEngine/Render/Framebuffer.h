@@ -1,6 +1,10 @@
 #pragma once
 
 namespace RealEngine{
+	/**
+	 * @enum FramebufferTextureFormat
+	 * @brief Specifies the format of textures attached to a framebuffer.
+	 */
 	enum class FramebufferTextureFormat {
 		None = 0,
 
@@ -15,31 +19,59 @@ namespace RealEngine{
 		Depth = DEPTH24_STENCIL8
 	};
 
+	/**
+	 * @struct FramebufferTextureSpecification
+	 * @brief Describes a single texture attachment's format for a framebuffer.
+	 */
 	struct FramebufferTextureSpecification {
-		FramebufferTextureSpecification() = default;
+		/**
+		 * @param format The texture format to use for this attachment.
+		 */
 		FramebufferTextureSpecification(FramebufferTextureFormat format)
 			: TextureFormat(format) {}
+		FramebufferTextureSpecification() = default;
 
 		FramebufferTextureFormat TextureFormat = FramebufferTextureFormat::None;
 		// TODO: filtering/wrap
 	};
 
+	/**
+	 * @struct FramebufferAttachmentSpecification
+	 * @brief Specifies a list of framebuffer texture attachments.
+	 */
 	struct FramebufferAttachmentSpecification {
-		FramebufferAttachmentSpecification() = default;
+		/**
+		 * @param attachments Initializer list of texture specifications.
+		 */
 		FramebufferAttachmentSpecification(std::initializer_list<FramebufferTextureSpecification> attachments)
 			: Attachments(attachments) {}
+		FramebufferAttachmentSpecification() = default;
 
 		std::vector<FramebufferTextureSpecification> Attachments;
 	};
 
+	/**
+	 * @struct FramebufferSpecification
+	 * @brief Configuration specification for creating a framebuffer.
+	 */
 	struct FramebufferSpecification {
 		FramebufferAttachmentSpecification Attachments;
 
 		uint32_t Width = 0, Height = 0;
 	};
 
+	/**
+	 * @class Framebuffer
+	 * @brief Represents an OpenGL framebuffer object with multiple texture attachments.
+	 *
+	 * Responsible for managing framebuffer creation, binding, resizing, and deletion.
+	 */
 	class Framebuffer {
 	public:
+		/**
+		 * @brief Creates a framebuffer with the given specification.
+		 * @param specs The specification describing attachments, size, etc.
+		 */
 		Framebuffer(const FramebufferSpecification& specs);
 		~Framebuffer();
 
@@ -47,8 +79,16 @@ namespace RealEngine{
 		void Unbind();
 		void Resize(uint32_t width, uint32_t height);
 		
+		/**
+		 * @brief Gets the renderer ID of a texture attachment.
+		 * @param index Index of the attachment (default 0).
+		 * @return OpenGL texture ID of the attachment.
+		 */
 		uint32_t GetAttachmentRendererID(uint32_t index = 0) const { return m_Attachments[index]; }
 	private:
+		/**
+		 * @brief Internal function to create or recreate the framebuffer and attachments.
+		 */
 		void Invalidate();
 	private:
 		uint32_t m_FramebufferID = 0;

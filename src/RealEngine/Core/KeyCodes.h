@@ -3,6 +3,12 @@
 namespace RealEngine {
 	using KeyCode = uint32_t;
 
+	/**
+	 * @enum Key
+	 * @brief Keyboard key codes.
+	 *
+	 * Key codes match GLFW's definitions for cross-platform consistency.
+	 */
 	enum Key : KeyCode {
 		//From glfw3.h
 		Space = 32,

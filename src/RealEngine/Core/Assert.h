@@ -1,3 +1,15 @@
+/**
+ * @file Assert.h
+ * @brief Runtime and static assertion macros for RealEngine.
+ *
+ * Provides macros for debug-time runtime assertions (`RE_ASSERT`, `RE_CORE_ASSERT`) and compile-time assertions (`RE_CORE_STATIC_ASSERT`),
+ * with optional custom error messages. If an assertion fails, a critical log message is printed and execution is interrupted.
+ *
+ * Assertions are only active if `RE_ENABLE_ASSERTS` is defined.
+ *
+ * @note These macros automatically insert file and line number context in log output.
+ */
+
 #pragma once
 #include <filesystem>
 
@@ -16,10 +28,23 @@
 	#define RE_INTERNAL_ASSERT_GET_MACRO_NAME(arg1, arg2, arg3, macro, ...) macro
 	#define RE_INTERNAL_ASSERT_GET_MACRO(...) RE_EXPAND_MACRO( RE_INTERNAL_ASSERT_GET_MACRO_NAME(__VA_ARGS__, RE_INTERNAL_ASSERT_WITH_MSG_AND_ARGS, RE_INTERNAL_ASSERT_WITH_MSG, RE_INTERNAL_ASSERT_NO_MSG) )
 
-	// Currently accepts at least the condition and one additional parameter (the message) being optional
+	/**
+	 * @def RE_ASSERT(...)
+	 * @brief Runtime assertion for application-level checks.
+	 * Disabled if RE_ENABLE_ASSERTS is not defined.
+	 */
 	#define RE_ASSERT(...) RE_EXPAND_MACRO( RE_INTERNAL_ASSERT_GET_MACRO(__VA_ARGS__)(_, __VA_ARGS__) )
+	/**
+	* @def RE_CORE_ASSERT(...)
+	* @brief Runtime assertion for engine/core-level checks.
+	* Disabled if RE_ENABLE_ASSERTS is not defined.
+	*/
 	#define RE_CORE_ASSERT(...) RE_EXPAND_MACRO( RE_INTERNAL_ASSERT_GET_MACRO(__VA_ARGS__)(_CORE_, __VA_ARGS__) )
 
+	/**
+	 * @def RE_CORE_STATIC_ASSERT(...)
+	 * @brief Compile-time assertion, wraps C++ `static_assert`.
+	 */
 	#define RE_CORE_STATIC_ASSERT(...) static_assert(__VA_ARGS__)
 #else
 	#pragma warning( disable : 4552 4189 )

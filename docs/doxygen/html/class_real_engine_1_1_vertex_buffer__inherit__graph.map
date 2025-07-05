@@ -1,0 +1,5 @@
+<map id="RealEngine::VertexBuffer" name="RealEngine::VertexBuffer">
+<area shape="rect" id="Node000001" title="Vertex buffer with a definable layout." alt="" coords="5,96,173,123"/>
+<area shape="rect" id="Node000002" href="$class_real_engine_1_1_utils_1_1_buffer.html" title="Low&#45;level OpenGL buffer abstraction. Not intended for direct use." alt="" coords="23,5,155,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,64,92,95,86,95,86,64"/>
+</map>

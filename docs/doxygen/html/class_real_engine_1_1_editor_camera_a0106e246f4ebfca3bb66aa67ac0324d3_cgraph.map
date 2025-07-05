@@ -1,0 +1,19 @@
+<map id="RealEngine::EditorCamera::OnMouseScroll" name="RealEngine::EditorCamera::OnMouseScroll">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,72,182,115"/>
+<area shape="rect" id="Node000002" href="$class_real_engine_1_1_mouse_scrolled_event.html#a3b360bd2303a1a727986061a0d3a7e8e" title=" " alt="" coords="230,5,412,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,69,230,50,232,55,169,74"/>
+<area shape="rect" id="Node000003" href="$class_real_engine_1_1_editor_camera.html#ae8f6a3fd8ae6f9cb963c3c4c623b0022" title=" " alt="" coords="233,72,409,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="182,91,217,91,217,96,182,96"/>
+<area shape="rect" id="Node000007" href="$class_real_engine_1_1_editor_camera.html#ae3a97d6f0aa1f56ea02b4d350b5db00f" title=" " alt="" coords="233,139,409,181"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="169,113,232,131,230,136,168,118"/>
+<area shape="rect" id="Node000004" href="$class_real_engine_1_1_editor_camera.html#a3860551ae3f6f49d1ec3ef1d04b9a465" title=" " alt="" coords="684,139,861,181"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="385,69,440,55,504,46,571,45,605,49,637,57,667,70,695,88,742,126,738,130,692,92,665,75,635,63,604,54,571,50,504,51,441,60,386,74"/>
+<area shape="rect" id="Node000006" href="$class_real_engine_1_1_editor_camera.html#a0c8efc3efc4bb43c6063396d8ca783af" title=" " alt="" coords="460,72,636,115"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="409,91,444,91,444,96,409,96"/>
+<area shape="rect" id="Node000005" href="$class_real_engine_1_1_editor_camera.html#a6ed929e3f2f3e731d9a8d87e87c823e9" title=" " alt="" coords="909,168,1085,211"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="861,169,893,173,893,178,860,174"/>
+<area shape="poly" id="edge9_Node000007_Node000005" title=" " alt="" coords="399,179,460,191,576,200,693,202,894,195,894,200,693,208,576,205,460,196,398,185"/>
+<area shape="rect" id="Node000008" href="$class_real_engine_1_1_editor_camera.html#a9b6734017b9da60078a430d3e9094e03" title=" " alt="" coords="460,139,636,181"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="409,157,444,157,444,163,409,163"/>
+<area shape="poly" id="edge8_Node000008_Node000004" title=" " alt="" coords="636,157,669,157,669,163,636,163"/>
+</map>

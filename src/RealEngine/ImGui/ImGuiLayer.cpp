@@ -28,7 +28,7 @@ namespace RealEngine {
 			style.WindowRounding = 0.0f;
 			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 		}
-		SetScale(Application::Get().GetWindow().GetScale());
+		SetScale();
 
 		Application& app = Application::Get();
 		GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
@@ -45,27 +45,13 @@ namespace RealEngine {
 		ImGui::DestroyContext();
 	}
 
-
-	void ImGuiLayer::OnEvent(Event& event) {
-		EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<WindowRescaledEvent>(RE_BIND_EVENT_FN(ImGuiLayer::OnWindowRescaled));
-	}
-
-	bool ImGuiLayer::OnWindowRescaled(WindowRescaledEvent& e) {
-		SetScale(e.GetScale());
-
-		return true;
-	}
-
-	void ImGuiLayer::SetScale(float scale) {
+	void ImGuiLayer::SetScale() {
 		RE_PROFILE_FUNCTION();
 
 		ImGuiStyle& style = ImGui::GetStyle();
-		style = ImGuiStyle();
-		style.ScaleAllSizes(scale + SCALE_OFFSET);
-
-		ImGuiIO& io = ImGui::GetIO();
-		io.FontGlobalScale = scale + SCALE_OFFSET;
+		float main_scale = ImGui_ImplGlfw_GetContentScaleForMonitor(glfwGetPrimaryMonitor());
+		style.ScaleAllSizes(main_scale);
+		style.FontScaleDpi = main_scale;
 	}
 
 	void ImGuiLayer::Begin() {

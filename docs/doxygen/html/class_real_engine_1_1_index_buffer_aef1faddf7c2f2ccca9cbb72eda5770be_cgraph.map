@@ -1,0 +1,15 @@
+<map id="RealEngine::IndexBuffer::Create" name="RealEngine::IndexBuffer::Create">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,168,81"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="46,39,45,29,51,20,66,14,87,12,109,14,123,21,120,25,108,20,86,17,67,19,55,24,50,30,52,38"/>
+<area shape="rect" id="Node000002" href="$namespace_real_engine.html#a9090a8984927181b5605993771ec6eef" title="Creates a Ref (shared_ptr) instance." alt="" coords="219,5,375,32"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="168,41,210,33,211,38,169,47"/>
+<area shape="rect" id="Node000003" href="$class_real_engine_1_1_index_buffer.html#a2764d4ba90380f3869b970dbcaf8a918" title=" " alt="" coords="216,80,378,123"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="169,73,201,80,200,85,168,79"/>
+<area shape="poly" id="edge7_Node000003_Node000003" title=" " alt="" coords="259,80,258,70,264,61,277,55,297,53,318,56,330,62,328,67,316,61,297,59,279,61,268,65,263,71,265,79"/>
+<area shape="rect" id="Node000004" href="$class_real_engine_1_1_utils_1_1_buffer.html#a63606f8ff7b0beea6b6bbb98a7d57518" title=" " alt="" coords="426,80,557,123"/>
+<area shape="poly" id="edge4_Node000003_Node000004" title=" " alt="" coords="379,99,410,99,410,104,379,104"/>
+<area shape="rect" id="Node000005" href="$class_real_engine_1_1_utils_1_1_buffer.html#ada4439045bd4752be24db17108a80206" title=" " alt="" coords="605,80,742,123"/>
+<area shape="poly" id="edge5_Node000004_Node000005" title=" " alt="" coords="558,99,590,99,590,104,558,104"/>
+<area shape="rect" id="Node000006" href="$class_real_engine_1_1_utils_1_1_buffer.html#a724571b17733b238490285d08d070385" title=" " alt="" coords="790,80,921,123"/>
+<area shape="poly" id="edge6_Node000005_Node000006" title=" " alt="" coords="742,99,774,99,774,104,742,104"/>
+</map>

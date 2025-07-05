@@ -3,6 +3,12 @@
 
 #include <ryml.hpp>
 
+/**
+ * @brief Formatter for ryml::csubstr to enable logging with fmtquill and Quill.
+ *
+ * Allows usage like:
+ * RE_CORE_INFO("YAML string: {}", yamlNode.key());
+ */
 template <>
 struct fmtquill::formatter<ryml::csubstr> {
     constexpr auto parse(format_parse_context& ctx) { return ctx.begin(); }
@@ -12,6 +18,9 @@ struct fmtquill::formatter<ryml::csubstr> {
     }
 };
 
+/**
+ * @brief Enables deferred formatting support in Quill for ryml::csubstr.
+ */
 template <>
 struct quill::Codec<ryml::csubstr> : quill::DeferredFormatCodec<ryml::csubstr> {
 };

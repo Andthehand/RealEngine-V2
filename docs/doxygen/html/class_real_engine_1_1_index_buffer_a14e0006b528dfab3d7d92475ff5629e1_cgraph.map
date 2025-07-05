@@ -1,0 +1,13 @@
+<map id="RealEngine::IndexBuffer::IndexBuffer" name="RealEngine::IndexBuffer::IndexBuffer">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,168,48"/>
+<area shape="rect" id="Node000002" href="$class_real_engine_1_1_utils_1_1_buffer.html#a63606f8ff7b0beea6b6bbb98a7d57518" title=" " alt="" coords="426,5,557,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,12,215,8,297,4,378,8,411,11,411,17,378,13,297,10,216,13,168,18"/>
+<area shape="rect" id="Node000005" href="$class_real_engine_1_1_index_buffer.html#a2764d4ba90380f3869b970dbcaf8a918" title=" " alt="" coords="216,47,378,89"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="169,40,201,46,200,52,168,45"/>
+<area shape="rect" id="Node000003" href="$class_real_engine_1_1_utils_1_1_buffer.html#ada4439045bd4752be24db17108a80206" title=" " alt="" coords="605,5,742,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="558,24,590,24,590,29,558,29"/>
+<area shape="rect" id="Node000004" href="$class_real_engine_1_1_utils_1_1_buffer.html#a724571b17733b238490285d08d070385" title=" " alt="" coords="790,5,921,48"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="742,24,774,24,774,29,742,29"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="378,48,410,41,411,46,379,53"/>
+<area shape="poly" id="edge6_Node000005_Node000005" title=" " alt="" coords="259,47,258,37,264,28,277,22,297,20,318,22,330,29,328,33,316,28,297,25,279,27,268,32,263,38,265,46"/>
+</map>

@@ -10,6 +10,7 @@ namespace RealEngine {
 
 		inline KeyCode GetKeyCode() const { return m_KeyCode; }
 
+		/** @return String representation of the event for logging/debugging. */
 		std::string ToString() const override {
 			std::stringstream ss;
 			ss << "KeyPressedEvent: " << m_KeyCode;
@@ -28,6 +29,7 @@ namespace RealEngine {
 
 		inline KeyCode GetKeyCode() const { return m_KeyCode; }
 
+		/** @return String representation of the event for logging/debugging. */
 		std::string ToString() const override {
 			std::stringstream ss;
 			ss << "KeyReleasedEvent: " << m_KeyCode;

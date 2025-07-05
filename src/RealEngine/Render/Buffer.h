@@ -1,21 +1,27 @@
-#pragma once
+﻿#pragma once
 #include <cstdint>
 #include <initializer_list>
 #include <vector>
 
+/// Expands to required constructor, static creation, and name for a Buffer-derived class.
 #define BUFFER_CLASS_TYPE(type)		type(uint32_t size) : Utils::Buffer(Utils::type, size) {}\
 									type(const void* data, uint32_t size) : Utils::Buffer(Utils::type, data, size) {}\
 									BUFFER_CLASS_CREATE(type)\
 									BUFFER_CLASS_NAME(type)
 
+/// Static factory methods for buffer creation.
 #define BUFFER_CLASS_CREATE(type)	static Ref<type> Create(uint32_t size) { return CreateRef<type>(size); }\
 									static Ref<type> Create(const void* data, uint32_t size) { return CreateRef<type>(data, size); }
 
 
+/// Returns the buffer type name at runtime (for logging/debug).
 #define BUFFER_CLASS_NAME(type)		virtual const char* GetName() const override { return #type; }
 
 namespace RealEngine {
 	namespace Utils {
+		/**
+		 * @brief Enum representing OpenGL buffer binding targets.
+		 */
 		enum BufferType {
 			VertexBuffer = GL_ARRAY_BUFFER,
 			IndexBuffer = GL_ELEMENT_ARRAY_BUFFER,
@@ -23,7 +29,9 @@ namespace RealEngine {
 			UniformBuffer = GL_UNIFORM_BUFFER
 		};
 		
-		//This should never be used outside of the buffer class
+		/**
+		 * @brief Low-level OpenGL buffer abstraction. Not intended for direct use.
+		 */
 		class Buffer {
 		public:
 			Buffer(BufferType type, uint32_t size);
@@ -48,6 +56,9 @@ namespace RealEngine {
 		};
 	}
 
+	/**
+	 * @brief Wrapper for abstracting data types and layouts in vertex buffers.
+	 */
 	class DataType {
 	public:
 		enum Type : uint8_t {
@@ -74,6 +85,7 @@ namespace RealEngine {
 
 		Type GetType() const { return m_Type; }
 
+		/// Number of components (e.g., Float3 → 3)
 		uint8_t GetTypeElementCount() { 
 			switch (m_Type) {
 				case RealEngine::DataType::Float:		return 1;
@@ -97,6 +109,7 @@ namespace RealEngine {
 			return 0;
 		}
 
+		/// Size in bytes of the base type (e.g., Float4 → sizeof(float))
 		uint8_t GetTypeSizeOf() { 
 			switch (m_Type)
 			{
@@ -124,6 +137,7 @@ namespace RealEngine {
 			return 0;
 		}
 
+		/// OpenGL enum (GL_FLOAT, GL_INT, etc.)
 		GLint GetGLType() const {
 			switch (m_Type) {
 				case DataType::Float:	
@@ -152,7 +166,10 @@ namespace RealEngine {
 	private:
 		Type m_Type;
 	};
-
+	
+	/**
+	 * @brief Single attribute used in a vertex layout.
+	 */
 	struct BufferAttribute {
 		DataType Type;
 		uint32_t InstanceDivisor = 0;
@@ -166,6 +183,9 @@ namespace RealEngine {
 			: Type(type), InstanceDivisor(instanceDivisor) {}
 	};
 
+	/**
+	 * @brief Aggregates multiple buffer attributes and computes overall stride.
+	 */
 	struct BufferAttributes {
 		BufferAttributes(std::initializer_list<BufferAttribute> vertexAttribs)
 			: m_VertexAttribs(vertexAttribs) {
@@ -182,6 +202,9 @@ namespace RealEngine {
 		std::vector<BufferAttribute> m_VertexAttribs;
 	};
 
+	/**
+	 * @brief Vertex buffer with a definable layout.
+	 */
 	class VertexBuffer : public Utils::Buffer {
 	public:
 		BUFFER_CLASS_TYPE(VertexBuffer)
@@ -193,7 +216,9 @@ namespace RealEngine {
 		BufferAttributes m_Attributes = {};
 	};
 
-	//This is just a wrapper around the buffer class for typdefing
+	/**
+	 * @brief Specialization of buffer for index/element use.
+	 */
 	class IndexBuffer : public Utils::Buffer {
 	public:
 		IndexBuffer(uint32_t count);
@@ -209,12 +234,18 @@ namespace RealEngine {
 		const uint32_t m_Count;
 	};
 
+	/**
+	 * @brief Wrapper around OpenGL shader storage buffer object (SSBO).
+	 */
 	class ShaderStorageBuffer : public Utils::Buffer {
 	public:
 		BUFFER_CLASS_TYPE(ShaderStorageBuffer)
 	};
 
-	// You must set the binging point in the shader does not support automatic binding
+	/**
+	 * @brief Wrapper for OpenGL UBOs.
+	 * @note User must manually bind the layout index in GLSL.
+	 */
 	class UniformBuffer : public Utils::Buffer {
 	public:
 		UniformBuffer(uint32_t size, uint32_t binding);

@@ -1,0 +1,7 @@
+<map id="RealEngine::DataType::GetType" name="RealEngine::DataType::GetType">
+<area shape="rect" id="Node000001" title=" " alt="" coords="430,5,582,48"/>
+<area shape="rect" id="Node000002" href="$class_real_engine_1_1_vertex_array.html#ab1801257e86d3b2965c1510399c6e531" title="Sets multiple vertex buffers and configures their layouts." alt="" coords="218,5,382,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="414,29,383,29,383,24,414,24"/>
+<area shape="rect" id="Node000003" href="$class_real_engine_1_1_vertex_array.html#afbc586e0cc957de0a24aff381e1c3e85" title="Sets a single vertex buffer and configures its layout attributes." alt="" coords="5,5,170,48"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="202,29,170,29,170,24,202,24"/>
+</map>

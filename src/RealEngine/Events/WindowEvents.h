@@ -10,6 +10,7 @@ namespace RealEngine {
 		inline unsigned int GetWidth() const { return m_Width; }
 		inline unsigned int GetHeight() const { return m_Height; }
 
+		/** @return String representation of the event for logging/debugging. */
 		std::string ToString() const override {
 			std::stringstream ss;
 			ss << "WindowResizeEvent: " << m_Width << ", " << m_Height;
@@ -28,8 +29,14 @@ namespace RealEngine {
 
 		inline float GetScale() const { return m_Scale; }
 
-		EVENT_CLASS_TYPE(WindowRescaled)
+		/** @return String representation of the event for logging/debugging. */
+		std::string ToString() const override {
+			std::stringstream ss;
+			ss << "WindowRescaledEvent: " << m_Scale;
+			return ss.str();
+		}
 
+		EVENT_CLASS_TYPE(WindowRescaled)
 	private:
 		float m_Scale;
 	};

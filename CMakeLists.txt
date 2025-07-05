@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 3.20)
 project(RealEngine)
 
 # Enables the full Tracy project
-option ( TRACY_ENABLE "" ON )
+option(TRACY_ENABLE "" ON)
+option(BUILD_DOCS "Build Doxygen docs" OFF)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -27,6 +28,10 @@ add_subdirectory(vendor/glm)
 add_subdirectory(vendor/xxHash/cmake_unofficial)
 add_subdirectory(vendor/ImGui)
 add_subdirectory(vendor/rapidyaml)
+
+if(BUILD_DOCS)
+	add_subdirectory(docs)
+endif(BUILD_DOCS)
 
 add_library(RealEngine STATIC 
 "src/RealEngine/Core/EntryPoint.h" "src/RealEngine/Core/Application.h" "src/RealEngine/Core/Application.cpp" 

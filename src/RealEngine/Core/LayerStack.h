@@ -2,6 +2,11 @@
 #include "RealEngine/Core/Layer.h"
 
 namespace RealEngine {
+	/**
+	 * @brief Manages a stack of layers and overlays for the application.
+	 *
+	 * Layers are inserted before overlays; overlays are always on top.
+	 */
 	class LayerStack {
 	public:
 		LayerStack() = default;

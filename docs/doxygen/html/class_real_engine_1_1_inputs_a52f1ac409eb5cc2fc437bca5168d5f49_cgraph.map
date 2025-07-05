@@ -1,0 +1,57 @@
+<map id="RealEngine::Inputs::IsKeyPressed" name="RealEngine::Inputs::IsKeyPressed">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,312,138,355"/>
+<area shape="rect" id="Node000002" href="$class_real_engine_1_1_application.html#a7b400b82b8c4d9dc4621e23f065ef47a" title="Gets the singleton instance of the application." alt="" coords="186,320,375,347"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="138,331,170,331,170,336,138,336"/>
+<area shape="rect" id="Node000003" href="$class_real_engine_1_1_application.html#a294ac6087dfdc6e35b438bf57eec521a" title="Constructs the application with a given specification." alt="" coords="423,312,583,355"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="375,331,408,331,408,336,375,336"/>
+<area shape="rect" id="Node000004" href="$class_real_engine_1_1_render_commands.html#a9ff6724bcb3d1e986683e927bba0390d" title="Initializes the rendering state, enables depth testing, and logs OpenGL version information." alt="" coords="631,147,837,189"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="518,310,564,255,595,225,630,199,638,194,641,199,633,204,599,229,568,258,522,313"/>
+<area shape="rect" id="Node000005" href="$class_real_engine_1_1_renderer.html#a8d4e5dfeaabc960397fd035ef123449d" title=" " alt="" coords="659,213,809,256"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="551,309,630,274,663,260,665,265,632,278,553,314"/>
+<area shape="rect" id="Node000015" href="$class_real_engine_1_1_application.html#a175a1c7d9650cb7f0ed767bd94147781" title="Handles an event and dispatches it to the appropriate handlers." alt="" coords="654,312,814,355"/>
+<area shape="poly" id="edge19_Node000003_Node000015" title=" " alt="" coords="584,331,638,331,638,336,584,336"/>
+<area shape="rect" id="Node000023" href="$class_real_engine_1_1_application.html#ac043b21c75aa6701f580e666e098b77b" title="Adds a layer to the layer stack." alt="" coords="654,379,814,421"/>
+<area shape="poly" id="edge28_Node000003_Node000023" title=" " alt="" coords="580,353,644,371,642,376,578,358"/>
+<area shape="rect" id="Node000024" href="$namespace_real_engine.html#a2bf25543f6cdf4d6feaeac571c271020" title="Sets the YAML parser error callbacks to use YAMLErrorCallBack." alt="" coords="644,463,824,505"/>
+<area shape="poly" id="edge29_Node000003_Node000024" title=" " alt="" coords="531,353,577,391,633,431,672,453,669,458,630,436,574,395,527,357"/>
+<area shape="rect" id="Node000006" href="$class_real_engine_1_1_index_buffer.html#aef1faddf7c2f2ccca9cbb72eda5770be" title=" " alt="" coords="910,29,1072,72"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="808,217,835,199,847,185,853,171,858,142,863,112,870,97,883,82,894,73,898,77,887,86,875,100,868,114,863,143,858,173,851,188,838,203,811,221"/>
+<area shape="rect" id="Node000012" href="$class_real_engine_1_1_shader.html#aec122bd63b07a543969602985ed9bca5" title="Creates a reference&#45;counted shader from a file path." alt="" coords="922,96,1060,139"/>
+<area shape="poly" id="edge13_Node000005_Node000012" title=" " alt="" coords="808,213,835,199,850,187,858,174,868,161,883,148,907,136,909,141,886,153,872,165,863,178,853,191,838,204,810,218"/>
+<area shape="rect" id="Node000013" href="$class_real_engine_1_1_texture2_d.html#a23dcd9b0aa76b224a2ce369fa57fa70f" title="Creates a reference&#45;counted Texture2D instance." alt="" coords="913,163,1069,205"/>
+<area shape="poly" id="edge15_Node000005_Node000013" title=" " alt="" coords="809,217,897,200,898,205,810,223"/>
+<area shape="rect" id="Node000014" href="$class_real_engine_1_1_vertex_array.html#abbe3d9c1eb168cfb5f206ab76951e5aa" title="Creates a new VertexArray object wrapped in a Ref pointer." alt="" coords="909,229,1073,272"/>
+<area shape="poly" id="edge17_Node000005_Node000014" title=" " alt="" coords="809,237,893,242,893,247,809,242"/>
+<area shape="poly" id="edge6_Node000006_Node000006" title=" " alt="" coords="942,29,940,19,949,10,965,5,991,3,1018,5,1035,11,1033,16,1017,10,991,8,966,10,951,15,946,21,948,28"/>
+<area shape="rect" id="Node000007" href="$namespace_real_engine.html#a9090a8984927181b5605993771ec6eef" title="Creates a Ref (shared_ptr) instance." alt="" coords="1170,137,1326,164"/>
+<area shape="poly" id="edge7_Node000006_Node000007" title=" " alt="" coords="1066,70,1098,82,1206,128,1203,133,1096,86,1064,75"/>
+<area shape="rect" id="Node000008" href="$class_real_engine_1_1_index_buffer.html#a2764d4ba90380f3869b970dbcaf8a918" title=" " alt="" coords="1166,29,1329,72"/>
+<area shape="poly" id="edge8_Node000006_Node000008" title=" " alt="" coords="1073,48,1151,48,1151,53,1073,53"/>
+<area shape="poly" id="edge12_Node000008_Node000008" title=" " alt="" coords="1206,29,1205,19,1212,10,1226,5,1248,3,1271,5,1285,11,1283,16,1270,10,1248,8,1227,10,1215,15,1210,21,1212,28"/>
+<area shape="rect" id="Node000009" href="$class_real_engine_1_1_utils_1_1_buffer.html#a63606f8ff7b0beea6b6bbb98a7d57518" title=" " alt="" coords="1398,29,1530,72"/>
+<area shape="poly" id="edge9_Node000008_Node000009" title=" " alt="" coords="1329,48,1383,48,1383,53,1329,53"/>
+<area shape="rect" id="Node000010" href="$class_real_engine_1_1_utils_1_1_buffer.html#ada4439045bd4752be24db17108a80206" title=" " alt="" coords="1578,29,1714,72"/>
+<area shape="poly" id="edge10_Node000009_Node000010" title=" " alt="" coords="1530,48,1562,48,1562,53,1530,53"/>
+<area shape="rect" id="Node000011" href="$class_real_engine_1_1_utils_1_1_buffer.html#a724571b17733b238490285d08d070385" title=" " alt="" coords="1762,29,1893,72"/>
+<area shape="poly" id="edge11_Node000010_Node000011" title=" " alt="" coords="1714,48,1747,48,1747,53,1714,53"/>
+<area shape="poly" id="edge14_Node000012_Node000007" title=" " alt="" coords="1060,124,1154,136,1154,141,1060,129"/>
+<area shape="poly" id="edge16_Node000013_Node000007" title=" " alt="" coords="1069,171,1154,160,1154,165,1070,177"/>
+<area shape="poly" id="edge18_Node000014_Node000007" title=" " alt="" coords="1064,226,1096,215,1203,168,1206,173,1098,220,1066,231"/>
+<area shape="poly" id="edge21_Node000015_Node000015" title=" " alt="" coords="690,312,688,302,696,293,711,287,734,285,759,288,774,294,771,299,757,293,734,291,712,293,699,297,694,303,695,311"/>
+<area shape="rect" id="Node000016" href="$class_real_engine_1_1_event_dispatcher.html#a34d2d5543e872c08d2778002a2cef798" title="Dispatches the stored event to the given handler if it matches type T." alt="" coords="894,296,1088,339"/>
+<area shape="poly" id="edge20_Node000015_Node000016" title=" " alt="" coords="815,326,879,322,879,327,815,331"/>
+<area shape="rect" id="Node000017" href="$class_real_engine_1_1_application.html#a60a13e1dd3bc4b3a293e4b99be9bd0b4" title=" " alt="" coords="911,363,1071,405"/>
+<area shape="poly" id="edge22_Node000015_Node000017" title=" " alt="" coords="815,347,896,363,895,368,814,352"/>
+<area shape="rect" id="Node000019" href="$class_real_engine_1_1_application.html#aa8af476bfa3cc6a8c96990d52be4d0cb" title=" " alt="" coords="911,429,1071,472"/>
+<area shape="poly" id="edge24_Node000015_Node000019" title=" " alt="" coords="816,353,838,364,853,377,863,390,872,403,886,415,898,422,895,426,883,420,868,407,858,394,850,381,835,369,813,357"/>
+<area shape="rect" id="Node000018" href="$class_real_engine_1_1_application.html#a9b3766627214b13f6467179366d74698" title=" " alt="" coords="1168,329,1328,372"/>
+<area shape="poly" id="edge23_Node000017_Node000018" title=" " alt="" coords="1071,371,1152,360,1153,366,1072,376"/>
+<area shape="rect" id="Node000020" href="$class_real_engine_1_1_window_resize_event.html#ae72a4048c182110fa7b172e77ec1f593" title=" " alt="" coords="1156,396,1340,439"/>
+<area shape="poly" id="edge25_Node000019_Node000020" title=" " alt="" coords="1071,438,1140,429,1141,434,1072,443"/>
+<area shape="rect" id="Node000021" href="$class_real_engine_1_1_window_resize_event.html#a09e442783c7d957315d75e6d18bd92ac" title=" " alt="" coords="1156,463,1340,505"/>
+<area shape="poly" id="edge26_Node000019_Node000021" title=" " alt="" coords="1072,458,1141,467,1140,473,1071,464"/>
+<area shape="rect" id="Node000022" href="$class_real_engine_1_1_render_commands.html#aa0488736651417ec2ef34332208281d3" title="Sets the OpenGL viewport dimensions." alt="" coords="1145,529,1350,572"/>
+<area shape="poly" id="edge27_Node000019_Node000022" title=" " alt="" coords="1071,470,1098,482,1123,498,1146,515,1158,520,1156,525,1144,520,1120,503,1096,486,1069,475"/>
+<area shape="rect" id="Node000025" href="$namespace_real_engine.html#a3522d7c8636f05aff876e884d7eb4fb8" title="Callback function invoked on YAML parsing errors." alt="" coords="885,496,1097,523"/>
+<area shape="poly" id="edge30_Node000024_Node000025" title=" " alt="" coords="824,490,869,495,869,500,824,496"/>
+</map>

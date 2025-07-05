@@ -1,0 +1,5 @@
+<map id="RealEngine::VertexArray::SetVertexBuffers" name="RealEngine::VertexArray::SetVertexBuffers">
+<area shape="rect" id="Node000001" title="Sets multiple vertex buffers and configures their layouts." alt="" coords="218,5,382,48"/>
+<area shape="rect" id="Node000002" href="$class_real_engine_1_1_vertex_array.html#afbc586e0cc957de0a24aff381e1c3e85" title="Sets a single vertex buffer and configures its layout attributes." alt="" coords="5,5,170,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,29,170,29,170,24,202,24"/>
+</map>

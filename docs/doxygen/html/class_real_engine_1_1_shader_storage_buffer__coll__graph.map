@@ -1,0 +1,5 @@
+<map id="RealEngine::ShaderStorageBuffer" name="RealEngine::ShaderStorageBuffer">
+<area shape="rect" id="Node000001" title="Wrapper around OpenGL shader storage buffer object (SSBO)." alt="" coords="5,96,188,139"/>
+<area shape="rect" id="Node000002" href="$class_real_engine_1_1_utils_1_1_buffer.html" title="Low&#45;level OpenGL buffer abstraction. Not intended for direct use." alt="" coords="31,5,162,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,64,99,96,94,96,94,64"/>
+</map>

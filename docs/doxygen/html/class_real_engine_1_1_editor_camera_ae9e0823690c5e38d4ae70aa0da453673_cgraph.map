@@ -1,0 +1,23 @@
+<map id="RealEngine::EditorCamera::OnEvent" name="RealEngine::EditorCamera::OnEvent">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,182,81"/>
+<area shape="rect" id="Node000002" href="$class_real_engine_1_1_event_dispatcher.html#a34d2d5543e872c08d2778002a2cef798" title="Dispatches the stored event to the given handler if it matches type T." alt="" coords="230,5,423,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,45,213,40,214,45,182,50"/>
+<area shape="rect" id="Node000003" href="$class_real_engine_1_1_editor_camera.html#a0106e246f4ebfca3bb66aa67ac0324d3" title=" " alt="" coords="238,72,414,115"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="182,70,223,76,223,81,181,75"/>
+<area shape="rect" id="Node000004" href="$class_real_engine_1_1_mouse_scrolled_event.html#a3b360bd2303a1a727986061a0d3a7e8e" title=" " alt="" coords="471,5,653,48"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="403,69,468,50,470,55,405,74"/>
+<area shape="rect" id="Node000005" href="$class_real_engine_1_1_editor_camera.html#ae8f6a3fd8ae6f9cb963c3c4c623b0022" title=" " alt="" coords="474,72,650,115"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="415,91,459,91,459,96,415,96"/>
+<area shape="rect" id="Node000009" href="$class_real_engine_1_1_editor_camera.html#ae3a97d6f0aa1f56ea02b4d350b5db00f" title=" " alt="" coords="474,139,650,181"/>
+<area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="405,113,470,131,468,136,403,118"/>
+<area shape="rect" id="Node000006" href="$class_real_engine_1_1_editor_camera.html#a3860551ae3f6f49d1ec3ef1d04b9a465" title=" " alt="" coords="926,139,1102,181"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="627,69,681,55,745,46,813,45,846,49,879,57,909,70,937,88,983,126,980,130,934,92,906,75,877,63,845,54,812,50,746,51,682,60,628,74"/>
+<area shape="rect" id="Node000008" href="$class_real_engine_1_1_editor_camera.html#a0c8efc3efc4bb43c6063396d8ca783af" title=" " alt="" coords="701,72,878,115"/>
+<area shape="poly" id="edge7_Node000005_Node000008" title=" " alt="" coords="650,91,685,91,685,96,650,96"/>
+<area shape="rect" id="Node000007" href="$class_real_engine_1_1_editor_camera.html#a6ed929e3f2f3e731d9a8d87e87c823e9" title=" " alt="" coords="1150,168,1326,211"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="1102,169,1135,173,1134,178,1102,174"/>
+<area shape="poly" id="edge11_Node000009_Node000007" title=" " alt="" coords="641,179,702,191,817,200,934,202,1135,195,1135,200,934,208,817,205,701,196,640,185"/>
+<area shape="rect" id="Node000010" href="$class_real_engine_1_1_editor_camera.html#a9b6734017b9da60078a430d3e9094e03" title=" " alt="" coords="701,139,878,181"/>
+<area shape="poly" id="edge9_Node000009_Node000010" title=" " alt="" coords="650,157,685,157,685,163,650,163"/>
+<area shape="poly" id="edge10_Node000010_Node000006" title=" " alt="" coords="878,157,910,157,910,163,878,163"/>
+</map>

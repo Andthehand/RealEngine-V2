@@ -1,0 +1,5 @@
+<map id="RealEngine::ApplicationSpecification" name="RealEngine::ApplicationSpecification">
+<area shape="rect" id="Node000001" title="Contains configuration details for initializing an application." alt="" coords="5,120,241,147"/>
+<area shape="rect" id="Node000002" href="$struct_real_engine_1_1_application_command_line_args.html" title="Command line arguments passed to the application by child application." alt="" coords="13,5,233,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="126,64,126,119,120,119,120,64"/>
+</map>

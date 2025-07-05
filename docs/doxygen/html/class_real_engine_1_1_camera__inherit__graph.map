@@ -1,0 +1,5 @@
+<map id="RealEngine::Camera" name="RealEngine::Camera">
+<area shape="rect" id="Node000001" title="Represents a basic camera with a projection matrix." alt="" coords="22,5,165,32"/>
+<area shape="rect" id="Node000002" href="$class_real_engine_1_1_editor_camera.html" title="A camera designed for editor usage, supporting mouse and keyboard input for navigation." alt="" coords="5,80,182,107"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,48,96,80,91,80,91,48"/>
+</map>
