@@ -1,7 +1,0 @@
-<map id="RealEngine::Inputs::GetMousePosition" name="RealEngine::Inputs::GetMousePosition">
-<area shape="rect" id="Node000001" title=" " alt="" coords="186,39,322,81"/>
-<area shape="rect" id="Node000002" href="$class_real_engine_1_1_inputs.html#a8a47f878c331c4ad3091df16a236abad" title=" " alt="" coords="5,5,138,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,47,138,41,139,36,171,42"/>
-<area shape="rect" id="Node000003" href="$class_real_engine_1_1_inputs.html#a7f8078ba1fbd4afaf3d0c818ee2dd234" title=" " alt="" coords="5,72,138,115"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,78,139,84,138,79,170,73"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="RealEngine::Framebuffer::Framebuffer" name="RealEngine::Framebuffer::Framebuffer">
-<area shape="rect" id="Node000001" title="Creates a framebuffer with the given specification." alt="" coords="5,5,171,48"/>
-<area shape="rect" id="Node000002" href="$class_real_engine_1_1_framebuffer.html#a816d9d73dc51cd5bd662686aca29f781" title="Internal function to create or recreate the framebuffer and attachments." alt="" coords="219,5,384,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,24,203,24,203,29,171,29"/>
-</map>

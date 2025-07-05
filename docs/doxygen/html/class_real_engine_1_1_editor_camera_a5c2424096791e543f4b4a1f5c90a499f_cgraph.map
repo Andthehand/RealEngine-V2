@@ -1,9 +1,0 @@
-<map id="RealEngine::EditorCamera::MouseRotate" name="RealEngine::EditorCamera::MouseRotate">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,182,81"/>
-<area shape="rect" id="Node000002" href="$class_real_engine_1_1_editor_camera.html#a2f0414abb651e1b59cf16772f62689d7" title=" " alt="" coords="230,5,406,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,44,214,39,214,45,182,50"/>
-<area shape="rect" id="Node000004" href="$class_real_engine_1_1_editor_camera.html#a0ef73a0866868982b95189b8b274b075" title=" " alt="" coords="230,72,406,115"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="182,70,214,75,214,81,181,76"/>
-<area shape="rect" id="Node000003" href="$class_real_engine_1_1_editor_camera.html#a6ed929e3f2f3e731d9a8d87e87c823e9" title=" " alt="" coords="454,5,630,48"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="406,24,438,24,438,29,406,29"/>
-</map>

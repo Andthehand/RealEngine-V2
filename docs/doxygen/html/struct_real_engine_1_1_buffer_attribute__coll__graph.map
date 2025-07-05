@@ -1,5 +1,0 @@
-<map id="RealEngine::BufferAttribute" name="RealEngine::BufferAttribute">
-<area shape="rect" id="Node000001" title="Single attribute used in a vertex layout." alt="" coords="5,104,185,131"/>
-<area shape="rect" id="Node000002" href="$class_real_engine_1_1_data_type.html" title="Wrapper for abstracting data types and layouts in vertex buffers." alt="" coords="19,5,171,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="98,48,98,104,92,104,92,48"/>
-</map>

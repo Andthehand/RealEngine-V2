@@ -1,9 +1,0 @@
-<map id="RealEngine::Application::OnWindowResize" name="RealEngine::Application::OnWindowResize">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,72,166,115"/>
-<area shape="rect" id="Node000002" href="$class_real_engine_1_1_window_resize_event.html#ae72a4048c182110fa7b172e77ec1f593" title=" " alt="" coords="224,5,408,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,69,225,50,226,55,162,74"/>
-<area shape="rect" id="Node000003" href="$class_real_engine_1_1_window_resize_event.html#a09e442783c7d957315d75e6d18bd92ac" title=" " alt="" coords="224,72,408,115"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="166,91,209,91,209,96,166,96"/>
-<area shape="rect" id="Node000004" href="$class_real_engine_1_1_render_commands.html#aa0488736651417ec2ef34332208281d3" title="Sets the OpenGL viewport dimensions." alt="" coords="214,139,419,181"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="162,113,226,131,225,136,161,118"/>
-</map>

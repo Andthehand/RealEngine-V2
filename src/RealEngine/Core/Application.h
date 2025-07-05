@@ -10,6 +10,10 @@
 
 #include "RealEngine/ImGui/ImGuiLayer.h"
 
+//TODO: Fix github action build error
+//TODO: Turn the event types to be more dynamic with the dispatcher
+//TODO: Look into adding a multithreaded renderer
+
 namespace RealEngine {
 	/**
 	 * @brief Command line arguments passed to the application by child application.

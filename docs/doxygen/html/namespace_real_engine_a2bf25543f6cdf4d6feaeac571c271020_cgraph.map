@@ -1,5 +1,0 @@
-<map id="RealEngine::SetYAMLErrorCallbacks" name="RealEngine::SetYAMLErrorCallbacks">
-<area shape="rect" id="Node000001" title="Sets the YAML parser error callbacks to use YAMLErrorCallBack." alt="" coords="5,5,185,48"/>
-<area shape="rect" id="Node000002" href="$namespace_real_engine.html#a3522d7c8636f05aff876e884d7eb4fb8" title="Callback function invoked on YAML parsing errors." alt="" coords="233,13,445,40"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,24,217,24,217,29,185,29"/>
-</map>

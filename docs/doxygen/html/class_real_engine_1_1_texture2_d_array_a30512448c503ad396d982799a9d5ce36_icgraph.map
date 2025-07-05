@@ -1,7 +1,0 @@
-<map id="RealEngine::Texture2DArray::LoadTextures" name="RealEngine::Texture2DArray::LoadTextures">
-<area shape="rect" id="Node000001" title=" " alt="" coords="241,39,428,81"/>
-<area shape="rect" id="Node000002" href="$class_real_engine_1_1_texture2_d_array.html#a773f97801c61a52f0e2084030e5a84e2" title="Constructs a texture array from an initializer list of file paths." alt="" coords="5,5,193,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,47,193,43,194,37,225,42"/>
-<area shape="rect" id="Node000003" href="$class_real_engine_1_1_texture2_d_array.html#a2d641048e8e8357a53fe91e27ea95935" title="Constructs a texture array from a vector of file paths." alt="" coords="5,72,193,115"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="225,78,194,83,193,77,225,73"/>
-</map>

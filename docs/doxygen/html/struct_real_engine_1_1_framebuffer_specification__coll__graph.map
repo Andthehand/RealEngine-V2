@@ -1,5 +1,0 @@
-<map id="RealEngine::FramebufferSpecification" name="RealEngine::FramebufferSpecification">
-<area shape="rect" id="Node000001" title="Configuration specification for creating a framebuffer." alt="" coords="5,120,246,147"/>
-<area shape="rect" id="Node000002" href="$struct_real_engine_1_1_framebuffer_attachment_specification.html" title="Specifies a list of framebuffer texture attachments." alt="" coords="9,5,242,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,64,128,119,123,119,123,64"/>
-</map>

@@ -1,5 +1,0 @@
-<map id="RealEngine::ImGuiLayer::SetScale" name="RealEngine::ImGuiLayer::SetScale">
-<area shape="rect" id="Node000001" title="Applies content scaling to UI elements and fonts. Used for DPI awareness and high&#45;DPI displays." alt="" coords="217,5,380,48"/>
-<area shape="rect" id="Node000002" href="$class_real_engine_1_1_im_gui_layer.html#a4e8a7f241bb6a43dbeaff774b4e8c465" title=" " alt="" coords="5,5,169,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,29,169,29,169,24,201,24"/>
-</map>

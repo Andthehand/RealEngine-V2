@@ -1,5 +1,0 @@
-<map id="RealEngine::Shader::Create" name="RealEngine::Shader::Create">
-<area shape="rect" id="Node000001" title="Creates a reference&#45;counted shader from vertex and fragment source code strings." alt="" coords="5,5,143,48"/>
-<area shape="rect" id="Node000002" href="$namespace_real_engine.html#a9090a8984927181b5605993771ec6eef" title="Creates a Ref (shared_ptr) instance." alt="" coords="191,13,347,40"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,24,175,24,175,29,143,29"/>
-</map>

@@ -1,9 +1,0 @@
-<map id="RealEngine::Shader::CompileShader" name="RealEngine::Shader::CompileShader">
-<area shape="rect" id="Node000001" title="Compiles the shader from processed source code blocks." alt="" coords="376,39,513,81"/>
-<area shape="rect" id="Node000002" href="$class_real_engine_1_1_shader.html#ae1137f859d2ca0455e376fda6f797353" title="Parses a shader file and extracts shader code blocks by type." alt="" coords="191,5,328,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="360,48,328,42,329,36,361,42"/>
-<area shape="rect" id="Node000004" href="$class_real_engine_1_1_shader.html#a56b949b38253a87d46fa4cc4e422fd1e" title="Constructs a shader from vertex and fragment shader source code strings." alt="" coords="191,72,328,115"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="361,78,329,84,328,78,360,72"/>
-<area shape="rect" id="Node000003" href="$class_real_engine_1_1_shader.html#a51d15140f47f7edb7198bff66aaae4b7" title="Constructs a shader by loading from a file." alt="" coords="5,5,143,48"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="175,29,143,29,143,24,175,24"/>
-</map>

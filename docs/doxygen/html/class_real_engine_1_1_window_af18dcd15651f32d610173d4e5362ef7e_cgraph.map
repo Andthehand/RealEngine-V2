@@ -1,7 +1,0 @@
-<map id="RealEngine::Window::Init" name="RealEngine::Window::Init">
-<area shape="rect" id="Node000001" title="Initializes the window with given title and size. Sets up GLFW, OpenGL context, and event callbacks." alt="" coords="5,27,149,69"/>
-<area shape="rect" id="Node000002" href="$namespace_real_engine.html#aec427a62859f17dcef491639f740c7e0" title=" " alt="" coords="197,5,410,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,36,181,32,182,37,149,41"/>
-<area shape="rect" id="Node000003" href="$class_real_engine_1_1_window.html#a84d8ee51c490af46f52ee3c508bf75e0" title=" " alt="" coords="232,56,375,99"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="149,55,217,63,216,69,149,60"/>
-</map>

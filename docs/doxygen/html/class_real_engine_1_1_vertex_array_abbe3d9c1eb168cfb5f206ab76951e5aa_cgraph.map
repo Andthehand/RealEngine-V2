@@ -1,5 +1,0 @@
-<map id="RealEngine::VertexArray::Create" name="RealEngine::VertexArray::Create">
-<area shape="rect" id="Node000001" title="Creates a new VertexArray object wrapped in a Ref pointer." alt="" coords="5,5,170,48"/>
-<area shape="rect" id="Node000002" href="$namespace_real_engine.html#a9090a8984927181b5605993771ec6eef" title="Creates a Ref (shared_ptr) instance." alt="" coords="218,13,374,40"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,24,202,24,202,29,170,29"/>
-</map>

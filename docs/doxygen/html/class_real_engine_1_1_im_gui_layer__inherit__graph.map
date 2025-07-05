@@ -1,5 +1,0 @@
-<map id="RealEngine::ImGuiLayer" name="RealEngine::ImGuiLayer">
-<area shape="rect" id="Node000001" title="A layer for integrating Dear ImGui with the engine." alt="" coords="5,80,169,107"/>
-<area shape="rect" id="Node000002" href="$class_real_engine_1_1_layer.html" title="Base class for application layers." alt="" coords="23,5,151,32"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,48,90,80,84,80,84,48"/>
-</map>

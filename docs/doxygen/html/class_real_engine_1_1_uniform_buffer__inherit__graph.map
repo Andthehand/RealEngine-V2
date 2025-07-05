@@ -1,5 +1,0 @@
-<map id="RealEngine::UniformBuffer" name="RealEngine::UniformBuffer">
-<area shape="rect" id="Node000001" title="Wrapper for OpenGL UBOs." alt="" coords="5,96,182,123"/>
-<area shape="rect" id="Node000002" href="$class_real_engine_1_1_utils_1_1_buffer.html" title="Low&#45;level OpenGL buffer abstraction. Not intended for direct use." alt="" coords="28,5,159,48"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,64,96,95,91,95,91,64"/>
-</map>
