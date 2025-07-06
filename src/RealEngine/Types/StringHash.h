@@ -1,30 +1,34 @@
 #pragma once
 
-namespace RealEngine {
-	//I might come back to this to add a lookup table for the hashes for debbuging purposes
-	class StringHash {
-	public:
-		StringHash(const std::string& string);
-		StringHash(const char* string);
+#include <string>
+#include <cstdint>
 
-		operator uint32_t() const { return m_Hash; }
+class StringHash {
+public:
+    explicit StringHash(const std::string& string);
+    explicit StringHash(const char* string);
 
-		bool operator==(const StringHash& other) const { return m_Hash == other.m_Hash; }
-		bool operator!=(const StringHash& other) const { return m_Hash != other.m_Hash; }
-	private:
-		uint32_t m_Hash;
-		
+    static constexpr StringHash StaticHash(const char* str) {
+        return StringHash(ConstexprFnv1aHash(str));
+    }
+
+    constexpr operator uint32_t() const { return m_Hash; }
+
+    constexpr bool operator==(const StringHash& other) const { return m_Hash == other.m_Hash; }
+    constexpr bool operator!=(const StringHash& other) const { return m_Hash != other.m_Hash; }
+private:
+    constexpr explicit StringHash(uint32_t hash) : m_Hash(hash) {}
+
+    void InitDebugString(const char* str);
+
+    static uint32_t HashRuntime(const char* str);
+    static constexpr uint32_t ConstexprFnv1aHash(const char* str, uint32_t hash = 2166136261u) {
+        return (*str == '\0') ? hash : ConstexprFnv1aHash(str + 1, (hash ^ static_cast<uint32_t>(*str)) * 16777619u);
+    }
+private:
+    uint32_t m_Hash;
+
 #ifdef RE_DEBUG
-		std::string m_String;
+    std::string m_String;
 #endif
-	};
-}
-
-namespace std {
-	template<>
-	struct hash<RealEngine::StringHash> {
-		std::size_t operator()(const RealEngine::StringHash& stringHash) const {
-			return (uint32_t)stringHash;
-		}
-	};
-}
+};

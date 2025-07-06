@@ -1,31 +1,42 @@
 #pragma once
+#include <unordered_set>
 #include <string>
+
+#include "RealEngine/Types/StringHash.h"
 
 namespace RealEngine {
 	/**
-	 * @brief Enum of all possible event types.
+	 * @brief Represents a unique event type, identified via StringHash.
 	 */
-	enum class EventType {
-		None = 0,
-		WindowClose, WindowResize, WindowRescaled,
-		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
-		KeyPressed, KeyReleased,
+	class EventType {
+	public:
+		/**
+		 * @brief Constructs an EventType from a hashed string.
+		 * @param id Hashed identifier for the event type.
+		 */
+		explicit EventType(StringHash id) : m_ID(id) {}
 
-		// Editor events
-		PannelFolderSelect
+		bool operator==(const EventType& other) const { return m_ID == other.m_ID; }
+		bool operator!=(const EventType& other) const { return m_ID != other.m_ID; }
+
+		StringHash GetID() const { return m_ID; }
+
+	private:
+		StringHash m_ID;
 	};
 
 	/**
-	* @brief Macro to define common event functions in event subclasses.
-	*
-	* Defines:
-	* - static GetStaticType() returning the event type enum
-	* - virtual GetEventType() returning static type
-	* - virtual GetName() returning event type name as string
-	*/
-	#define EVENT_CLASS_TYPE(type)  static EventType GetStaticType() { return EventType::type; }\
-									virtual EventType GetEventType() const override { return GetStaticType(); }\
-									virtual const char* GetName() const override { return #type; }
+	 * @brief Macro to define common event type functions.
+	 *
+	 * Use inside event subclasses to:
+	 * - Define a static `GetStaticType()` returning a unique EventType
+	 * - Implement `GetEventType()` using the static type
+	 * - Implement `GetName()` using the event class name
+	 */
+	#define EVENT_CLASS_TYPE(type_name) \
+		static EventType GetStaticType() { return EventType(StringHash::StaticHash(#type_name)); } \
+		virtual EventType GetEventType() const override { return GetStaticType(); } \
+		virtual const char* GetName() const override { return #type_name; }
 
 	/**
 	 * @brief Base class for all events.

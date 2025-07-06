@@ -52,8 +52,7 @@ namespace RealEngine {
 		}
 	}
 
-	Texture2D::Texture2D(const std::filesystem::path& path)
-		: m_FilePath(path) {
+	Texture2D::Texture2D(const std::filesystem::path& path) {
 		RE_PROFILE_FUNCTION();
 		
 		stbi_set_flip_vertically_on_load(true);

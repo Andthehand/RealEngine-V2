@@ -1,8 +1,6 @@
 #pragma once
 #include <filesystem>
 
-#include "RealEngine/Types/PathHash.h"
-
 namespace RealEngine {
 	enum class TextureFormat : GLenum {
 		NONE = 0,
@@ -100,8 +98,6 @@ namespace RealEngine {
 	private:
 		uint32_t m_Width, m_Height;
 		uint32_t m_RendererID;
-	
-		PathHash m_FilePath;
 	};
 
 	struct Texture2DArrayCreateInfo {

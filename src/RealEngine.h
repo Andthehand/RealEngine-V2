@@ -29,5 +29,4 @@
 
 #include "RealEngine/Render/EditorCamera.h"
 
-#include "RealEngine/Types/PathHash.h"
 #include "RealEngine/Types/StringHash.h"

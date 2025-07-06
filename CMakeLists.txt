@@ -9,10 +9,6 @@ option(BUILD_DOCS "Build Doxygen docs" OFF)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-set(XXHASH_BUILD_ENABLE_INLINE_API ON) #optional
-set(XXHASH_BUILD_XXHSUM OFF) #optional
-set(BUILD_SHARED_LIBS OFF) #optional
-
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
@@ -25,7 +21,6 @@ add_subdirectory(vendor/tracy)
 add_subdirectory(vendor/glfw)
 add_subdirectory(vendor/glad)
 add_subdirectory(vendor/glm)
-add_subdirectory(vendor/xxHash/cmake_unofficial)
 add_subdirectory(vendor/ImGui)
 add_subdirectory(vendor/rapidyaml)
 
@@ -45,7 +40,7 @@ add_library(RealEngine STATIC
 "src/RealEngine/Types/StringHash.cpp" "src/RealEngine/Render/RenderCommands.h" "src/RealEngine/Render/RenderCommands.cpp" "src/RealEngine/ImGui/ImGuiLayer.cpp" 
 "src/RealEngine/ImGui/ImGuiLayer.h" "src/RealEngine/Render/Renderer.h" "src/RealEngine/Render/Renderer.cpp" 
 "src/RealEngine/Render/Framebuffer.h" "src/RealEngine/Render/Framebuffer.cpp" "src/RealEngine/Render/Texture.h" "src/RealEngine/Render/Texture.cpp" 
-"src/RealEngine/Types/PathHash.h" "src/RealEngine/Types/PathHash.cpp"
+ 
 "vendor/stb/stb_image.h" "src/RealEngine/Render/Buffer.h" "src/RealEngine/Render/Buffer.cpp" "src/RealEngine/Render/Shader.h" "src/RealEngine/Render/Shader.cpp" "src/RealEngine/Render/VertexArray.h" "src/RealEngine/Render/VertexArray.cpp" "src/RealEngine/Render/Camera.h" "src/RealEngine/Render/EditorCamera.h" "src/RealEngine/Render/EditorCamera.cpp"   "src/RealEngine/Logger/GLMFormatter.h" "src/RealEngine/Logger/YAMLFormatter.h" "src/RealEngine/Core/yaml.h" "src/RealEngine/Logger/STDFormatter.h")
 
 include_directories(RealEngine PRIVATE
@@ -76,4 +71,4 @@ endif()
 
 # links the spdlog static library to the executable
 target_link_libraries(RealEngine 
-quill::quill Tracy::TracyClient glfw glad glm xxHash::xxhash imgui ryml::ryml)
+quill::quill Tracy::TracyClient glfw glad glm imgui ryml::ryml)
