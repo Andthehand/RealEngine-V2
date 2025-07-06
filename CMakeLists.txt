@@ -42,11 +42,11 @@ add_library(RealEngine STATIC
 "src/RealEngine/Events/MouseEvents.h" "src/RealEngine/Events/KeyEvents.h" "src/RealEngine/Core/KeyCodes.h" 
 "src/RealEngine/Core/MouseCodes.h" "src/RealEngine/Core/Input.h" "src/RealEngine/Core/Input.cpp" 
 "src/RealEngine/Types/UUID.h" "src/RealEngine/Types/UUID.cpp" "src/RealEngine/Types/StringHash.h" 
-"src/RealEngine/Types/StringHash.cpp" "src/RealEngine/Render/RenderCommands.h" "src/RealEngine/ImGui/ImGuiLayer.cpp" 
+"src/RealEngine/Types/StringHash.cpp" "src/RealEngine/Render/RenderCommands.h" "src/RealEngine/Render/RenderCommands.cpp" "src/RealEngine/ImGui/ImGuiLayer.cpp" 
 "src/RealEngine/ImGui/ImGuiLayer.h" "src/RealEngine/Render/Renderer.h" "src/RealEngine/Render/Renderer.cpp" 
 "src/RealEngine/Render/Framebuffer.h" "src/RealEngine/Render/Framebuffer.cpp" "src/RealEngine/Render/Texture.h" "src/RealEngine/Render/Texture.cpp" 
 "src/RealEngine/Types/PathHash.h" "src/RealEngine/Types/PathHash.cpp"
-"vendor/stb/stb_image.h" "src/RealEngine/Render/Buffer.h" "src/RealEngine/Render/Buffer.cpp" "src/RealEngine/Render/Shader.h" "src/RealEngine/Render/Shader.cpp" "src/RealEngine/Render/VertexArray.h" "src/RealEngine/Render/VertexArray.cpp" "src/RealEngine/Resources/GeneralManager.h" "src/RealEngine/Resources/TextureManager.h" "src/RealEngine/Render/Camera.h" "src/RealEngine/Render/EditorCamera.h" "src/RealEngine/Render/EditorCamera.cpp"   "src/RealEngine/Logger/GLMFormatter.h" "src/RealEngine/Logger/YAMLFormatter.h" "src/RealEngine/Core/yaml.h" "src/RealEngine/Logger/STDFormatter.h" "src/RealEngine/Render/RenderCommands.cpp")
+"vendor/stb/stb_image.h" "src/RealEngine/Render/Buffer.h" "src/RealEngine/Render/Buffer.cpp" "src/RealEngine/Render/Shader.h" "src/RealEngine/Render/Shader.cpp" "src/RealEngine/Render/VertexArray.h" "src/RealEngine/Render/VertexArray.cpp" "src/RealEngine/Render/Camera.h" "src/RealEngine/Render/EditorCamera.h" "src/RealEngine/Render/EditorCamera.cpp"   "src/RealEngine/Logger/GLMFormatter.h" "src/RealEngine/Logger/YAMLFormatter.h" "src/RealEngine/Core/yaml.h" "src/RealEngine/Logger/STDFormatter.h")
 
 include_directories(RealEngine PRIVATE
   src

@@ -1218,32 +1218,6 @@
       <arglist></arglist>
     </member>
   </compound>
-  <compound kind="class">
-    <name>RealEngine::GeneralManager</name>
-    <filename>class_real_engine_1_1_general_manager.html</filename>
-    <templarg>typename T</templarg>
-    <member kind="function">
-      <type></type>
-      <name>GeneralManager</name>
-      <anchorfile>class_real_engine_1_1_general_manager.html</anchorfile>
-      <anchor>a099016c20bfc80a11412a20d7cdefc4b</anchor>
-      <arglist>()=delete</arglist>
-    </member>
-    <member kind="function" static="yes">
-      <type>static Ref&lt; T &gt;</type>
-      <name>LoadResource</name>
-      <anchorfile>class_real_engine_1_1_general_manager.html</anchorfile>
-      <anchor>af21973003eecaa1a2886f458483259ac</anchor>
-      <arglist>(const std::filesystem::path &amp;path)</arglist>
-    </member>
-    <member kind="variable" protection="private" static="yes">
-      <type>static std::unordered_map&lt; PathHash, Weak_Ref&lt; T &gt; &gt;</type>
-      <name>s_Resources</name>
-      <anchorfile>class_real_engine_1_1_general_manager.html</anchorfile>
-      <anchor>aa1e54e4e11d9adae55e92776784a9e43</anchor>
-      <arglist></arglist>
-    </member>
-  </compound>
   <compound kind="struct">
     <name>std::hash&lt; RealEngine::PathHash &gt;</name>
     <filename>structstd_1_1hash_3_01_real_engine_1_1_path_hash_01_4.html</filename>
@@ -2507,18 +2481,6 @@
     </member>
   </compound>
   <compound kind="class">
-    <name>RealEngine::TextureManager</name>
-    <filename>class_real_engine_1_1_texture_manager.html</filename>
-    <base>RealEngine::GeneralManager&lt; Texture2D &gt;</base>
-    <member kind="function" static="yes">
-      <type>static Ref&lt; Texture2D &gt;</type>
-      <name>LoadTexture</name>
-      <anchorfile>class_real_engine_1_1_texture_manager.html</anchorfile>
-      <anchor>a092a3839d9dfb8c631de668a13c9994a</anchor>
-      <arglist>(const std::filesystem::path &amp;path)</arglist>
-    </member>
-  </compound>
-  <compound kind="class">
     <name>RealEngine::UniformBuffer</name>
     <filename>class_real_engine_1_1_uniform_buffer.html</filename>
     <base>RealEngine::Utils::Buffer</base>
@@ -3001,7 +2963,6 @@
     <class kind="struct">RealEngine::FramebufferAttachmentSpecification</class>
     <class kind="struct">RealEngine::FramebufferSpecification</class>
     <class kind="struct">RealEngine::FramebufferTextureSpecification</class>
-    <class kind="class">RealEngine::GeneralManager</class>
     <class kind="class">RealEngine::ImGuiLayer</class>
     <class kind="class">RealEngine::IndexBuffer</class>
     <class kind="class">RealEngine::Input</class>
@@ -3024,7 +2985,6 @@
     <class kind="class">RealEngine::Texture2D</class>
     <class kind="class">RealEngine::Texture2DArray</class>
     <class kind="struct">RealEngine::Texture2DArrayCreateInfo</class>
-    <class kind="class">RealEngine::TextureManager</class>
     <class kind="class">RealEngine::UniformBuffer</class>
     <class kind="class">RealEngine::UUID</class>
     <class kind="class">RealEngine::VertexArray</class>

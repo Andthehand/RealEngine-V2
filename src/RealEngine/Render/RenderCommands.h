@@ -44,8 +44,11 @@ namespace RealEngine {
 		 */
 		static void SetWireframe(bool enabled);
 
-		
-static void SetFaceCulling(bool enabled);
+		/**
+		* @brief Enables or disables face culling (GL_CULL_FACE).
+		* @param enabled If true, enable back-face culling. Otherwise, disable it.
+		*/
+		static void SetFaceCulling(bool enabled);
 
 		/**
 		 * @brief Draws primitives from the currently bound vertex array using indexed drawing.
