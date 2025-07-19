@@ -8,7 +8,7 @@ namespace RealEngine {
 		quill::Backend::start();
 
 		auto console_sink = quill::Frontend::create_or_get_sink<quill::ConsoleSink>("RealEngine_Console_Sink");
-		auto file_sink = quill::Frontend::create_or_get_sink<quill::FileSink>("log/RealEngine.log", []() {
+		auto file_sink = quill::Frontend::create_or_get_sink<quill::FileSink>("logs/RealEngine.log", []() {
 			quill::FileSinkConfig cfg;
 			cfg.set_open_mode('w');
 			cfg.set_filename_append_option(quill::FilenameAppendOption::None);
