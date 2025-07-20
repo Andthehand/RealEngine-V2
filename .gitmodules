@@ -17,3 +17,6 @@
 [submodule "quill"]
 	path = vendor/quill
 	url = https://github.com/odygrd/quill.git
+[submodule "vendor/entt"]
+	path = vendor/entt
+	url = https://github.com/skypjack/entt.git

@@ -23,6 +23,7 @@ add_subdirectory(vendor/glad)
 add_subdirectory(vendor/glm)
 add_subdirectory(vendor/ImGui)
 add_subdirectory(vendor/rapidyaml)
+add_subdirectory(vendor/entt)
 
 if(BUILD_DOCS)
 	add_subdirectory(docs)
@@ -71,4 +72,4 @@ endif()
 
 # links the spdlog static library to the executable
 target_link_libraries(RealEngine 
-quill::quill Tracy::TracyClient glfw glad glm imgui ryml::ryml)
+quill::quill Tracy::TracyClient glfw glad glm imgui ryml::ryml EnTT::EnTT)
