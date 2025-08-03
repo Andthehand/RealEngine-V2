@@ -73,7 +73,13 @@ namespace RealEngine {
 		}
 
 		FILE* file = nullptr;
-		fopen_s(&file, filepath.string().c_str(), "wb");
+#if defined(_MSC_VER)
+		if (fopen_s(&file, filepath.string().c_str(), "w") != 0) {
+			file = nullptr;
+		}
+#else
+		file = fopen(filepath.string().c_str(), "w");
+#endif
 		ryml::emit_yaml(tree, file);
 
 		if (file) {

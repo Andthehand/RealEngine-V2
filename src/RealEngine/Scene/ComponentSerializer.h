@@ -7,8 +7,6 @@
 #include "RealEngine/Scene/Entity.h"
 #include "RealEngine/Scene/Components.h"
 
-#include "RealEngine/Formatter/GLMFormatter.h"
-
 namespace RealEngine {
 	// Primary (fallback) template
 	template<typename T>
