@@ -1,7 +1,7 @@
 #pragma once
 #include "RealEngine.h"
-#include "RealEngine/Logger/Log.h"
-#include "RealEngine/Logger/GLMFormatter.h"
+#include "RealEngine/Core/Logger.h"
+#include "RealEngine/Formatter/GLMFormatter.h"
 
 #ifdef RE_PLATFORM_WINDOWS
 extern "C"
@@ -38,7 +38,7 @@ extern RealEngine::Application* RealEngine::CreateApplication(const ApplicationC
  * @return Exit code (0 on success).
  */
 int main(int argc, char** argv) {
-	RealEngine::Log::Init();
+	RealEngine::Logger::Init();
 
 	auto app = RealEngine::CreateApplication({ argc, argv });
 

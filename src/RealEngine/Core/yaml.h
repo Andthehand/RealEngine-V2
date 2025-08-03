@@ -1,5 +1,5 @@
 #pragma once
-#include "RealEngine/Logger/Log.h"
+#include "RealEngine/Core/Logger.h"
 
 #include <ryml.hpp>
 
@@ -16,10 +16,10 @@ namespace RealEngine {
 	 * @param userData User data pointer (unused).
 	 */
 	C4_NORETURN static void YAMLErrorCallBack(const char* msg, size_t len, ryml::Location loc, void* userData) {
-		RE_CORE_CRITICAL("YAML Parsing Error: {}", msg); 
 
 		std::filesystem::path codeFileName = std::filesystem::path(std::string_view(loc.name.begin(), loc.name.end()));
 		RE_CORE_CRITICAL("Location: {0}:{1}:{2}", codeFileName.filename(), loc.line, loc.col);
+		RE_CORE_ASSERT(false, "YAML Parsing Error: {}", msg);
 
 		abort();
 	}

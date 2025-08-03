@@ -8,11 +8,11 @@
 #include "RealEngine/Core/Input.h"
 #include "RealEngine/Core/KeyCodes.h"
 #include "RealEngine/Core/MouseCodes.h"
+#include "RealEngine/Core/Logger.h"
 
-#include "RealEngine/Logger/Log.h"
-#include "RealEngine/Logger/GLMFormatter.h"
-#include "RealEngine/Logger/YAMLFormatter.h"
-#include "RealEngine/Logger/STDFormatter.h"
+#include "RealEngine/Formatter/GLMFormatter.h"
+#include "RealEngine/Formatter/YAMLFormatter.h"
+#include "RealEngine/Formatter/STDFormatter.h"
 
 #include "RealEngine/Events/Event.h"
 #include "RealEngine/Events/KeyEvents.h"
@@ -28,5 +28,9 @@
 #include "RealEngine/Render/Buffer.h"
 
 #include "RealEngine/Render/EditorCamera.h"
+
+#include "RealEngine/Scene/Scene.h"
+#include "RealEngine/Scene/Entity.h"
+#include "RealEngine/Scene/Components.h"
 
 #include "RealEngine/Types/StringHash.h"

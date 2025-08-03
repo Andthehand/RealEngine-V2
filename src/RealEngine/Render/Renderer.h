@@ -25,16 +25,12 @@ namespace RealEngine {
 		 */
 		static void DrawQuad(const glm::vec3& position);
 
-		/**
-		 * @brief Returns a pointer to the singleton Renderer instance.
-		 * @return Pointer to the Renderer.
-		 */
-		static Renderer* Get() { return m_Renderer; }
+		static void Flush();
 
 		/**
 		 * @brief Executes the render process. Typically called once per frame.
 		 */
-		void Render();
+		static void Render();
 	private:
 		static inline Renderer* m_Renderer = nullptr;
 

@@ -1,10 +1,10 @@
-#include "Log.h"
+#include "Logger.h"
 
 namespace RealEngine {
-	quill::Logger* Log::s_CoreLogger;
-	quill::Logger* Log::s_ClientLogger;
+	quill::Logger* Logger::s_CoreLogger;
+	quill::Logger* Logger::s_ClientLogger;
 
-	void Log::Init() {
+	void Logger::Init() {
 		quill::Backend::start();
 
 		auto console_sink = quill::Frontend::create_or_get_sink<quill::ConsoleSink>("RealEngine_Console_Sink");

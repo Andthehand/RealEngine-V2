@@ -31,7 +31,7 @@ endif(BUILD_DOCS)
 
 add_library(RealEngine STATIC 
 "src/RealEngine/Core/EntryPoint.h" "src/RealEngine/Core/Application.h" "src/RealEngine/Core/Application.cpp" 
-"src/RealEngine.h" "src/RealEngine/Core/Core.h" "src/RealEngine/Logger/Log.h" "src/RealEngine/Logger/Log.cpp" 
+"src/RealEngine.h" "src/RealEngine/Core/Core.h" "src/RealEngine/Core/Logger.h" "src/RealEngine/Core/Logger.cpp" 
 "src/RealEngine/Core/Assert.h" "src/RealEngine/Core/Profiler.h" "src/RealEngine/Core/Layer.h" "src/RealEngine/Core/Layer.cpp" 
 "src/RealEngine/Core/LayerStack.h" "src/RealEngine/Core/LayerStack.cpp" "src/RealEngine/Core/Window.h" 
 "src/RealEngine/Core/Window.cpp" "src/RealEngine/Events/Event.h" "src/RealEngine/Events/WindowEvents.h" 
@@ -42,7 +42,7 @@ add_library(RealEngine STATIC
 "src/RealEngine/ImGui/ImGuiLayer.h" "src/RealEngine/Render/Renderer.h" "src/RealEngine/Render/Renderer.cpp" 
 "src/RealEngine/Render/Framebuffer.h" "src/RealEngine/Render/Framebuffer.cpp" "src/RealEngine/Render/Texture.h" "src/RealEngine/Render/Texture.cpp" 
  
-"vendor/stb/stb_image.h" "src/RealEngine/Render/Buffer.h" "src/RealEngine/Render/Buffer.cpp" "src/RealEngine/Render/Shader.h" "src/RealEngine/Render/Shader.cpp" "src/RealEngine/Render/VertexArray.h" "src/RealEngine/Render/VertexArray.cpp" "src/RealEngine/Render/Camera.h" "src/RealEngine/Render/EditorCamera.h" "src/RealEngine/Render/EditorCamera.cpp"   "src/RealEngine/Logger/GLMFormatter.h" "src/RealEngine/Logger/YAMLFormatter.h" "src/RealEngine/Core/yaml.h" "src/RealEngine/Logger/STDFormatter.h")
+"vendor/stb/stb_image.h" "src/RealEngine/Render/Buffer.h" "src/RealEngine/Render/Buffer.cpp" "src/RealEngine/Render/Shader.h" "src/RealEngine/Render/Shader.cpp" "src/RealEngine/Render/VertexArray.h" "src/RealEngine/Render/VertexArray.cpp" "src/RealEngine/Render/Camera.h" "src/RealEngine/Render/EditorCamera.h" "src/RealEngine/Render/EditorCamera.cpp"   "src/RealEngine/Formatter/GLMFormatter.h" "src/RealEngine/Formatter/YAMLFormatter.h" "src/RealEngine/Core/yaml.h" "src/RealEngine/Formatter/STDFormatter.h" "src/RealEngine/Scene/Scene.h" "src/RealEngine/Scene/Entity.h" "src/RealEngine/Scene/Scene.cpp" "src/RealEngine/Scene/Components.h" "src/RealEngine/Formatter/RealEngineFormatter.h" "src/RealEngine/Scene/ComponentSerializer.h"  )
 
 include_directories(RealEngine PRIVATE
   src

@@ -4,6 +4,8 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/string_cast.hpp>
 
+#include <ryml.hpp>
+
 
 // -------------------------
 // Vector Formatter & Codec
@@ -28,6 +30,37 @@ struct fmtquill::formatter<glm::vec<L, T, Q>> {
 template<glm::length_t L, typename T, glm::qualifier Q>
 struct quill::Codec<glm::vec<L, T, Q>> : quill::DeferredFormatCodec<glm::vec<L, T, Q>> {
 };
+
+namespace glm {
+	/**
+	 * @brief Enables reading glm::vec types from YAML sequences.
+	 */
+	template<glm::length_t L, typename T, glm::qualifier Q>
+	bool read(const ryml::ConstNodeRef& node, glm::vec<L, T, Q>* val) {
+		if (!node.has_children() || node.num_children() < L) {
+			RE_CORE_ASSERT(false, "Expected a sequence with at least {} elements, got {}", L, node.num_children());
+			return false;
+		}
+
+		for (glm::length_t i = 0; i < L; ++i)
+			node[i] >> (*val)[i];
+		return true;
+	}
+
+	/**
+	 * @brief Enables writing glm::vec types to YAML.
+	 */
+	template<glm::length_t L, typename T, glm::qualifier Q>
+	bool write(ryml::NodeRef* node, const glm::vec<L, T, Q>& val) {
+		*node |= ryml::SEQ;
+		*node |= ryml::FLOW_SL;
+
+		for (glm::length_t i = 0; i < L; ++i)
+			node->append_child() << val[i];
+
+		return true;
+	};
+}
 
 // -------------------------
 // Matrix Formatter & Codec

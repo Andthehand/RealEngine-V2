@@ -9,6 +9,7 @@ namespace RealEngine{
 	 */
 	class UUID {
 	public:
+		UUID(uint64_t uuid);
 		UUID();
 
 		/**
