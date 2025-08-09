@@ -6,6 +6,7 @@
 
 #include "RealEngine/Scene/Entity.h"
 #include "RealEngine/Scene/Components.h"
+#include "RealEngine/Formatter/RealEngineFormatter.h"
 
 namespace RealEngine {
 	// Primary (fallback) template
@@ -20,48 +21,54 @@ namespace RealEngine {
 		}
 	};
 
-	template<>
-	struct ComponentSerializer<TagComponent> {
-		static void Serialize(ryml::NodeRef& node, const TagComponent& comp) {
-			ryml::NodeRef transformNode = node["TagComponent"];
-			transformNode |= ryml::MAP;
-			transformNode["Tag"] << comp.Tag;
-		}
+    template<>
+    struct ComponentSerializer<TagComponent> {
+        static void Serialize(ryml::NodeRef& node, const TagComponent& comp) {
+            ryml::NodeRef transformNode = node["TagComponent"];
+            transformNode |= ryml::MAP;
+            transformNode["Tag"] << comp.Tag;
+        }
 
-		static void Deserialize(const ryml::ConstNodeRef& node, TagComponent& comp) {
-			node["Tag"] >> comp.Tag;
-		}
-	};
+        static void Deserialize(const ryml::ConstNodeRef& node, TagComponent* comp) {
+            const auto tagNode = node["TagComponent"];
+            if (tagNode.has_child("Tag")) {
+                tagNode["Tag"] >> comp->Tag;
+            } else {
+				RE_CORE_ASSERT(false, "TagComponent does not have a 'Tag' child node");
+            }
+        }
+    };
 
-	template<>
-	struct ComponentSerializer<IDComponent> {
-		static void Serialize(ryml::NodeRef& node, const IDComponent& comp) {
-			//TODO: Make UUID serializable
-			ryml::NodeRef transformNode = node["IDComponent"];
-			transformNode |= ryml::MAP;
-			transformNode["ID"] << (uint64_t)comp.ID;
-		}
+    template<>
+    struct ComponentSerializer<IDComponent> {
+        static void Serialize(ryml::NodeRef& node, const IDComponent& comp) {
+            ryml::NodeRef transformNode = node["IDComponent"];
+            transformNode << comp.ID;
+        }
 
-		static void Deserialize(const ryml::ConstNodeRef& node, IDComponent& comp) {
-			//TODO: Make UUID serializable
-			uint64_t id;
-			node["ID"] >> id;
-			comp.ID = RealEngine::UUID(id);
-		}
-	};
+        static void Deserialize(const ryml::ConstNodeRef& node, IDComponent* comp) {
+            const auto idNode = node["IDComponent"];
+            idNode >> comp->ID;
+        }
+    };
 
-	template<>
-	struct ComponentSerializer<TransformComponent> {
-		static void Serialize(ryml::NodeRef& node, const TransformComponent& comp) {
-			ryml::NodeRef transformNode = node["TransformComponent"];
-			transformNode |= ryml::MAP;
-			transformNode.append_child() << ryml::key("Position") << comp.Position;
-		}
+    template<>
+    struct ComponentSerializer<TransformComponent> {
+        static void Serialize(ryml::NodeRef& node, const TransformComponent& comp) {
+            ryml::NodeRef transformNode = node["TransformComponent"];
+            transformNode |= ryml::MAP;
+            transformNode.append_child() << ryml::key("Position") << comp.Position;
+        }
 
-		static void Deserialize(const ryml::ConstNodeRef& node, TransformComponent& comp) {
-			node["Position"] >> comp.Position;
-		}
-	};
+        static void Deserialize(const ryml::ConstNodeRef& node, TransformComponent* comp) {
+            const auto transformNode = node["TransformComponent"];
+            if (transformNode.has_child("Position")) {
+                transformNode["Position"] >> comp->Position;
+            } else {
+				RE_CORE_ASSERT(false, "TransformComponent does not have a 'Position' child node");
+            }
+        }
+    };
 
 	template<typename T>
 	void SerializeComponent(ryml::NodeRef& node, Entity& entity) {

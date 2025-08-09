@@ -5,6 +5,7 @@ project(RealEngine)
 # Enables the full Tracy project
 option(TRACY_ENABLE "" ON)
 option(BUILD_DOCS "Build Doxygen docs" OFF)
+option(BUILD_TESTS "Build tests" ON)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -42,7 +43,7 @@ add_library(RealEngine STATIC
 "src/RealEngine/ImGui/ImGuiLayer.h" "src/RealEngine/Render/Renderer.h" "src/RealEngine/Render/Renderer.cpp" 
 "src/RealEngine/Render/Framebuffer.h" "src/RealEngine/Render/Framebuffer.cpp" "src/RealEngine/Render/Texture.h" "src/RealEngine/Render/Texture.cpp" 
  
-"vendor/stb/stb_image.h" "src/RealEngine/Render/Buffer.h" "src/RealEngine/Render/Buffer.cpp" "src/RealEngine/Render/Shader.h" "src/RealEngine/Render/Shader.cpp" "src/RealEngine/Render/VertexArray.h" "src/RealEngine/Render/VertexArray.cpp" "src/RealEngine/Render/Camera.h" "src/RealEngine/Render/EditorCamera.h" "src/RealEngine/Render/EditorCamera.cpp"   "src/RealEngine/Formatter/GLMFormatter.h" "src/RealEngine/Formatter/YAMLFormatter.h" "src/RealEngine/Core/yaml.h" "src/RealEngine/Formatter/STDFormatter.h" "src/RealEngine/Scene/Scene.h" "src/RealEngine/Scene/Entity.h" "src/RealEngine/Scene/Scene.cpp" "src/RealEngine/Scene/Components.h" "src/RealEngine/Formatter/RealEngineFormatter.h" "src/RealEngine/Scene/ComponentSerializer.h"  )
+"vendor/stb/stb_image.h" "src/RealEngine/Render/Buffer.h" "src/RealEngine/Render/Buffer.cpp" "src/RealEngine/Render/Shader.h" "src/RealEngine/Render/Shader.cpp" "src/RealEngine/Render/VertexArray.h" "src/RealEngine/Render/VertexArray.cpp" "src/RealEngine/Render/Camera.h" "src/RealEngine/Render/EditorCamera.h" "src/RealEngine/Render/EditorCamera.cpp"   "src/RealEngine/Formatter/GLMFormatter.h" "src/RealEngine/Formatter/YAMLFormatter.h" "src/RealEngine/Core/yaml.h" "src/RealEngine/Formatter/STDFormatter.h" "src/RealEngine/Scene/Scene.h" "src/RealEngine/Scene/Entity.h" "src/RealEngine/Scene/Scene.cpp" "src/RealEngine/Scene/Components.h" "src/RealEngine/Formatter/RealEngineFormatter.h" "src/RealEngine/Scene/ComponentSerializer.h")
 
 include_directories(RealEngine PRIVATE
   src
@@ -73,3 +74,9 @@ endif()
 # links the spdlog static library to the executable
 target_link_libraries(RealEngine 
 quill::quill Tracy::TracyClient glfw glad glm imgui ryml::ryml EnTT::EnTT)
+
+if(BUILD_TESTS)
+	enable_testing()
+	add_subdirectory(vendor/googletest)
+	add_subdirectory(tests)
+endif(BUILD_TESTS)

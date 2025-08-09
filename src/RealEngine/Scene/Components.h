@@ -64,31 +64,44 @@ namespace RealEngine {
 	}
 
 
-	struct IDComponent {
-		UUID ID;
+    struct IDComponent {
+        UUID ID;
 
-		IDComponent(UUID id)
-			: ID(id) { }
+        IDComponent() = default;
+        IDComponent(UUID id)
+            : ID(id) { }
 
-        RE_REGISTER_COMPONENT()
-	};
-
-	struct TagComponent {
-		std::string Tag;
-
-		TagComponent(const std::string& tag = "Entity")
-			: Tag(tag) { }
+        bool operator==(const IDComponent& other) const {
+            return ID == other.ID;
+        }
 
         RE_REGISTER_COMPONENT()
-	};
+    };
 
-	struct TransformComponent {
-		glm::vec3 Position = { 0.0f, 0.0f, 0.0f };
+    struct TagComponent {
+        std::string Tag;
 
-		TransformComponent() = default;
-		TransformComponent(const glm::vec3& position)
-			: Position(position) { }
+        TagComponent(const std::string& tag = "Entity")
+            : Tag(tag) { }
+
+        bool operator==(const TagComponent& other) const {
+            return Tag == other.Tag;
+        }
 
         RE_REGISTER_COMPONENT()
-	};
+    };
+
+    struct TransformComponent {
+        glm::vec3 Position = { 0.0f, 0.0f, 0.0f };
+
+        TransformComponent() = default;
+        TransformComponent(const glm::vec3& position)
+            : Position(position) { }
+
+        bool operator==(const TransformComponent& other) const {
+            return Position == other.Position;
+        }
+
+        RE_REGISTER_COMPONENT()
+    };
 }
