@@ -23,6 +23,8 @@
 
 #include "RealEngine/Render/RenderCommands.h"
 
+#include "RealEngine/Utils/FileHelper.h"
+
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 

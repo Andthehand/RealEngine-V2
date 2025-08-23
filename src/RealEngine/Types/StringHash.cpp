@@ -6,20 +6,14 @@ namespace RealEngine {
         InitDebugString(string.c_str());
     }
 
-    StringHash::StringHash(const char* string) {
-        if (string == nullptr) {
-            m_Hash = HashRuntime("");
-            InitDebugString("");
-        }
-        else {
-            m_Hash = HashRuntime(string);
-            InitDebugString(string);
-        }
+    StringHash::StringHash(const char* string)
+        : m_Hash(HashRuntime(string)) {
+        InitDebugString(string);
     }
 
 #ifdef RE_DEBUG
     void StringHash::InitDebugString(const char* str) {
-        m_String = std::string(str);
+        m_String = str ? std::string(str) : std::string();
     }
 #else
     void StringHash::InitDebugString(const char*) {}

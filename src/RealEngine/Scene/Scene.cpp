@@ -64,16 +64,20 @@ namespace RealEngine {
 	void Scene::Serialize(const std::filesystem::path& filepath) {
 		RE_PROFILE_FUNCTION();
 
+		// Create the root node
 		ryml::Tree tree;
 		ryml::NodeRef root = tree.rootref();
-		root |= ryml::MAP; // mark root as a map
+		root |= ryml::MAP;
+
+		// Create the Entities node
 		ryml::NodeRef entitiesNode = root["Entities"];
 		entitiesNode |= ryml::MAP;
 
+		// Serialize each entity
 		for (entt::entity entity : m_Registry.view<entt::entity>()) {
 			Entity ent(entity, this);
 			
-			// The root node for each entity is the tag component
+			// The root node for each entity is the tag component name
 			std::string entityTag = ent.GetComponent<TagComponent>().Tag;
 			ryml::NodeRef entityNode = entitiesNode.append_child() << ryml::key(entityTag);
 			entityNode |= ryml::MAP;
@@ -84,24 +88,12 @@ namespace RealEngine {
 			SerializeComponents(ComponentList::GetAllComponents(), ent, entityNode);
 		}
 
-		FILE* file = nullptr;
-#if defined(_MSC_VER)
-		if (fopen_s(&file, filepath.string().c_str(), "w") != 0) {
-			file = nullptr;
-		}
-#else
-		file = fopen(filepath.string().c_str(), "w");
-#endif
+		// Write to file
+		FileHelper fileHelper(filepath, "w");
+		FILE* file = fileHelper.GetFileHandle();
 		ryml::emit_yaml(tree, file);
 
-		if (file) {
-			std::fclose(file);
-		}
-		else {
-			RE_CORE_ASSERT(false, "Failed to open file");
-		}
-
-		RE_CORE_WARN("Scene was serialized into {}", filepath)
+		RE_CORE_WARN("Scene was serialized into {}", filepath);
 	}
 
 	void Scene::Deserialize(const std::filesystem::path& filepath) {
@@ -111,8 +103,8 @@ namespace RealEngine {
 		RE_CORE_WARN("Deserializing scene from {0}", filepath.string());
 
 		// Read in file
-		std::ifstream infile{ filepath };
-		std::string fileContents{ std::istreambuf_iterator<char>(infile), std::istreambuf_iterator<char>() };
+		FileHelper fileHelper(filepath, "r");
+		std::string fileContents = fileHelper.ReadAllText();
 
 		// Parse the YAML file
 		ryml::Tree tree = ryml::parse_in_place(ryml::to_csubstr(filepath.filename().string()), ryml::to_substr(fileContents));
