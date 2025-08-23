@@ -25,9 +25,9 @@ namespace RealEngine {
 		 * @brief Called once per frame with the time delta since last update.
 		 * @param deltaTime Time elapsed since last frame (in seconds).
 		 */
-		virtual void OnUpdate(const float deltaTime) {}
+		virtual void OnUpdate(const float deltaTime) { (void)deltaTime; }
 		virtual void OnImGui() {}
-		virtual void OnEvent(Event& event) {}
+		virtual void OnEvent(Event& event) { (void)event; }
 
 		/** @return The debug name of the layer. */
 		inline const std::string& GetName() const { return m_DebugName; }

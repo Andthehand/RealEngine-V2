@@ -65,7 +65,6 @@ namespace RealEngine {
         }
 	}
 
-
     struct IDComponent {
         UUID ID;
 
@@ -77,7 +76,7 @@ namespace RealEngine {
             return ID == other.ID;
         }
 
-
+        RE_COMPONENT_NAME(IDComponent)
 		//RE_REGISTER_COMPONENT() We need to treat this differently when serializing/deserializing
     };
 
@@ -91,6 +90,7 @@ namespace RealEngine {
             return Tag == other.Tag;
         }
 
+        RE_COMPONENT_NAME(TagComponent)
         //RE_REGISTER_COMPONENT() We need to treat this differently when serializing/deserializing
     };
 

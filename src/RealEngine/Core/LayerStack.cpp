@@ -2,7 +2,7 @@
 
 namespace RealEngine {
 	LayerStack::~LayerStack() {
-		RE_CORE_INFO("Destroying LayerStack");
+		RE_CORE_WARN("Destroying LayerStack");
 
 		Clear();
 	}

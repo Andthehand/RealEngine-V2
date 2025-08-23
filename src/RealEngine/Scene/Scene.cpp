@@ -131,9 +131,10 @@ namespace RealEngine {
 
 			// Get the IDComponent early to create the entity
 			if(entityNode.has_child("IDComponent")) {
-				const auto componentNode = entityNode["IDComponent"];
+				const auto componentNode = entityNode[IDComponent::GetName()];
 
-				IDComponent idComponent = ComponentSerializer<IDComponent>::Deserialize(componentNode);
+				IDComponent idComponent;
+				componentNode >> idComponent;
 				Entity entity = CreateEntity(idComponent.ID, entityTagStr);
 				
 				DeserializeComponents(ComponentList::GetAllComponents(), entity, entityNode);
