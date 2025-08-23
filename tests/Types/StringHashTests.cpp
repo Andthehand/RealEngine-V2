@@ -4,7 +4,7 @@
 
 #include "RealEngine/Types/StringHash.h"
 
-using std::string;
+using namespace RealEngine;
 
 // Compile-time checks
 namespace {
@@ -34,7 +34,7 @@ TEST(StringHashTests, StaticVsRuntimeAgree) {
         // Compare constexpr StaticHash with runtime constructors
         uint32_t staticHash = static_cast<uint32_t>(StringHash::StaticHash(s));
         uint32_t runtimeFromCStr = static_cast<uint32_t>(StringHash(s));
-        uint32_t runtimeFromStd = static_cast<uint32_t>(StringHash(string{s}));
+        uint32_t runtimeFromStd = static_cast<uint32_t>(StringHash(std::string{s}));
         EXPECT_EQ(staticHash, runtimeFromCStr) << "Mismatch for cstr: " << s;
         EXPECT_EQ(staticHash, runtimeFromStd) << "Mismatch for std::string: " << s;
         EXPECT_EQ(runtimeFromCStr, runtimeFromStd) << "Runtime mismatch between cstr and std::string: " << s;
@@ -49,7 +49,7 @@ TEST(StringHashTests, StaticVsRuntimeAgree) {
 
 TEST(StringHashTests, EqualityAndInequality) {
     StringHash a1("alpha");
-    StringHash a2(string{"alpha"});
+    StringHash a2(std::string{"alpha"});
     StringHash b("beta");
 
     EXPECT_TRUE(a1 == a2);

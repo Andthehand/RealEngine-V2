@@ -101,7 +101,7 @@ namespace RealEngine {
 			RE_CORE_ASSERT(false, "Failed to open file");
 		}
 
-		RE_CORE_INFO("Scene was serialized into {}", filepath)
+		RE_CORE_WARN("Scene was serialized into {}", filepath)
 	}
 
 	void Scene::Deserialize(const std::filesystem::path& filepath) {
