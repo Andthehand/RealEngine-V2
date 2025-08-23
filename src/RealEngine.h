@@ -13,6 +13,7 @@
 #include "RealEngine/Formatter/GLMFormatter.h"
 #include "RealEngine/Formatter/STDFormatter.h"
 #include "RealEngine/Formatter/YAMLFormatter.h"
+#include "RealEngine/Formatter/RealEngineFormatter.h"
 
 #include "RealEngine/Events/Event.h"
 #include "RealEngine/Events/KeyEvents.h"
@@ -32,5 +33,7 @@
 #include "RealEngine/Scene/Scene.h"
 #include "RealEngine/Scene/Entity.h"
 #include "RealEngine/Scene/Components.h"
+#include "RealEngine/Scene/ComponentSerializer.h"
 
 #include "RealEngine/Types/StringHash.h"
+#include "RealEngine/Types/UUID.h"

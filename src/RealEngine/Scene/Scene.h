@@ -15,7 +15,9 @@ namespace RealEngine {
 
 		void OnUpdate(float deltaTime);
 
-		Entity CreateEntity(std::string name);
+		Entity CreateEntity(const std::string& name);
+		Entity CreateEntity(UUID id, const std::string& name);
+
 		Entity GetEntity(UUID id);
 
 		void Serialize(const std::filesystem::path& filepath);
@@ -30,5 +32,6 @@ namespace RealEngine {
 		std::unordered_map<UUID, Entity> m_EntityMap;
 		
 		friend class Entity;
+		friend class SceneHierarchyPanel;
 	};
 }

@@ -6,7 +6,6 @@ add_executable(RealEngineTests ${TEST_SOURCES})
 
 target_link_libraries(RealEngineTests
     gtest
-    gtest_main
     RealEngine
 )
 

@@ -18,7 +18,6 @@ namespace RealEngine {
 	void Scene::OnUpdate(float deltaTime) {
 		RE_PROFILE_FUNCTION();
 
-		Serialize("temp.yaml");
 		{
 			RE_PROFILE_SCOPE("Draw Quads");
 			
@@ -31,16 +30,22 @@ namespace RealEngine {
 
 	}
 
-	Entity Scene::CreateEntity(std::string name) {
+	Entity Scene::CreateEntity(const std::string& name) {
 		RE_PROFILE_FUNCTION();
 
 		UUID entityID;
-		Entity entity(m_Registry.create(), this);
-		entity.AddComponent<IDComponent>(entityID);
-		entity.AddComponent<TagComponent>(name);
-		entity.AddComponent<TransformComponent>(glm::vec3(0.0f));
+		Entity entity = CreateEntity(entityID, name);
 
-        m_EntityMap.insert({ entityID, entity });
+		return entity;
+	}
+
+	Entity Scene::CreateEntity(UUID id, const std::string& name) {
+		Entity entity(m_Registry.create(), this);
+		entity.AddComponent<IDComponent>(id);
+		entity.AddComponent<TagComponent>(name);
+
+		// Add to lookup for later retrieval
+		m_EntityMap.insert({ id, entity });
 		return entity;
 	}
 
@@ -56,8 +61,6 @@ namespace RealEngine {
 		return Entity();
 	}
 
-
-
 	void Scene::Serialize(const std::filesystem::path& filepath) {
 		RE_PROFILE_FUNCTION();
 
@@ -69,7 +72,16 @@ namespace RealEngine {
 
 		for (entt::entity entity : m_Registry.view<entt::entity>()) {
 			Entity ent(entity, this);
-			SerializeComponents(ComponentList::GetAllComponents(), ent, entitiesNode);
+			
+			// The root node for each entity is the tag component
+			std::string entityTag = ent.GetComponent<TagComponent>().Tag;
+			ryml::NodeRef entityNode = entitiesNode.append_child() << ryml::key(entityTag);
+			entityNode |= ryml::MAP;
+
+			// Done seperatly because you need the UUID when deserializing to register the entity
+			SerializeComponent<IDComponent>(entityNode, ent); 
+
+			SerializeComponents(ComponentList::GetAllComponents(), ent, entityNode);
 		}
 
 		FILE* file = nullptr;
@@ -88,9 +100,47 @@ namespace RealEngine {
 		else {
 			RE_CORE_ASSERT(false, "Failed to open file");
 		}
+
+		RE_CORE_INFO("Scene was serialized into {}", filepath)
 	}
 
 	void Scene::Deserialize(const std::filesystem::path& filepath) {
+		RE_PROFILE_FUNCTION();
+		RE_CORE_ASSERT(std::filesystem::exists(filepath), "Scene file does not exist: {0}", filepath.string());
 
+		RE_CORE_WARN("Deserializing scene from {0}", filepath.string());
+
+		// Read in file
+		std::ifstream infile{ filepath };
+		std::string fileContents{ std::istreambuf_iterator<char>(infile), std::istreambuf_iterator<char>() };
+
+		// Parse the YAML file
+		ryml::Tree tree = ryml::parse_in_place(ryml::to_csubstr(filepath.filename().string()), ryml::to_substr(fileContents));
+		RE_CORE_ASSERT(!tree.empty(), "Failed to parse scene file: Tree is empty");
+
+		ryml::ConstNodeRef root = tree.crootref();
+		ryml::ConstNodeRef entitiesNode = root["Entities"];
+		RE_CORE_ASSERT(entitiesNode.is_map(), "Invalid scene file format: 'Entities' node is not a map");
+
+		// Deserialize each entity
+		for (ryml::ConstNodeRef entityNode : entitiesNode.children()) {
+			c4::csubstr entityTag = entityNode.key();
+			std::string entityTagStr(entityTag.str, entityTag.len);
+
+			RE_CORE_INFO("Deserializing entity '{0}'", entityTagStr);
+
+			// Get the IDComponent early to create the entity
+			if(entityNode.has_child("IDComponent")) {
+				const auto componentNode = entityNode["IDComponent"];
+
+				IDComponent idComponent = ComponentSerializer<IDComponent>::Deserialize(componentNode);
+				Entity entity = CreateEntity(idComponent.ID, entityTagStr);
+				
+				DeserializeComponents(ComponentList::GetAllComponents(), entity, entityNode);
+			}
+			else {
+                RE_CORE_ASSERT(false, "Error deserializing scene: IDComponent missing for entity '{}'", entityTagStr);
+			}
+		}
 	}
 }

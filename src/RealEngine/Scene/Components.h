@@ -5,7 +5,9 @@
 #include "RealEngine/Types/UUID.h"
 
 // Has to be a function so that the compiler actually compiles it
-#define RE_REGISTER_COMPONENT() void DummyFunction() { ::RealEngine::ComponentList::Append<std::remove_reference<decltype(*this)>::type>(); }
+#define RE_COMPONENT_NAME(name) static const char* GetName() { return #name; }
+#define RE_REGISTER_COMPONENT(name) RE_COMPONENT_NAME(name) \
+                                void DummyFunction() { ::RealEngine::ComponentList::Append<std::remove_reference<decltype(*this)>::type>(); }
 
 namespace RealEngine {
     /*
@@ -75,7 +77,8 @@ namespace RealEngine {
             return ID == other.ID;
         }
 
-        RE_REGISTER_COMPONENT()
+
+		//RE_REGISTER_COMPONENT() We need to treat this differently when serializing/deserializing
     };
 
     struct TagComponent {
@@ -88,7 +91,7 @@ namespace RealEngine {
             return Tag == other.Tag;
         }
 
-        RE_REGISTER_COMPONENT()
+        //RE_REGISTER_COMPONENT() We need to treat this differently when serializing/deserializing
     };
 
     struct TransformComponent {
@@ -102,6 +105,6 @@ namespace RealEngine {
             return Position == other.Position;
         }
 
-        RE_REGISTER_COMPONENT()
+        RE_REGISTER_COMPONENT(TransformComponent)
     };
 }
