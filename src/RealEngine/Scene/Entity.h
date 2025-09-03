@@ -41,9 +41,21 @@ namespace RealEngine {
 		}
 
 		template<typename T>
+		const T& GetComponent() const {
+			RE_PROFILE_FUNCTION();
+			RE_CORE_ASSERT(HasComponent<T>(), "Entity does not have component of type {0}", typeid(T).name());
+
+			return m_Scene->m_Registry.get<T>(m_EntityHandle);
+		}
+
+		template<typename T>
 		bool HasComponent() const {
 			RE_PROFILE_FUNCTION();
 			return m_Scene->m_Registry.all_of<T>(m_EntityHandle);
+		}
+
+		bool operator==(const Entity& other) const {
+			return m_EntityHandle == other.m_EntityHandle;
 		}
 	private:
 		Scene* m_Scene;

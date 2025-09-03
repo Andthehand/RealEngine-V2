@@ -46,6 +46,7 @@
  * It creates a lambda that perfectly forwards arguments to the class member function.
  */
 #define RE_BIND_EVENT_FN(fn) [this](auto&&... args) -> decltype(auto) { return this->fn(std::forward<decltype(args)>(args)...); }
+#define RE_RAISE_EVENT(event) ::RealEngine::Application::Get().OnEvent(event)
 
 namespace RealEngine {
 	/// Alias for std::unique_ptr (scope-based ownership).
