@@ -89,6 +89,8 @@ namespace RealEngine {
 		uint32_t GetWidth() const { return m_Width; }
 		uint32_t GetHeight() const { return m_Height; }
 
+		uint32_t GetRendererID() const { return m_RendererID; }
+
 		/**
 		 * @brief Creates a reference-counted Texture2D instance.
 		 * @param path Path to the texture image file.
