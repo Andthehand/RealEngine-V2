@@ -56,7 +56,20 @@ namespace RealEngine {
         return true;
     }
 
-	// Helper functions to (de)serialize components on an entity using read/write
+    inline bool write(ryml::NodeRef* node, const SpriteRendererComponent& comp) {
+        *node |= ryml::MAP;
+        (*node)["Color"] << comp.Color;
+        return true;
+	}
+
+    inline bool read(const ryml::ConstNodeRef& node, SpriteRendererComponent* out) {
+        if (!node.has_child("Color")) {
+            RE_CORE_ASSERT(false, "SpriteRendererComponent does not have a 'Color' child node");
+            return false;
+        }
+        node["Color"] >> out->Color;
+        return true;
+	}
 
 	template<typename T>
 	void SerializeComponent(ryml::NodeRef node, Entity& entity) {

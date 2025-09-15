@@ -41,11 +41,18 @@ namespace RealEngine {
 		}
 
 		template<typename T>
-		const T& GetComponent() const {
+		T& GetComponent() const {
 			RE_PROFILE_FUNCTION();
 			RE_CORE_ASSERT(HasComponent<T>(), "Entity does not have component of type {0}", typeid(T).name());
 
 			return m_Scene->m_Registry.get<T>(m_EntityHandle);
+		}
+
+		template<typename T>
+		T* TryGetComponent() const {
+			RE_PROFILE_FUNCTION();
+
+			return m_Scene->m_Registry.try_get<T>(m_EntityHandle);
 		}
 
 		template<typename T>

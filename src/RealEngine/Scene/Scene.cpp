@@ -4,30 +4,38 @@
 #include "RealEngine/Scene/Components.h"
 #include "RealEngine/Scene/ComponentSerializer.h"
 
-#include "RealEngine/Render/Renderer.h"
-
 #include <ryml.hpp>
 
 namespace RealEngine {
-	Scene::Scene(const std::filesystem::path& filepath) {
+	Scene::Scene(const std::filesystem::path& filepath)
+		: m_SceneRenderer(this) {
 		RE_PROFILE_FUNCTION();
 
 		Deserialize(filepath);
 	}
 
-	void Scene::OnUpdate(float deltaTime) {
+	Scene::Scene()
+		: m_SceneRenderer(this) { }
+
+	void Scene::OnUpdateEditor(float deltaTime, const EditorCamera& camera) {
+		RE_PROFILE_FUNCTION();
+
+		RenderScene();
+	}
+
+	void Scene::OnUpdateRuntime(float deltaTime) {
+		RE_PROFILE_FUNCTION();
+
+		RenderScene();
+	}
+
+	void Scene::RenderScene() {
 		RE_PROFILE_FUNCTION();
 
 		{
-			RE_PROFILE_SCOPE("Draw Quads");
-			
-			auto view = m_Registry.view<TransformComponent>();
-			for (auto entity : view) {
-				auto& transform = view.get<TransformComponent>(entity);
-				Renderer::DrawQuad(transform.Position);
-			}
+			RE_PROFILE_SCOPE("Draw Sprites");
+			m_SceneRenderer.OnRender();
 		}
-
 	}
 
 	Entity Scene::CreateEntity(const std::string& name) {

@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 
 #include "RealEngine/Types/UUID.h"
+#include "RealEngine/Render/Texture.h"
 
 // Has to be a function so that the compiler actually compiles it
 #define RE_COMPONENT_NAME(name) static const char* GetName() { return #name; }
@@ -96,10 +97,16 @@ namespace RealEngine {
 
     struct TransformComponent {
         glm::vec3 Position = { 0.0f, 0.0f, 0.0f };
+		glm::vec3 Rotation = { 0.0f, 0.0f, 0.0f };
+		glm::vec3 Scale    = { 0.0f, 0.0f, 0.0f };
 
         TransformComponent() = default;
         TransformComponent(const glm::vec3& position)
             : Position(position) { }
+		TransformComponent(const glm::vec3& position, const glm::vec3& rotation)
+			: Position(position), Rotation(rotation) { }
+		TransformComponent(const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale)
+			: Position(position), Rotation(rotation), Scale(scale) { }
 
         bool operator==(const TransformComponent& other) const {
             return Position == other.Position;
@@ -107,4 +114,21 @@ namespace RealEngine {
 
         RE_REGISTER_COMPONENT(TransformComponent)
     };
+
+    struct SpriteRendererComponent {
+        glm::vec4 Color = { 1.0f, 1.0f, 1.0f, 1.0f };
+		Ref<Texture2D> Texture; // TODO: Move to ResourceHandle
+
+        SpriteRendererComponent() = default;
+        SpriteRendererComponent(const glm::vec4& color)
+			: Color(color) { }
+        SpriteRendererComponent(const glm::vec4& color, Ref<Texture2D> texture)
+            : Color(color), Texture(texture) { }
+
+        bool operator==(const SpriteRendererComponent& other) const {
+            return Color == other.Color && Texture == other.Texture;
+        }
+
+        RE_REGISTER_COMPONENT(SpriteRendererComponent)
+	};
 }

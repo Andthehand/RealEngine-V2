@@ -1,7 +1,5 @@
 #include "Application.h"
 
-#include "RealEngine/Render/Renderer.h"
-
 #include "yaml.h"
 
 namespace RealEngine {
@@ -19,7 +17,6 @@ namespace RealEngine {
 
 		RE_CORE_INFO("Working Directory: {0}", std::filesystem::current_path().string());
 		RenderCommands::Init();
-		Renderer::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushLayer(m_ImGuiLayer);
@@ -29,7 +26,6 @@ namespace RealEngine {
 		RE_PROFILE_FUNCTION();
 
 		m_LayerStack.Clear();
-		Renderer::Shutdown();
 		m_Window.Shutdown();
 	}
 

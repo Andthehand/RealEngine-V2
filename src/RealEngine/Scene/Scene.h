@@ -1,5 +1,8 @@
 #pragma once
 
+#include "RealEngine/Render/EditorCamera.h"
+#include "RealEngine/Render/SceneRenderer.h"
+
 #include "RealEngine/Types/UUID.h"
 
 #include <entt/entt.hpp>
@@ -10,10 +13,13 @@ namespace RealEngine {
 	class Scene {
 	public:
 		Scene(const std::filesystem::path& filepath);
-		Scene() = default;
+		Scene();
 		~Scene() = default;
 
-		void OnUpdate(float deltaTime);
+		void OnUpdateEditor(float deltaTime, const EditorCamera& camera);
+		void OnUpdateRuntime(float deltaTime);
+
+		void RenderScene();
 
 		Entity CreateEntity(const std::string& name);
 		Entity CreateEntity(UUID id, const std::string& name);
@@ -27,9 +33,16 @@ namespace RealEngine {
 		auto GetAllEntitiesWithComponent() {
 			return m_Registry.view<T>();
 		}
+
+		template<typename... Component>
+		auto GetAllEntitiesWithComponents() {
+			return m_Registry.group<Component...>();
+		}
 	private:
 		entt::registry m_Registry;
 		std::unordered_map<UUID, Entity> m_EntityMap;
+
+		SceneRenderer m_SceneRenderer;
 		
 		friend class Entity;
 		friend class SceneHierarchyPanel;
