@@ -1,7 +1,10 @@
 #pragma once
+#define GLM_ENABLE_EXPERIMENTAL
+
 #include "RealEngine/Core/Application.h"
 #include "RealEngine/Core/Core.h"
 #include "RealEngine/Core/Layer.h"
+#include "RealEngine/Core/Project.h"
 
 #include "RealEngine/Core/Assert.h"
 

@@ -11,7 +11,7 @@ namespace RealEngine {
 		: m_SceneRenderer(this) {
 		RE_PROFILE_FUNCTION();
 
-		Deserialize(filepath);
+		Load(filepath);
 	}
 
 	Scene::Scene()
@@ -79,8 +79,9 @@ namespace RealEngine {
 		return Entity();
 	}
 
-	void Scene::Serialize(const std::filesystem::path& filepath) {
+	void Scene::Save() {
 		RE_PROFILE_FUNCTION();
+		RE_CORE_ASSERT(!m_FilePath.empty(), "File path is empty!");
 
 		// Create the root node
 		ryml::Tree tree;
@@ -107,25 +108,26 @@ namespace RealEngine {
 		}
 
 		// Write to file
-		FileHelper fileHelper(filepath, "w");
+		FileHelper fileHelper(m_FilePath, "w");
 		FILE* file = fileHelper.GetFileHandle();
 		ryml::emit_yaml(tree, file);
 
-		RE_CORE_WARN("Scene was serialized into {}", filepath);
+		RE_CORE_WARN("Scene was serialized into {}", m_FilePath);
 	}
 
-	void Scene::Deserialize(const std::filesystem::path& filepath) {
+	void Scene::Load(const std::filesystem::path& filePath) {
 		RE_PROFILE_FUNCTION();
-		RE_CORE_ASSERT(std::filesystem::exists(filepath), "Scene file does not exist: {0}", filepath.string());
+		RE_CORE_ASSERT(std::filesystem::exists(filePath), "Scene file does not exist: {0}", filePath.string());
+		m_FilePath = filePath;
 
-		RE_CORE_WARN("Deserializing scene from {0}", filepath.string());
+		RE_CORE_WARN("Deserializing scene from {0}", m_FilePath.string());
 
 		// Read in file
-		FileHelper fileHelper(filepath, "r");
+		FileHelper fileHelper(m_FilePath, "r");
 		std::string fileContents = fileHelper.ReadAllText();
 
 		// Parse the YAML file
-		ryml::Tree tree = ryml::parse_in_place(ryml::to_csubstr(filepath.filename().string()), ryml::to_substr(fileContents));
+		ryml::Tree tree = ryml::parse_in_place(ryml::to_csubstr(m_FilePath.filename().string()), ryml::to_substr(fileContents));
 		RE_CORE_ASSERT(!tree.empty(), "Failed to parse scene file: Tree is empty");
 
 		ryml::ConstNodeRef root = tree.crootref();

@@ -29,8 +29,11 @@ namespace RealEngine {
 
 		Entity GetEntity(UUID id);
 
-		void Serialize(const std::filesystem::path& filepath);
-		void Deserialize(const std::filesystem::path& filepath);
+		void SetFilePath(const std::filesystem::path& filePath) { m_FilePath = filePath; }
+		const std::filesystem::path& GetFilePath() const { return m_FilePath; }
+
+		void Save();
+		void Load(const std::filesystem::path& filePath);
 
 		template<typename T>
 		auto GetAllEntitiesWithComponent() {
@@ -44,6 +47,8 @@ namespace RealEngine {
 	private:
 		entt::registry m_Registry;
 		std::unordered_map<UUID, Entity> m_EntityMap;
+
+		std::filesystem::path m_FilePath;
 
 		SceneRenderer m_SceneRenderer;
 		
