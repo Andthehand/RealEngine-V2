@@ -59,20 +59,34 @@ TEST_F(ComponentSerializerTest, IDComponent_SerializeDeserialize) {
 
 TEST_F(ComponentSerializerTest, TransformComponent_SerializeDeserialize) {
     glm::vec3 position(1.0f, 2.0f, 3.0f);
-    TransformComponent originalTransform(position);
+    glm::quat rotation(0.25f, 0.5f, 0.75f, 1.0f);
+    glm::vec3 scale(2.0f, 2.5f, 3.0f);
 
-    // Serialize using << operator
+    TransformComponent originalTransform(position, rotation, scale);
+
     auto transformNode = root[TransformComponent::GetName()];
     transformNode << originalTransform;
 
     ASSERT_TRUE(root.has_child(TransformComponent::GetName()));
     ASSERT_TRUE(transformNode.has_child("Position"));
-    glm::vec3 posValue;
-    transformNode["Position"] >> posValue;
-    EXPECT_EQ(posValue, position);
+    ASSERT_TRUE(transformNode.has_child("Rotation"));
+    ASSERT_TRUE(transformNode.has_child("Scale"));
 
-    // Deserialize using >> operator
+    glm::vec3 posValue;
+    glm::quat rotValue;
+    glm::vec3 scaleValue;
+    transformNode["Position"] >> posValue;
+    transformNode["Rotation"] >> rotValue;
+    transformNode["Scale"] >> scaleValue;
+
+    EXPECT_EQ(posValue, position);
+    EXPECT_EQ(rotValue, rotation);
+    EXPECT_EQ(scaleValue, scale);
+
     TransformComponent deserialized{};
     transformNode >> deserialized;
-    EXPECT_EQ(deserialized.Position, position);
+
+    EXPECT_EQ(deserialized.GetPosition(), position);
+    EXPECT_EQ(deserialized.GetRotationQuat(), rotation);
+    EXPECT_EQ(deserialized.GetScale(), scale);
 }

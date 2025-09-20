@@ -19,10 +19,13 @@ namespace RealEngine {
 		void OnUpdateEditor(float deltaTime, const EditorCamera& camera);
 		void OnUpdateRuntime(float deltaTime);
 
-		void RenderScene();
+		void RenderScene(const glm::mat4 cameraProjection);
 
 		Entity CreateEntity(const std::string& name);
 		Entity CreateEntity(UUID id, const std::string& name);
+
+		// Returns the iterator to the next element after the erased one
+		void DestroyEntity(const Entity& entity);
 
 		Entity GetEntity(UUID id);
 

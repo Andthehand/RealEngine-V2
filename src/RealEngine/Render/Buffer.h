@@ -54,7 +54,7 @@ namespace RealEngine {
 			void Bind() const;
 			void Unbind() const;
 
-			void SetData(void* data, uint32_t size, uint32_t offset = 0);
+			void SetData(const void* data, uint32_t size, uint32_t offset = 0);
 
 			BufferType GetType() const { return m_Type; }
 			uint32_t GetSize() const { return m_Size; }

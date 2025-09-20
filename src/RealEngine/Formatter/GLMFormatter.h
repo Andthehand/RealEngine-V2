@@ -60,6 +60,36 @@ namespace glm {
 
 		return true;
 	};
+
+	/**
+	 * @brief Enables reading glm::quat types from YAML sequences.
+	 */
+	template<typename T, glm::qualifier Q>
+	bool read(const ryml::ConstNodeRef& node, glm::qua<T, Q>* val) {
+		if (!node.has_children() || node.num_children() < 4) {
+			RE_CORE_ASSERT(false, "Expected a sequence with at least 4 elements, got {}", node.num_children());
+			return false;
+		}
+		
+		for (glm::length_t i = 0; i < 4; ++i)
+			node[i] >> (*val)[i];
+
+		return true;
+	}
+
+	/**
+	 * @brief Enables writing glm::quat types to YAML.
+	 */
+	template<typename T, glm::qualifier Q>
+	bool write(ryml::NodeRef* node, const glm::qua<T, Q>& val) {
+		*node |= ryml::SEQ;
+		*node |= ryml::FLOW_SL;
+
+		for (glm::length_t i = 0; i < 4; ++i)
+			node->append_child() << val[i];
+		
+		return true;
+	};
 }
 
 // -------------------------

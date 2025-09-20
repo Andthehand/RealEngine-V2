@@ -14,9 +14,9 @@ namespace RealEngine {
 		SceneRenderer(Scene* scene);
 		~SceneRenderer() = default;
 
-		void OnRender();
+		void OnRender(const glm::mat4& cameraProjection);
 	private:
-		void AddSprite(const TransformComponent& transform, const SpriteRendererComponent& sprite);
+		void AddSprite(TransformComponent& transform, const SpriteRendererComponent& sprite);
 
 		void Flush2D();
 	private:
@@ -42,6 +42,7 @@ namespace RealEngine {
 			SpriteRenderData* RenderDataHead = RenderData;
 		};
 
+		Ref<UniformBuffer> m_CameraBuffer;
 		Render2DData m_Render2DData;
 	};
 }

@@ -9,10 +9,6 @@
 #include "RealEngine/Formatter/RealEngineFormatter.h"
 
 namespace RealEngine {
-	// TODO: Comeback and maybe change this to just using read and write ryml callbacks
-
-    // Free read/write for components (replaces ComponentSerializer)
-
     inline bool write(ryml::NodeRef* node, const TagComponent& comp) {
         *node |= ryml::MAP;
         (*node)["Tag"] << comp.Tag;
@@ -43,16 +39,35 @@ namespace RealEngine {
 
     inline bool write(ryml::NodeRef* node, const TransformComponent& comp) {
         *node |= ryml::MAP;
-        (*node)["Position"] << comp.Position;
+        (*node)["Position"] << comp.GetPosition();
+        (*node)["Rotation"] << comp.GetRotationQuat();
+        (*node)["Scale"]    << comp.GetScale();
         return true;
     }
 
     inline bool read(const ryml::ConstNodeRef& node, TransformComponent* out) {
-        if (!node.has_child("Position")) {
-            RE_CORE_ASSERT(false, "TransformComponent does not have a 'Position' child node");
+        if (node.invalid()) {
+            RE_CORE_ASSERT(false, "Invalid node for TransformComponent");
             return false;
         }
-        node["Position"] >> out->Position;
+
+        glm::vec3 position{ 0.0f };
+        glm::quat rotation{ 1.0f, 0.0f, 0.0f, 0.0f };
+        glm::vec3 scale{ 1.0f };
+
+        if (node.has_child("Position")) node["Position"] >> position;
+        else RE_CORE_WARN("TransformComponent missing 'Position' - using default (0,0,0)");
+
+        if (node.has_child("Rotation")) node["Rotation"] >> rotation;
+        else RE_CORE_WARN("TransformComponent missing 'Rotation' - using default (0,0,0)");
+
+        if (node.has_child("Scale")) node["Scale"] >> scale;
+        else RE_CORE_WARN("TransformComponent missing 'Scale' - using default (1,1,1)");
+
+        out->SetPosition(position);
+        out->SetRotationQuat(rotation);
+        out->SetScale(scale);
+
         return true;
     }
 

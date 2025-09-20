@@ -20,21 +20,22 @@ namespace RealEngine {
 	void Scene::OnUpdateEditor(float deltaTime, const EditorCamera& camera) {
 		RE_PROFILE_FUNCTION();
 
-		RenderScene();
+		RenderScene(camera.GetViewProjection());
 	}
 
 	void Scene::OnUpdateRuntime(float deltaTime) {
 		RE_PROFILE_FUNCTION();
 
-		RenderScene();
+		// TODO: Add a runtime camera
+		// RenderScene();
 	}
 
-	void Scene::RenderScene() {
+	void Scene::RenderScene(const glm::mat4 cameraProjection) {
 		RE_PROFILE_FUNCTION();
 
 		{
 			RE_PROFILE_SCOPE("Draw Sprites");
-			m_SceneRenderer.OnRender();
+			m_SceneRenderer.OnRender(cameraProjection);
 		}
 	}
 
@@ -55,6 +56,15 @@ namespace RealEngine {
 		// Add to lookup for later retrieval
 		m_EntityMap.insert({ id, entity });
 		return entity;
+	}
+
+	void Scene::DestroyEntity(const Entity& entity) {
+		RE_PROFILE_FUNCTION();
+		UUID id = entity.GetComponent<IDComponent>().ID;
+
+		// Remove from lookup
+		m_Registry.destroy(entity);
+		m_EntityMap.erase(id);
 	}
 
 	Entity Scene::GetEntity(UUID id) {

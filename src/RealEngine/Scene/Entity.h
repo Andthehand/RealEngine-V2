@@ -64,6 +64,8 @@ namespace RealEngine {
 		bool operator==(const Entity& other) const {
 			return m_EntityHandle == other.m_EntityHandle;
 		}
+
+		operator entt::entity() const { return m_EntityHandle; }
 	private:
 		Scene* m_Scene;
 		entt::entity m_EntityHandle;

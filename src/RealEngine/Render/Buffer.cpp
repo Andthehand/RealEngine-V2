@@ -33,7 +33,7 @@ namespace RealEngine {
 			glNamedBufferData(m_RendererID, size, data, GL_DYNAMIC_DRAW); // TODO: Customize draw type
 		}
 
-		void Buffer::SetData(void* data, uint32_t size, uint32_t offset) {
+		void Buffer::SetData(const void* data, uint32_t size, uint32_t offset) {
 			RE_PROFILE_FUNCTION();
 			RE_CORE_ASSERT(size <= m_Size, "Data size is greater than buffer size");
 

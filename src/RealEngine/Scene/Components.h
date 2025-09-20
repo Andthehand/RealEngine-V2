@@ -4,6 +4,7 @@
 
 #include "RealEngine/Types/UUID.h"
 #include "RealEngine/Render/Texture.h"
+#include <glm/gtx/quaternion.hpp>
 
 // Has to be a function so that the compiler actually compiles it
 #define RE_COMPONENT_NAME(name) static const char* GetName() { return #name; }
@@ -78,7 +79,7 @@ namespace RealEngine {
         }
 
         RE_COMPONENT_NAME(IDComponent)
-		//RE_REGISTER_COMPONENT() We need to treat this differently when serializing/deserializing
+		//RE_REGISTER_COMPONENT() We need to treat this differently when serializing/deserializing and we don't display it
     };
 
     struct TagComponent {
@@ -92,15 +93,36 @@ namespace RealEngine {
         }
 
         RE_COMPONENT_NAME(TagComponent)
-        //RE_REGISTER_COMPONENT() We need to treat this differently when serializing/deserializing
+		//RE_REGISTER_COMPONENT() We need to treat this differently when serializing/deserializing and displaying
     };
 
     struct TransformComponent {
-        glm::vec3 Position = { 0.0f, 0.0f, 0.0f };
-		glm::vec3 Rotation = { 0.0f, 0.0f, 0.0f };
-		glm::vec3 Scale    = { 0.0f, 0.0f, 0.0f };
+        void SetPosition(const glm::vec3& position) { Position = position;                  dirty = true; }
+        void SetRotationEuler(const glm::vec3& rotation) { Rotation = glm::quat(rotation);  dirty = true; }
+		void SetRotationQuat(const glm::quat& rotation)  { Rotation = rotation;             dirty = true; }
+        void SetScale(const glm::vec3& scale)       { Scale = scale;                        dirty = true; }
+
+		const glm::vec3& GetPosition() const { return Position; }
+		glm::vec3 GetRotationEuler() const { return glm::eulerAngles(Rotation); }
+		const glm::quat& GetRotationQuat() const { return Rotation; }
+		const glm::vec3& GetScale()    const { return Scale; }
+
+        const glm::mat4& GetTransform() {
+            if (dirty) {
+                // Use matrix_transform + quaternion conversion; supply base matrices explicitly
+                glm::mat4 translation = glm::translate(glm::mat4(1.0f), Position);
+                glm::mat4 rotation    = glm::toMat4(Rotation);
+                glm::mat4 scaling     = glm::scale(glm::mat4(1.0f), Scale);
+
+                cachedMatrix = translation * rotation * scaling;
+                dirty = false;
+            }
+
+            return cachedMatrix;
+        }
 
         TransformComponent() = default;
+
         TransformComponent(const glm::vec3& position)
             : Position(position) { }
 		TransformComponent(const glm::vec3& position, const glm::vec3& rotation)
@@ -108,11 +130,23 @@ namespace RealEngine {
 		TransformComponent(const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale)
 			: Position(position), Rotation(rotation), Scale(scale) { }
 
+        TransformComponent(const glm::vec3& position, const glm::quat& rotation)
+			: Position(position), Rotation(rotation) { }
+        TransformComponent(const glm::vec3& position, const glm::quat& rotation, const glm::vec3& scale)
+            : Position(position), Rotation(rotation), Scale(scale) { }
+
         bool operator==(const TransformComponent& other) const {
             return Position == other.Position;
         }
 
         RE_REGISTER_COMPONENT(TransformComponent)
+    private:
+        glm::vec3 Position = glm::vec3(0.0f);
+        glm::quat Rotation = { 1.0f, 0.0f, 0.0f, 0.0f };
+        glm::vec3 Scale = glm::vec3(1.0f);
+
+		bool dirty = true;
+		glm::mat4 cachedMatrix = glm::mat4(1.0f);
     };
 
     struct SpriteRendererComponent {
