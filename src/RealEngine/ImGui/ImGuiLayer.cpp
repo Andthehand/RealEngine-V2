@@ -6,6 +6,9 @@
 #include <imgui_impl_opengl3.h>
 #include <imgui_internal.h>
 
+#include "OpenSansBold.h"
+#include "OpenSansRegular.h"
+
 namespace RealEngine {
 	namespace Utils {
 		void StyleColorsCustomDark() {
@@ -158,8 +161,11 @@ namespace RealEngine {
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;		// Enable Multi-Viewport / Platform Windows
 
 		SetScale();
-		io.Fonts->AddFontFromFileTTF("assets/fonts/OpenSans-Bold.ttf");
-		io.FontDefault = io.Fonts->AddFontFromFileTTF("assets/fonts/OpenSans-Regular.ttf");
+
+		ImFontConfig fontConfig = ImFontConfig();
+		fontConfig.FontDataOwnedByAtlas = false; // So we don't try to free the static memory
+		io.Fonts->AddFontFromMemoryTTF((void*)Utils::OpenSans_Bold, sizeof(Utils::OpenSans_Bold), 0.0f, &fontConfig);
+		io.FontDefault = io.Fonts->AddFontFromMemoryTTF((void*)Utils::OpenSans_Regular, sizeof(Utils::OpenSans_Bold), 0.0f, &fontConfig);
 
 		Application& app = Application::Get();
 		GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
