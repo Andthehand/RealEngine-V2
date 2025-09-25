@@ -21,7 +21,7 @@ namespace RealEngine {
 
 	void LayerStack::PushLayer(Layer* layer) {
 		RE_CORE_ASSERT(layer, "Layer is null");
-		RE_CORE_INFO("Pushing layer: {0}", layer->GetName());
+		RE_CORE_TRACE("Pushing layer: {0}", layer->GetName());
 
 		layer->OnAttach();
 		m_Layers.emplace(m_Layers.begin() + m_LayerInsertIndex, layer);
@@ -30,7 +30,7 @@ namespace RealEngine {
 
 	void LayerStack::PushOverlay(Layer* overlay) {
 		RE_CORE_ASSERT(overlay, "Overlay is null");
-		RE_CORE_INFO("Pushing overlay: {0}", overlay->GetName());
+		RE_CORE_TRACE("Pushing overlay: {0}", overlay->GetName());
 
 		overlay->OnAttach();
 		m_Layers.emplace_back(overlay);

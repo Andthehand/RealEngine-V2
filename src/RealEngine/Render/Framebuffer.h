@@ -78,7 +78,17 @@ namespace RealEngine{
 		void Bind();
 		void Unbind();
 		void Resize(uint32_t width, uint32_t height);
-		
+
+		/**
+		 * @brief Returns the framebuffer's creation specification.
+		 * @return Const reference to the specification (dimensions and attachment formats).
+		 *
+		 * Use this to query current size or attachment layout. Modifying the returned specification
+		 * will NOT automatically recreate GPU resources—call Resize (for size changes) or provide
+		 * a new Framebuffer instance if attachment formats change.
+		 */
+		const FramebufferSpecification& GetSpecification() { return m_Specification; }
+
 		/**
 		 * @brief Gets the renderer ID of a texture attachment.
 		 * @param index Index of the attachment (default 0).
@@ -87,7 +97,10 @@ namespace RealEngine{
 		uint32_t GetAttachmentRendererID(uint32_t index = 0) const { return m_Attachments[index]; }
 	private:
 		/**
-		 * @brief Internal function to create or recreate the framebuffer and attachments.
+		 * @brief (Re)creates the framebuffer and its attachments based on the current specification.
+		 *
+		 * Deletes previous OpenGL objects if they exist, then allocates and attaches textures
+		 * for all specified formats. Called on construction and resize.
 		 */
 		void Invalidate();
 	private:

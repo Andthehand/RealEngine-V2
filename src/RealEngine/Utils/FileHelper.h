@@ -7,7 +7,7 @@
 namespace RealEngine {
 	class FileHelper {
 	public:
-		FileHelper(std::filesystem::path filePath, const char* mode);
+		FileHelper(const std::filesystem::path& filePath, const char* mode);
 		~FileHelper();
 
 		std::string ReadAllText();

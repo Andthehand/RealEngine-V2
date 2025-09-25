@@ -2,13 +2,13 @@
 
 namespace RealEngine {
 
-	FileHelper::FileHelper(std::filesystem::path filePath, const char* mode) {
+	FileHelper::FileHelper(const std::filesystem::path& filePath, const char* mode) {
 #if defined(_MSC_VER)
 		if (fopen_s(&m_File, filePath.string().c_str(), mode) != 0) {
 			m_File = nullptr;
 		}
 #else
-		m_File = fopen(filePath.string().c_str(), "w");
+		m_File = fopen(filePath.string().c_str(), mode);
 #endif
 		
 		RE_CORE_ASSERT(m_File, "Failed to open file: {0}", filePath.string());

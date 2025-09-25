@@ -112,7 +112,7 @@ namespace RealEngine {
 		FILE* file = fileHelper.GetFileHandle();
 		ryml::emit_yaml(tree, file);
 
-		RE_CORE_WARN("Scene was serialized into {}", m_FilePath);
+		RE_CORE_INFO("Scene was serialized into {}", m_FilePath);
 	}
 
 	void Scene::Load(const std::filesystem::path& filePath) {
@@ -120,7 +120,7 @@ namespace RealEngine {
 		RE_CORE_ASSERT(std::filesystem::exists(filePath), "Scene file does not exist: {0}", filePath.string());
 		m_FilePath = filePath;
 
-		RE_CORE_WARN("Deserializing scene from {0}", m_FilePath.string());
+		RE_CORE_INFO("Deserializing scene from {0}", m_FilePath.string());
 
 		// Read in file
 		FileHelper fileHelper(m_FilePath, "r");
@@ -138,8 +138,6 @@ namespace RealEngine {
 		for (ryml::ConstNodeRef entityNode : entitiesNode.children()) {
 			c4::csubstr entityTag = entityNode.key();
 			std::string entityTagStr(entityTag.str, entityTag.len);
-
-			RE_CORE_INFO("Deserializing entity '{0}'", entityTagStr);
 
 			// Get the IDComponent early to create the entity
 			if(entityNode.has_child("IDComponent")) {

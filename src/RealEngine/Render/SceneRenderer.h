@@ -12,6 +12,8 @@ namespace RealEngine {
 	class SceneRenderer {
 	public:
 		SceneRenderer(Scene* scene);
+		SceneRenderer() = delete;
+
 		~SceneRenderer() = default;
 
 		void OnRender(const glm::mat4& cameraProjection);

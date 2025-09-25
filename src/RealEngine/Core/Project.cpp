@@ -41,7 +41,6 @@ namespace RealEngine {
 		RE_CORE_WARN("Project was serialized into {}", filePath);
 	}
 
-	// TODO: Implement project loading (e.g. from a .reproj file)
 	void Project::Load(const std::filesystem::path& filePath) {
 		RE_CORE_ASSERT(std::filesystem::exists(filePath), "Project file does not exist!");
 
@@ -60,15 +59,18 @@ namespace RealEngine {
 		}
 
 		if (root.has_child("CurrentScene")) {
-			std::filesystem::path scenePath;
+			std::string scenePath;
 
 			root["CurrentScene"] >> scenePath;
-			scenePath = m_ProjectPath / scenePath;
+			scenePath = (m_ProjectPath / scenePath).string();
+
+			// Ensure path uses forward slashes for consistency across platforms
+			std::replace(scenePath.begin(), scenePath.end(), '\\', '/');
 
 			if (std::filesystem::exists(scenePath)) {
-				m_CurrentScene = CreateRef<Scene>(scenePath);
+				m_CurrentScene = CreateRef<Scene>(std::filesystem::path(scenePath));
 			} else {
-				RE_CORE_WARN("Current scene file does not exist: {}", scenePath.string());
+				RE_CORE_WARN("Current scene file does not exist: {}", scenePath);
 			}
 		} else {
 			RE_CORE_WARN("Project file missing 'CurrentScene'");

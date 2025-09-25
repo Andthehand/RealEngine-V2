@@ -36,7 +36,7 @@ namespace RealEngine {
 	}
 
 	void Application::Run() {
-		RE_CORE_INFO("Application is running...");
+		RE_CORE_TRACE("Application is running...");
 
 		while (m_Running) {
 			RE_PROFILE_FRAME();
