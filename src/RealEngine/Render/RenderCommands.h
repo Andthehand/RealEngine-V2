@@ -59,6 +59,8 @@ namespace RealEngine {
 		//TODO: If you pass in 0 for count, it will draw the entire buffer by querying the buffer size from the vertexArray
 		static void DrawArrays(Ref<VertexArray> vertexArray, uint32_t count);
 
-		static void DrawMutliIndexedIndirect(Ref<VertexArray> vertexArray, uint32_t commandCount);
+		static void DrawMultiIndexedIndirect(Ref<VertexArray> vertexArray, uint32_t commandCount);
+
+		static void DispatchCompute(uint32_t numGroupsX, uint32_t numGroupsY, uint32_t numGroupsZ);
 	};
 }

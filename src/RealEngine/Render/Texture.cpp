@@ -63,17 +63,16 @@ namespace RealEngine {
 		m_Width = width;
 		m_Height = height;
 
-		GLenum internalFormat = 0, dataFormat = 0;
 		switch (channels) {
-			case 3: internalFormat = GL_RGB8; dataFormat = GL_RGB; break;
-			case 4: internalFormat = GL_RGBA8; dataFormat = GL_RGBA; break;
+			case 3: m_InternalFormat = TextureDataType::RGB8;	m_DataFormat = TextureFormat::RGB; break;
+			case 4: m_InternalFormat = TextureDataType::RGBA8;	m_DataFormat = TextureFormat::RGBA; break;
 			default: RE_CORE_ASSERT(false, "Grayscale Images are not supported!");
 		}
 
 		// TODO: Only creates 1 mipmap level ?fix?
 		// Allocate memory for the texture
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
-		glTextureStorage2D(m_RendererID, 1, internalFormat, m_Width, m_Height);
+		glTextureStorage2D(m_RendererID, 1, (GLenum)m_InternalFormat, m_Width, m_Height);
 
 		// Filters
 		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -84,9 +83,34 @@ namespace RealEngine {
 		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
 		// Upload data
-		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, dataFormat, GL_UNSIGNED_BYTE, data);
+		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, (GLenum)m_DataFormat, GL_UNSIGNED_BYTE, data);
 
 		stbi_image_free(data);
+	}
+
+	Texture2D::Texture2D(const Texture2DCreateInfo& info, const void* data)
+		: m_Width(info.Width), m_Height(info.Height), m_InternalFormat(info.InternalFormat), m_DataFormat(info.DataFormat) {
+		RE_PROFILE_FUNCTION();
+		RE_CORE_ASSERT(m_Width > 0 && m_Height > 0, "Width and Height must be greater than 0 for Texture2D");
+		RE_CORE_ASSERT(info.MipLevels > 0, "MipLevels must be greater than 0 for Texture2D");
+		
+		//Create Texture and allocate memory
+		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
+		glTextureStorage2D(m_RendererID, info.MipLevels, (GLenum)info.InternalFormat, m_Width, m_Height);
+		
+		//Filters
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		
+		//Wrapping
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		
+		//Upload the image to the GPU
+		if (data != nullptr) {
+			glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, (GLenum)info.DataFormat, GL_UNSIGNED_BYTE, data);
+			glGenerateTextureMipmap(m_RendererID);
+		}
 	}
 
 	Texture2D::~Texture2D() {
@@ -94,12 +118,16 @@ namespace RealEngine {
 		glDeleteTextures(1, &m_RendererID);
 	}
 
-
-
 	void Texture2D::Bind(uint32_t slot) const {
 		RE_PROFILE_FUNCTION();
 
 		glBindTextureUnit(slot, m_RendererID);
+	}
+
+	void Texture2D::BindImage(uint32_t slot, GLenum access) const {
+		RE_PROFILE_FUNCTION();
+
+		glBindImageTexture(slot, m_RendererID, 0, GL_FALSE, 0, access, (GLenum)m_InternalFormat);
 	}
 
 	Texture2DArray::Texture2DArray(const Texture2DArrayCreateInfo& info, const void** data)
@@ -220,5 +248,41 @@ namespace RealEngine {
 		// Has to be GL_RGBA because OpenGL has aninitial default pixel alignment of 4
 		// https://stackoverflow.com/questions/61429347/gltexturesubimage3d-misbehaving-with-small-image-input
 		glTextureSubImage3D(m_RendererID, 0, 0, 0, zOffset, m_Width, m_Length, 1, GL_RGBA, Utils::GetGLType(m_InternalFormat), data);
+	}
+
+	Texture3D::Texture3D(const Texture3DCreateInfo& info, const void* data)
+		: m_Size(info.Width, info.Height, info.Depth), m_InternalFormat(info.InternalFormat) {
+		RE_PROFILE_FUNCTION();
+		RE_CORE_ASSERT(m_Size.x > 0 && m_Size.y > 0 && m_Size.z > 0, "Width, Height, and Depth must be greater than 0 for Texture3D");
+		RE_CORE_ASSERT(info.MipLevels > 0, "MipLevels must be greater than 0 for Texture3D");
+
+		glCreateTextures(GL_TEXTURE_3D, 1, &m_RendererID);
+		glTextureStorage3D(m_RendererID, info.MipLevels, (GLenum)m_InternalFormat, m_Size.x, m_Size.y, m_Size.z);
+
+		// Filters
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		// Wrapping
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+		// Upload data
+		glTextureSubImage3D(m_RendererID, 0, 0, 0, 0, m_Size.x, m_Size.y, m_Size.z, (GLenum)info.DataFormat, GL_UNSIGNED_BYTE, data);
+	}
+
+	Texture3D::~Texture3D() {
+		RE_PROFILE_FUNCTION();
+		glDeleteTextures(1, &m_RendererID);
+	}
+
+	void Texture3D::Bind(uint32_t slot) const {
+		RE_PROFILE_FUNCTION();
+		glBindTextureUnit(slot, m_RendererID);
+	}
+
+	void Texture3D::BindImage(uint32_t slot, GLenum access) const {
+		RE_PROFILE_FUNCTION();
+		glBindImageTexture(slot, m_RendererID, 0, GL_TRUE, 0, access, (GLenum)m_InternalFormat);
 	}
 }

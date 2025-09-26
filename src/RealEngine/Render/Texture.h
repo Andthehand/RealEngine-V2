@@ -5,11 +5,12 @@ namespace RealEngine {
 	enum class TextureFormat : GLenum {
 		NONE = 0,
 
-		RED	 =	GL_RED,		// 1 channel  (Red)
-		RG   =  GL_RG,		// 2 channels (Red, Green)
-		BGR  =	GL_BGR,		// 3 channels (Blue, Green, Red)
-		RGB  =  GL_RGB,		// 3 channels (Red, Green, Blue)
-		RGBA =  GL_RGBA		// 4 channels (Red, Green, Blue, Alpha)
+		RED	 =	GL_RED,			// 1 channel  (Red)
+		RG   =  GL_RG,			// 2 channels (Red, Green)
+		BGR  =	GL_BGR,			// 3 channels (Blue, Green, Red)
+		RGB  =  GL_RGB,			// 3 channels (Red, Green, Blue)
+		RGBA =  GL_RGBA,		// 4 channels (Red, Green, Blue, Alpha)
+		RGBAI = GL_RGBA_INTEGER // 4 channels (Red, Green, Blue, Alpha) as integer values
 	};
 
 	enum class TextureDataType : GLenum {
@@ -68,6 +69,15 @@ namespace RealEngine {
 		RGBA32UI =   GL_RGBA32UI	// 32-bit unsigned integer Red, Green, Blue, Alpha channels (GL_RGBA32UI)
 	};
 
+	struct Texture2DCreateInfo {
+		uint32_t Width;
+		uint32_t Height;
+		TextureDataType InternalFormat = TextureDataType::RGBA8;
+		TextureFormat DataFormat = TextureFormat::RGBA;
+
+		uint32_t MipLevels = 1;
+	};
+
 	/**
 	 * @class Texture2D
 	 * @brief Represents a 2D texture loaded from an image file.
@@ -81,10 +91,13 @@ namespace RealEngine {
 		 * @brief Constructs a 2D texture from the given file path.
 		 * @param path Filesystem path to the texture image file.
 		 */
+		 //TODO: Add helper for less duplicated code
 		Texture2D(const std::filesystem::path& path);
+		Texture2D(const Texture2DCreateInfo& info, const void* data = nullptr);
 		~Texture2D();
 		
 		void Bind(uint32_t slot = 0) const;
+		void BindImage(uint32_t slot, GLenum access = GL_WRITE_ONLY) const;
 
 		uint32_t GetWidth() const { return m_Width; }
 		uint32_t GetHeight() const { return m_Height; }
@@ -97,9 +110,13 @@ namespace RealEngine {
 		 * @return Ref-counted pointer to a Texture2D object.
 		 */
 		static Ref<Texture2D> Create(const std::filesystem::path& path) { return CreateRef<Texture2D>(path); }
+		static Ref<Texture2D> Create(const Texture2DCreateInfo& info, const void* data = nullptr) { return CreateRef<Texture2D>(info, data); }
 	private:
 		uint32_t m_Width, m_Height;
 		uint32_t m_RendererID;
+
+		TextureDataType m_InternalFormat;
+		TextureFormat m_DataFormat;
 	};
 
 	struct Texture2DArrayCreateInfo {
@@ -174,6 +191,37 @@ namespace RealEngine {
 		uint32_t m_Width, m_Height, m_Length;
 		TextureDataType m_InternalFormat;
 		TextureFormat m_DataFormat;
+		uint32_t m_RendererID;
+	};
+
+	struct Texture3DCreateInfo {
+		uint32_t Width;
+		uint32_t Height;
+		uint32_t Depth;
+		TextureDataType InternalFormat = TextureDataType::RGBA8;
+		TextureFormat DataFormat = TextureFormat::RGBA;
+
+		uint32_t MipLevels = 1;
+	};
+
+	class Texture3D {
+	public:
+		Texture3D(const Texture3DCreateInfo& createInfo, const void* data);
+		~Texture3D();
+		
+		void Bind(uint32_t slot = 0) const;
+		void BindImage(uint32_t slot, GLenum access = GL_READ_ONLY) const;
+
+		uint32_t GetWidth() const { return m_Size.x; }
+		uint32_t GetHeight() const { return m_Size.y; }
+		uint32_t GetDepth() const { return m_Size.z; }
+		glm::uvec3 GetSize() const { return m_Size; }
+
+		static Ref<Texture3D> Create(const Texture3DCreateInfo& createInfo, const void* data = nullptr) { return CreateRef<Texture3D>(createInfo, data); }
+	private:
+		glm::uvec3 m_Size;
+		TextureDataType m_InternalFormat;
+
 		uint32_t m_RendererID;
 	};
 }

@@ -95,6 +95,8 @@ namespace RealEngine{
 		 * @return OpenGL texture ID of the attachment.
 		 */
 		uint32_t GetAttachmentRendererID(uint32_t index = 0) const { return m_Attachments[index]; }
+
+		static Ref<Framebuffer> Create(const FramebufferSpecification& specs) { return CreateRef<Framebuffer>(specs); }
 	private:
 		/**
 		 * @brief (Re)creates the framebuffer and its attachments based on the current specification.

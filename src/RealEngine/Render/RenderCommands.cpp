@@ -91,10 +91,17 @@ namespace RealEngine {
 		glDrawArrays(GL_TRIANGLES, 0, count);
 	}
 
-	void RenderCommands::DrawMutliIndexedIndirect(Ref<VertexArray> vertexArray, uint32_t commandCount) {
+	void RenderCommands::DrawMultiIndexedIndirect(Ref<VertexArray> vertexArray, uint32_t commandCount) {
 		RE_PROFILE_FUNCTION();
 		vertexArray->Bind();
 
 		glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, nullptr, commandCount, 0);
+	}
+
+	void RenderCommands::DispatchCompute(uint32_t numGroupsX, uint32_t numGroupsY, uint32_t numGroupsZ) {
+		RE_PROFILE_FUNCTION();
+
+		glDispatchCompute(numGroupsX, numGroupsY, numGroupsZ);
+		glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT);
 	}
 }

@@ -148,8 +148,9 @@ namespace RealEngine {
 
 	void Shader::ParseFile(const std::filesystem::path& file) {
 		RE_PROFILE_FUNCTION();
-		std::ifstream stream(file);
+		RE_CORE_ASSERT(std::filesystem::exists(file))
 
+		std::ifstream stream(file);
 		if (!stream.is_open()) {
 			RE_CORE_ERROR("Failed to open file: {0}", file.string());
 			return;
