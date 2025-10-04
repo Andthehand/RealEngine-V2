@@ -5,30 +5,33 @@
 #include <filesystem>
 
 namespace RealEngine {
+
+	// Static-only Project manager
 	class Project {
 	public:
-		Project(const std::filesystem::path& filePath);
-		~Project() = default;
+		Project() = delete;
 
-		void Save();
-		void Save(const std::string& projectName);
+		// Initialize project data (replaces constructor/Create())
+		static void Initialize(const std::filesystem::path& filePath);
+		static void Shutdown(); // Optional cleanup (clears state)
 
-		const Ref<Scene>& GetCurrentScene() const { return m_CurrentScene; }
-		void SetCurrentScene(const Ref<Scene>& scene) { m_CurrentScene = scene; }
+		static void Save();
+		static void Save(const std::string& projectName);
 
-		const std::string& GetProjectName() const { return m_ProjectName; }
-		const std::filesystem::path& GetProjectPath() const { return m_ProjectPath; }
-		std::filesystem::path GetAssetsPath() const { return m_ProjectPath / "assets"; }
+		static Ref<Scene>& GetCurrentScene() { return s_CurrentScene; }
+		static void SetCurrentScene(const Ref<Scene>& scene) { s_CurrentScene = scene; }
 
-		static Ref<Project> Create(const std::filesystem::path& filePath) { return CreateRef<Project>(filePath); }
+		static const std::string& GetProjectName() { return s_ProjectName; }
+		static const std::filesystem::path& GetProjectPath() { return s_ProjectPath; }
+		static std::filesystem::path GetAssetsPath() { return s_ProjectPath / "assets"; }
 
 	private:
-		void Load(const std::filesystem::path& filePath);
+		static void Load(const std::filesystem::path& filePath);
+
 	private:
 		// Project name is the project file name without extension
-		std::string m_ProjectName;
-		std::filesystem::path m_ProjectPath;
-
-		Ref<Scene> m_CurrentScene;
+		inline static std::string s_ProjectName;
+		inline static std::filesystem::path s_ProjectPath;
+		inline static Ref<Scene> s_CurrentScene;
 	};
 }

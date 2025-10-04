@@ -2,43 +2,54 @@
 
 #include <ryml.hpp>
 #include <ryml_std.hpp>
+#include <algorithm>
 
 namespace RealEngine {
-	Project::Project(const std::filesystem::path& filePath)
-		: m_ProjectPath(std::filesystem::absolute(filePath.parent_path())), m_ProjectName(filePath.stem().string()) {
+	void Project::Initialize(const std::filesystem::path& filePath) {
+		s_ProjectPath = std::filesystem::absolute(filePath.parent_path());
+		s_ProjectName = filePath.stem().string();
 		Load(filePath);
 	}
 
-	void Project::Save() {
-		Save(m_ProjectName);
+	void Project::Shutdown() {
+		s_CurrentScene.reset();
+		s_ProjectName.clear();
+		s_ProjectPath.clear();
+	}
 
-		if(m_CurrentScene) {
-			m_CurrentScene->Save();
+	void Project::Save() {
+		if (s_ProjectName.empty())
+			return;
+		Save(s_ProjectName);
+		if (s_CurrentScene) {
+			s_CurrentScene->Save();
 		}
 	}
 
-	// TODO: Implement project saving (e.g. to a .reproj file)
 	void Project::Save(const std::string& projectName) {
-		std::filesystem::path filePath = m_ProjectPath / (projectName + ".reproj");
-		m_ProjectName = projectName;
+		RE_CORE_ASSERT(!projectName.empty(), "Project name cannot be empty");
+		if (projectName.empty())
+			return;
+
+		s_ProjectName = projectName;
+		std::filesystem::path filePath = s_ProjectPath / (projectName + ".reproj");
 
 		ryml::Tree tree;
 		ryml::NodeRef root = tree.rootref();
 		root |= ryml::MAP;
 
-		root["ProjectName"] << m_ProjectName;
+		root["ProjectName"] << s_ProjectName;
 
-		// Serialize the current scene
-		if (m_CurrentScene) {
-			root["CurrentScene"] << m_CurrentScene->GetFilePath().lexically_relative(m_ProjectPath);
+		if (s_CurrentScene) {
+			auto relative = s_CurrentScene->GetFilePath().lexically_relative(s_ProjectPath);
+			root["CurrentScene"] << relative;
 		}
 
-		// Write the YAML tree to a file
 		FileHelper fileHelper(filePath, "w");
 		FILE* file = fileHelper.GetFileHandle();
 		ryml::emit_yaml(tree, file);
 
-		RE_CORE_WARN("Project was serialized into {}", filePath);
+		RE_CORE_WARN("Project was serialized into {}", filePath.string());
 	}
 
 	void Project::Load(const std::filesystem::path& filePath) {
@@ -53,7 +64,7 @@ namespace RealEngine {
 		RE_CORE_ASSERT(!tree.empty(), "Failed to parse project file: Tree is empty");
 
 		if (root.has_child("ProjectName")) {
-			root["ProjectName"] >> m_ProjectName;
+			root["ProjectName"] >> s_ProjectName;
 		} else {
 			RE_CORE_WARN("Project file missing 'ProjectName'");
 		}
@@ -62,13 +73,13 @@ namespace RealEngine {
 			std::string scenePath;
 
 			root["CurrentScene"] >> scenePath;
-			scenePath = (m_ProjectPath / scenePath).string();
+			scenePath = (s_ProjectPath / scenePath).string();
 
 			// Ensure path uses forward slashes for consistency across platforms
 			std::replace(scenePath.begin(), scenePath.end(), '\\', '/');
 
 			if (std::filesystem::exists(scenePath)) {
-				m_CurrentScene = CreateRef<Scene>(std::filesystem::path(scenePath));
+				s_CurrentScene = CreateRef<Scene>(std::filesystem::path(scenePath));
 			} else {
 				RE_CORE_WARN("Current scene file does not exist: {}", scenePath);
 			}
