@@ -1,22 +1,28 @@
 cmake_minimum_required(VERSION 3.20)
+project(RealEngine LANGUAGES C CXX)
 
-project(RealEngine)
-
-# Enables the full Tracy project
-option(TRACY_ENABLE "" ON)
-option(BUILD_DOCS "Build Doxygen docs" OFF)
+# ------------------------
+# Project options
+# ------------------------
+option(TRACY_ENABLE "Enable Tracy profiler (vendor/tracy)" ON)
+option(BUILD_DOCS "Build Doxygen documentation" OFF)
 option(BUILD_TESTS "Build tests" ON)
 
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
+# ------------------------
+# Force-disable unneeded vendor targets
+# ------------------------
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-
 set(RYML_INSTALL OFF CACHE BOOL "" FORCE)
 
-# Makes static libraries to be linked later
+# ------------------------
+# Vendor libraries (static libs / subprojects)
+# ------------------------
 add_subdirectory(vendor/quill)
 add_subdirectory(vendor/tracy)
 add_subdirectory(vendor/glfw)
@@ -27,56 +33,163 @@ add_subdirectory(vendor/rapidyaml)
 add_subdirectory(vendor/entt)
 
 if(BUILD_DOCS)
-	add_subdirectory(docs)
-endif(BUILD_DOCS)
+    add_subdirectory(docs)
+endif()
 
-add_library(RealEngine STATIC 
-"src/RealEngine/Core/EntryPoint.h" "src/RealEngine/Core/Application.h" "src/RealEngine/Core/Application.cpp" 
-"src/RealEngine.h" "src/RealEngine/Core/Core.h" "src/RealEngine/Core/Logger.h" "src/RealEngine/Core/Logger.cpp" 
-"src/RealEngine/Core/Assert.h" "src/RealEngine/Core/Profiler.h" "src/RealEngine/Core/Layer.h" "src/RealEngine/Core/Layer.cpp" 
-"src/RealEngine/Core/LayerStack.h" "src/RealEngine/Core/LayerStack.cpp" "src/RealEngine/Core/Window.h" 
-"src/RealEngine/Core/Window.cpp" "src/RealEngine/Events/Event.h" "src/RealEngine/Events/WindowEvents.h" 
-"src/RealEngine/Events/MouseEvents.h" "src/RealEngine/Events/KeyEvents.h" "src/RealEngine/Core/KeyCodes.h" 
-"src/RealEngine/Core/MouseCodes.h" "src/RealEngine/Core/Input.h" "src/RealEngine/Core/Input.cpp" 
-"src/RealEngine/Types/UUID.h" "src/RealEngine/Types/UUID.cpp" "src/RealEngine/Types/StringHash.h" 
-"src/RealEngine/Types/StringHash.cpp" "src/RealEngine/Render/RenderCommands.h" "src/RealEngine/Render/RenderCommands.cpp" "src/RealEngine/ImGui/ImGuiLayer.cpp" 
-"src/RealEngine/ImGui/ImGuiLayer.h" "src/RealEngine/ImGui/OpenSansBold.h"
-"src/RealEngine/Render/Framebuffer.h" "src/RealEngine/Render/Framebuffer.cpp" "src/RealEngine/Render/Texture.h" "src/RealEngine/Render/Texture.cpp" 
- 
-"vendor/stb/stb_image.h" "src/RealEngine/Render/Buffer.h" "src/RealEngine/Render/Buffer.cpp" "src/RealEngine/Render/Shader.h" "src/RealEngine/Render/Shader.cpp" "src/RealEngine/Render/VertexArray.h" "src/RealEngine/Render/VertexArray.cpp" "src/RealEngine/Render/Camera.h" "src/RealEngine/Render/EditorCamera.h" "src/RealEngine/Render/EditorCamera.cpp"   "src/RealEngine/Formatter/GLMFormatter.h" "src/RealEngine/Formatter/YAMLFormatter.h" "src/RealEngine/Core/yaml.h" "src/RealEngine/Formatter/STDFormatter.h" "src/RealEngine/Scene/Scene.h" "src/RealEngine/Scene/Entity.h" "src/RealEngine/Scene/Scene.cpp" "src/RealEngine/Scene/Components.h" "src/RealEngine/Formatter/RealEngineFormatter.h" "src/RealEngine/Scene/ComponentSerializer.h"   "src/RealEngine/Utils/FileHelper.h" "src/RealEngine/Utils/FileHelper.cpp" "src/RealEngine/Render/SceneRenderer.h" "src/RealEngine/Render/SceneRenderer.cpp" "src/RealEngine/Core/Project.h" "src/RealEngine/Core/Project.cpp" "src/RealEngine/ImGui/OpenSansRegular.h")
+# ------------------------
+# Source files
+# ------------------------
+set(SOURCE_FILES
+    # Core
+    src/RealEngine.h
+    src/RealEngine/Core/EntryPoint.h
+    src/RealEngine/Core/Application.h
+    src/RealEngine/Core/Application.cpp
+    src/RealEngine/Core/Core.h
+    src/RealEngine/Core/Logger.h
+    src/RealEngine/Core/Logger.cpp
+    src/RealEngine/Core/Assert.h
+    src/RealEngine/Core/Profiler.h
+    src/RealEngine/Core/Layer.h
+    src/RealEngine/Core/Layer.cpp
+    src/RealEngine/Core/LayerStack.h
+    src/RealEngine/Core/LayerStack.cpp
+    src/RealEngine/Core/Window.h
+    src/RealEngine/Core/Window.cpp
+    src/RealEngine/Core/KeyCodes.h
+    src/RealEngine/Core/MouseCodes.h
+    src/RealEngine/Core/Input.h
+    src/RealEngine/Core/Input.cpp
+    src/RealEngine/Core/Project.h
+    src/RealEngine/Core/Project.cpp
+    src/RealEngine/Core/FileDialogs.h
 
-include_directories(RealEngine PRIVATE
-  src
-  vendor/stb
+    # Events
+    src/RealEngine/Events/Event.h
+    src/RealEngine/Events/WindowEvents.h
+    src/RealEngine/Events/MouseEvents.h
+    src/RealEngine/Events/KeyEvents.h
+
+    # Types / Utilities / Formatter
+    src/RealEngine/Types/UUID.h
+    src/RealEngine/Types/UUID.cpp
+    src/RealEngine/Types/StringHash.h
+    src/RealEngine/Types/StringHash.cpp
+    src/RealEngine/Utils/FileHelper.h
+    src/RealEngine/Utils/FileHelper.cpp
+    src/RealEngine/Core/yaml.h
+    src/RealEngine/Formatter/GLMFormatter.h
+    src/RealEngine/Formatter/YAMLFormatter.h
+    src/RealEngine/Formatter/STDFormatter.h
+    src/RealEngine/Formatter/RealEngineFormatter.h
+
+    # Render
+    src/RealEngine/Render/RenderCommands.h
+    src/RealEngine/Render/RenderCommands.cpp
+    src/RealEngine/Render/Framebuffer.h
+    src/RealEngine/Render/Framebuffer.cpp
+    src/RealEngine/Render/Texture.h
+    src/RealEngine/Render/Texture.cpp
+    src/RealEngine/Render/Buffer.h
+    src/RealEngine/Render/Buffer.cpp
+    src/RealEngine/Render/Shader.h
+    src/RealEngine/Render/Shader.cpp
+    src/RealEngine/Render/VertexArray.h
+    src/RealEngine/Render/VertexArray.cpp
+    src/RealEngine/Render/Camera.h
+    src/RealEngine/Render/EditorCamera.h
+    src/RealEngine/Render/EditorCamera.cpp
+    src/RealEngine/Render/SceneRenderer.h
+    src/RealEngine/Render/SceneRenderer.cpp
+
+    # ImGui / Fonts
+    src/RealEngine/ImGui/ImGuiLayer.h
+    src/RealEngine/ImGui/ImGuiLayer.cpp
+    src/RealEngine/ImGui/OpenSansRegular.h
+    src/RealEngine/ImGui/OpenSansBold.h
+
+    # Scene
+    src/RealEngine/Scene/Scene.h
+    src/RealEngine/Scene/Scene.cpp
+    src/RealEngine/Scene/Entity.h
+    src/RealEngine/Scene/Components.h
+    src/RealEngine/Scene/ComponentSerializer.h
+
+    # Formatting / vendor headers
+    vendor/stb/stb_image.h
 )
 
-target_precompile_headers(RealEngine PRIVATE "src/repch.h")
+# Platform-specific files
+if(WIN32)
+    list(APPEND SOURCE_FILES "src/Platform/Windows/WindowsFileDialogs.cpp")
+elseif(UNIX AND NOT APPLE)
+    list(APPEND SOURCE_FILES "src/Platform/Linux/LinuxFileDialogs.cpp")
+endif()
+
+# ------------------------
+# Library target
+# ------------------------
+add_library(RealEngine STATIC ${SOURCE_FILES})
+
+# Expose public include directory so consumers of the library can use the headers
+target_include_directories(RealEngine PUBLIC # Keep public for RealEngineTests to inherit
+    src
+    vendor/stb
+)
+
+# Precompiled header
+target_precompile_headers(RealEngine PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/repch.h")
+
+# Compile definitions for configs
 target_compile_definitions(RealEngine
     PUBLIC
-      $<$<CONFIG:Debug>:RE_DEBUG>
-      $<$<CONFIG:RelWithDebInfo>:RE_DEBUG>
+        $<$<CONFIG:Debug>:RE_DEBUG>
+        $<$<CONFIG:RelWithDebInfo>:RE_DEBUG>
 )
 
-# Platform detection
-if (WIN32)
-	target_compile_options(RealEngine PUBLIC /W4 /WX)
-
-	target_compile_definitions(RealEngine PUBLIC RE_PLATFORM_WINDOWS)
+# ------------------------
+# Platform-specific flags & libs
+# ------------------------
+if(WIN32)
+    target_compile_options(RealEngine PUBLIC /W4 /WX)
+    target_compile_definitions(RealEngine PUBLIC RE_PLATFORM_WINDOWS)
 elseif(UNIX AND NOT APPLE)
-	target_compile_definitions(RealEngine PUBLIC RE_PLATFORM_LINUX)
+    target_compile_definitions(RealEngine PUBLIC RE_PLATFORM_LINUX)
+
+    # GTK3 support for file dialogs (Linux)
+    find_package(PkgConfig REQUIRED) 
+    pkg_check_modules(GTK3 REQUIRED gtk+-3.0) 
+    target_include_directories(RealEngine PRIVATE ${GTK3_INCLUDE_DIRS}) 
+    set(PLATFORM_LIBS ${GTK3_LIBRARIES})
 endif()
 
+# MSVC-specific behavior
 if(MSVC)
-	# This is to enable the use of __VA_OPT__
-	target_compile_options(RealEngine PUBLIC "/Zc:preprocessor")
+    # Enable __VA_OPT__ support
+    target_compile_options(RealEngine PUBLIC "/Zc:preprocessor")
 endif()
 
-# links the spdlog static library to the executable
+# ------------------------
+# Link libraries
+# ------------------------
+message(STATUS "Linking platform libs: ${PLATFORM_LIBS}")
 target_link_libraries(RealEngine 
-quill::quill Tracy::TracyClient glfw glad glm imgui ryml::ryml EnTT::EnTT)
+    quill::quill
+    Tracy::TracyClient
+    glfw
+    glad
+    glm
+    imgui
+    ryml::ryml
+    EnTT::EnTT
+    $<$<BOOL:${PLATFORM_LIBS}>:${PLATFORM_LIBS}>
+)
 
+# ------------------------
+# Tests
+# ------------------------
 if(BUILD_TESTS)
-	enable_testing()
-	add_subdirectory(vendor/googletest)
-	add_subdirectory(tests)
-endif(BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(vendor/googletest)
+    add_subdirectory(tests)
+endif()
