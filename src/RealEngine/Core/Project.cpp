@@ -24,11 +24,7 @@ namespace RealEngine {
 		}
 
 		Save(s_ProjectName);
-
-		// Make sure the scene has a valid path and save it
-		if (!s_CurrentScene->GetFilePath().empty()) {
-			s_CurrentScene->Save();
-		}
+		s_CurrentScene->Save();
 	}
 
 	void Project::Load(const std::filesystem::path& filePath) {

@@ -81,7 +81,10 @@ namespace RealEngine {
 
 	void Scene::Save() {
 		RE_PROFILE_FUNCTION();
-		RE_CORE_ASSERT(!m_FilePath.empty(), "File path is empty!");
+		if (m_FilePath.empty()) {
+			RE_CORE_ERROR("Scene file path is empty!");
+			return;
+		}
 
 		// Create the root node
 		ryml::Tree tree;
