@@ -44,6 +44,7 @@ namespace RealEngine {
 		auto GetAllEntitiesWithComponents() {
 			return m_Registry.group<Component...>();
 		}
+
 	private:
 		entt::registry m_Registry;
 		std::unordered_map<UUID, Entity> m_EntityMap;

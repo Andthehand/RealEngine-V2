@@ -1,11 +1,11 @@
 #pragma once
 
-#include <string>
+#include <filesystem>
 
 namespace RealEngine {
 	class FileDialogs {
 	public:
-		static std::string OpenFile(const char* filter = "All Files (*.*)\0*.*\0");
-		static std::string SaveFile(const char* filter = "All Files (*.*)\0*.*\0");
+		static std::filesystem::path OpenFile(const char* filter = "");
+		static std::filesystem::path SaveFile(const char* filter = "");
 	};
 }

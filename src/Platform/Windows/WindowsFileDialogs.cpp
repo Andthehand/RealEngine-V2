@@ -8,7 +8,7 @@
 #include "RealEngine/Core/Application.h"
 
 namespace RealEngine {
-	std::string FileDialogs::OpenFile(const char* filter) {
+	std::filesystem::path FileDialogs::OpenFile(const char* filter) {
 		RE_PROFILE_FUNCTION();
 
 		OPENFILENAMEA ofn;
@@ -24,13 +24,14 @@ namespace RealEngine {
 		ofn.lpstrFilter = filter;
 		ofn.nFilterIndex = 1;
 		ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
+
 		if (GetOpenFileNameA(&ofn) == TRUE)
 			return ofn.lpstrFile;
 
-		return std::string();
+		return std::filesystem::path();
 	}
 
-	std::string FileDialogs::SaveFile(const char* filter) {
+	std::filesystem::path FileDialogs::SaveFile(const char* filter) {
 		RE_PROFILE_FUNCTION();
 
 		OPENFILENAMEA ofn;
@@ -48,7 +49,7 @@ namespace RealEngine {
 		ofn.Flags = OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR;
 
 		// Sets the default extension by extracting it from the filter
-		ofn.lpstrDefExt = strchr(filter, '\0') + 1;
+		ofn.lpstrDefExt = "*";
 
 		if (GetSaveFileNameA(&ofn) == TRUE)
 			return ofn.lpstrFile;

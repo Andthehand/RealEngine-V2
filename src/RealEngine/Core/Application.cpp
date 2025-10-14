@@ -38,8 +38,6 @@ namespace RealEngine {
 	void Application::Run() {
 		RE_CORE_TRACE("Application is running...");
 
-		std::string result = FileDialogs::OpenFile();
-
 		while (m_Running) {
 			RE_PROFILE_FRAME();
 

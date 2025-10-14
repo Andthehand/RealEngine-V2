@@ -12,8 +12,9 @@ namespace RealEngine {
 		Project() = delete;
 
 		// Initialize project data (replaces constructor/Create())
-		static void Initialize(const std::filesystem::path& filePath);
-		static void Shutdown(); // Optional cleanup (clears state)
+		static void CreateNewProject(); // New project
+
+		static void Load(const std::filesystem::path& filePath);
 
 		static void Save();
 		static void Save(const std::string& projectName);
@@ -25,9 +26,9 @@ namespace RealEngine {
 		static const std::filesystem::path& GetProjectPath() { return s_ProjectPath; }
 		static std::filesystem::path GetAssetsPath() { return s_ProjectPath / "assets"; }
 
+		static bool IsFullyInitialized() { return !s_ProjectPath.empty(); }
 	private:
-		static void Load(const std::filesystem::path& filePath);
-
+		static void SetupProject(const std::filesystem::path& projectFilePath);
 	private:
 		// Project name is the project file name without extension
 		inline static std::string s_ProjectName;

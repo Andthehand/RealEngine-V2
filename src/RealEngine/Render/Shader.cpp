@@ -148,7 +148,7 @@ namespace RealEngine {
 
 	void Shader::ParseFile(const std::filesystem::path& file) {
 		RE_PROFILE_FUNCTION();
-		RE_CORE_ASSERT(std::filesystem::exists(file))
+		RE_CORE_ASSERT(std::filesystem::is_regular_file(file))
 
 		std::ifstream stream(file);
 		if (!stream.is_open()) {

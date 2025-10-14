@@ -25,60 +25,64 @@ namespace RealEngine {
     }
 
     static void AddFiltersToDialog(GtkWidget* dialog, const char* filterList) {
-        GtkFileFilter* filter;
-        char typebuf[MAX_STRLEN] = { 0 };
-        const char* p_filterList = filterList;
-        char* p_typebuf = typebuf;
-        char filterName[MAX_STRLEN] = { 0 };
+        const char* p = filterList;
 
-        if (!filterList || strlen(filterList) == 0)
+        if (!filterList)
             return;
 
-        filter = gtk_file_filter_new();
-        while (1) {
-            if (IsFilterSegmentChar(*p_filterList)) {
-                char typebufWildcard[MAX_STRLEN];
-                /* add another type to the filter */
-                RE_CORE_ASSERT(strlen(typebuf) > 0, "typebuf should not be empty");
-                RE_CORE_ASSERT(strlen(typebuf) < MAX_STRLEN - 1, "typebuf length exceeds limit");
+        /* Helper to split pattern tokens separated by ';' */
+        auto add_patterns_to_filter = [](GtkFileFilter* filter, const char* pattern_token) {
+            /* Make a copy because strtok-like parsing needed */
+            char buf[MAX_STRLEN];
+            strncpy(buf, pattern_token, MAX_STRLEN - 1);
+            buf[MAX_STRLEN - 1] = '\0';
 
-                snprintf(typebufWildcard, MAX_STRLEN, "*.%s", typebuf);
-                AddTypeToFilterName(typebuf, filterName, MAX_STRLEN);
+            char* saveptr = NULL;
+            char* tok = strtok_r(buf, ";", &saveptr);
+            while (tok) {
+                /* normalize "*.*" to "*" because gtk pattern "*" matches any filename */
+                if (strcmp(tok, "*.*") == 0)
+                    gtk_file_filter_add_pattern(filter, "*");
+                else
+                    gtk_file_filter_add_pattern(filter, tok);
 
-                gtk_file_filter_add_pattern(filter, typebufWildcard);
+                tok = strtok_r(NULL, ";", &saveptr);
+            }
+            };
 
-                p_typebuf = typebuf;
-                memset(typebuf, 0, sizeof(char) * MAX_STRLEN);
+        while (*p) {
+            /* read display name */
+            const char* display_name = p;
+            size_t name_len = strlen(display_name);
+            p += name_len + 1; /* move past name and its terminating NUL */
+
+            if (*p == '\0') {
+                /* odd number of tokens (name without pattern) - break */
+                break;
             }
 
-            if (*p_filterList == ';' || *p_filterList == '\0') {
-                /* end of filter -- add it to the dialog */
+            /* read pattern string */
+            const char* pattern_str = p;
+            size_t pattern_len = strlen(pattern_str);
+            p += pattern_len + 1; /* move past pattern and its terminating NUL */
 
-                gtk_file_filter_set_name(filter, filterName);
-                gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
+            /* create and populate filter */
+            GtkFileFilter* filter = gtk_file_filter_new();
+            gtk_file_filter_set_name(filter, display_name);
 
-                filterName[0] = '\0';
+            /* add one or more patterns (split on ';') */
+            add_patterns_to_filter(filter, pattern_str);
 
-                if (*p_filterList == '\0')
-                    break;
+            gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
 
-                filter = gtk_file_filter_new();
-            }
-
-            if (!IsFilterSegmentChar(*p_filterList)) {
-                *p_typebuf = *p_filterList;
-                p_typebuf++;
-            }
-
-            p_filterList++;
+            /* loop continues; stops when p points to final '\0' (double-NUL) */
         }
 
-        /* always append a wildcard option to the end*/
-
-        filter = gtk_file_filter_new();
-        gtk_file_filter_set_name(filter, "*.*");
-        gtk_file_filter_add_pattern(filter, "*");
-        gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
+        /* always append a wildcard option to the end (if you still want it) */
+        GtkFileFilter* allFilter = gtk_file_filter_new();
+        gtk_file_filter_set_name(allFilter, "All Files (*.*)");
+        gtk_file_filter_add_pattern(allFilter, "*");
+        gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), allFilter);
     }
 
     static void WaitForCleanup() {
@@ -98,7 +102,7 @@ namespace RealEngine {
         gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(dialog), defaultPath);
     }
 
-	std::string FileDialogs::OpenFile(const char* filter) {
+	std::filesystem::path FileDialogs::OpenFile(const char* filter) {
         GtkWidget* dialog;
         std::string result;
 
@@ -120,7 +124,6 @@ namespace RealEngine {
         /* Set the default path */
         SetDefaultPath(dialog, std::filesystem::current_path().c_str());
 
-        result = "";
         if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
         {
             char* filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
@@ -136,4 +139,43 @@ namespace RealEngine {
 
         return result;
 	}
+
+    std::filesystem::path FileDialogs::SaveFile(const char* filter) {
+        GtkWidget* dialog;
+        std::filesystem::path result;
+
+        if (!gtk_init_check(NULL, NULL)) {
+            RE_CORE_ASSERT(false, "GTK failed to initialize!");
+            return "";
+        }
+
+        dialog = gtk_file_chooser_dialog_new("Save File",
+            NULL,
+            GTK_FILE_CHOOSER_ACTION_SAVE,
+            "_Cancel", GTK_RESPONSE_CANCEL,
+            "_Save", GTK_RESPONSE_ACCEPT,
+            NULL);
+        gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dialog), TRUE);
+
+        /* Build the filter list */
+        AddFiltersToDialog(dialog, filter);
+
+        /* Set the default path */
+        SetDefaultPath(dialog, std::filesystem::current_path().c_str());
+
+        if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
+        {
+            char* filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));
+            if (filename) {
+                result = filename;
+                g_free(filename);
+            }
+        }
+
+        WaitForCleanup();
+        gtk_widget_destroy(dialog);
+        WaitForCleanup();
+
+        return result;
+    }
 }

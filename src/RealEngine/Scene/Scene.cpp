@@ -117,7 +117,7 @@ namespace RealEngine {
 
 	void Scene::Load(const std::filesystem::path& filePath) {
 		RE_PROFILE_FUNCTION();
-		RE_CORE_ASSERT(std::filesystem::exists(filePath), "Scene file does not exist: {0}", filePath.string());
+		RE_CORE_ASSERT(std::filesystem::is_regular_file(filePath), "Scene file does not exist: {0}", filePath.string());
 		m_FilePath = filePath;
 
 		RE_CORE_INFO("Deserializing scene from {0}", m_FilePath.string());
