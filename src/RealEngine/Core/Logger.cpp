@@ -5,6 +5,7 @@ namespace RealEngine {
 	quill::Logger* Logger::s_ClientLogger;
 
 	void Logger::Init() {
+		RE_PROFILE_FUNCTION();
 		quill::Backend::start();
 
 		auto console_sink = quill::Frontend::create_or_get_sink<quill::ConsoleSink>("RealEngine_Console_Sink");
@@ -22,5 +23,7 @@ namespace RealEngine {
 
 		s_CoreLogger->set_log_level(quill::LogLevel::TraceL1);
 		s_ClientLogger->set_log_level(quill::LogLevel::TraceL1);
+
+		quill::Frontend::preallocate();
 	}
 }
