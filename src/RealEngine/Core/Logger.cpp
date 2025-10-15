@@ -1,5 +1,7 @@
 #include "Logger.h"
 
+#include "ImGuiLogSink.h"
+
 namespace RealEngine {
 	quill::Logger* Logger::s_CoreLogger;
 	quill::Logger* Logger::s_ClientLogger;
@@ -8,6 +10,7 @@ namespace RealEngine {
 		RE_PROFILE_FUNCTION();
 		quill::Backend::start();
 
+		auto imgui_sink = quill::Frontend::create_or_get_sink<ImGuiLogSink>("RealEngine_Imgui_Sink");
 		auto console_sink = quill::Frontend::create_or_get_sink<quill::ConsoleSink>("RealEngine_Console_Sink");
 		auto file_sink = quill::Frontend::create_or_get_sink<quill::FileSink>("logs/RealEngine.log", []() {
 			quill::FileSinkConfig cfg;
@@ -16,9 +19,9 @@ namespace RealEngine {
 			return cfg;
 		}(), quill::FileEventNotifier{});
 
-		s_CoreLogger = quill::Frontend::create_or_get_logger("RealEngine", { console_sink, file_sink },
+		s_CoreLogger = quill::Frontend::create_or_get_logger("RealEngine", { imgui_sink, console_sink, file_sink },
 			quill::PatternFormatterOptions("[%(time)] [%(log_level)] %(logger): %(message)", "%H:%M:%S"));
-		s_ClientLogger = quill::Frontend::create_or_get_logger("APP", { console_sink, file_sink },
+		s_ClientLogger = quill::Frontend::create_or_get_logger("APP", { imgui_sink, console_sink, file_sink },
 			quill::PatternFormatterOptions("[%(time)] [%(log_level)] %(logger): %(message)", "%H:%M:%S"));
 
 		s_CoreLogger->set_log_level(quill::LogLevel::TraceL1);

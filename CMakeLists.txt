@@ -117,7 +117,7 @@ set(SOURCE_FILES
 
     # Formatting / vendor headers
     vendor/stb/stb_image.h
-)
+ "src/RealEngine/Types/RingBuffer.h"  "src/RealEngine/Core/ImGuiLogSink.h")
 
 # Platform-specific files
 if(WIN32)

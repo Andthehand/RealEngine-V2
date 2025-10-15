@@ -92,7 +92,7 @@ namespace RealEngine {
 		 * @param path Filesystem path to the texture image file.
 		 */
 		 //TODO: Add helper for less duplicated code
-		Texture2D(const std::filesystem::path& path);
+		Texture2D(const std::filesystem::path& path, uint32_t mipLevels = 1);
 		Texture2D(const Texture2DCreateInfo& info, const void* data = nullptr);
 		~Texture2D();
 		
@@ -109,7 +109,7 @@ namespace RealEngine {
 		 * @param path Path to the texture image file.
 		 * @return Ref-counted pointer to a Texture2D object.
 		 */
-		static Ref<Texture2D> Create(const std::filesystem::path& path) { return CreateRef<Texture2D>(path); }
+		static Ref<Texture2D> Create(const std::filesystem::path& path, uint32_t mipLevels = 1) { return CreateRef<Texture2D>(path, mipLevels); }
 		static Ref<Texture2D> Create(const Texture2DCreateInfo& info, const void* data = nullptr) { return CreateRef<Texture2D>(info, data); }
 	private:
 		uint32_t m_Width, m_Height;

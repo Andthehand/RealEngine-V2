@@ -15,6 +15,7 @@
 #include "RealEngine/Core/Logger.h"
 #include "RealEngine/Core/MouseCodes.h"
 #include "RealEngine/Core/Project.h"
+#include "RealEngine/Core/ImGuiLogSink.h"
 
 // ==============================
 // Events
@@ -46,6 +47,7 @@
 // ==============================
 // Types
 // ==============================
+#include "RealEngine/Types/RingBuffer.h"
 #include "RealEngine/Types/StringHash.h"
 #include "RealEngine/Types/UUID.h"
 

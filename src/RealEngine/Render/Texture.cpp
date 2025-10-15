@@ -52,7 +52,7 @@ namespace RealEngine {
 		}
 	}
 
-	Texture2D::Texture2D(const std::filesystem::path& path) {
+	Texture2D::Texture2D(const std::filesystem::path& path, uint32_t mipLevels) {
 		RE_PROFILE_FUNCTION();
 		
 		stbi_set_flip_vertically_on_load(true);
@@ -72,10 +72,10 @@ namespace RealEngine {
 		// TODO: Only creates 1 mipmap level ?fix?
 		// Allocate memory for the texture
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
-		glTextureStorage2D(m_RendererID, 1, (GLenum)m_InternalFormat, m_Width, m_Height);
+		glTextureStorage2D(m_RendererID, mipLevels, (GLenum)m_InternalFormat, m_Width, m_Height);
 
 		// Filters
-		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 		glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		// Wrapping
@@ -84,6 +84,7 @@ namespace RealEngine {
 
 		// Upload data
 		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, (GLenum)m_DataFormat, GL_UNSIGNED_BYTE, data);
+		glGenerateTextureMipmap(m_RendererID);
 
 		stbi_image_free(data);
 	}
