@@ -160,7 +160,11 @@ elseif(UNIX AND NOT APPLE)
     find_package(PkgConfig REQUIRED) 
     pkg_check_modules(GTK3 REQUIRED gtk+-3.0) 
     target_include_directories(RealEngine PRIVATE ${GTK3_INCLUDE_DIRS}) 
-    set(PLATFORM_LIBS ${GTK3_LIBRARIES})
+
+    # Link with X11 for ImGui backend
+    find_package(X11 REQUIRED)
+    target_include_directories(RealEngine PRIVATE ${X11_INCLUDE_DIR})
+    set(PLATFORM_LIBS ${GTK3_LIBRARIES} ${X11_LIBRARIES})
 endif()
 
 # MSVC-specific behavior

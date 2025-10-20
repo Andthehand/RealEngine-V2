@@ -12,6 +12,12 @@ namespace RealEngine {
 		s_CurrentScene = CreateRef<Scene>();
 	}
 
+	void Project::ClearProject() {
+		s_ProjectName = "";
+		s_ProjectPath = "";
+		s_CurrentScene = nullptr;
+	}
+
 	void Project::Save() {
 		if (!IsFullyInitialized()) {
 			std::filesystem::path filePath = FileDialogs::SaveFile("Real Engine Project (*.reproj)\0*.reproj\0");

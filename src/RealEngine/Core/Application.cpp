@@ -15,7 +15,6 @@ namespace RealEngine {
 		m_Window.SetEventCallback(RE_BIND_EVENT_FN(Application::OnEvent));
 		m_Window.Init(m_Specification.Name.c_str(), 1280, 720);
 
-		RE_CORE_INFO("Working Directory: {0}", std::filesystem::current_path().string());
 		RenderCommands::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();

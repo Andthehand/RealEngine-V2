@@ -13,6 +13,7 @@ namespace RealEngine {
 
 		// Initialize project data (replaces constructor/Create())
 		static void CreateNewProject(); // New project
+		static void ClearProject(); // Esentially a "destructor" for the static data
 
 		static void Load(const std::filesystem::path& filePath);
 
