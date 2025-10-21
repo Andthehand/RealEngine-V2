@@ -56,7 +56,7 @@ namespace RealEngine {
 
 			// Title bars
 			c[ImGuiCol_TitleBg] = RGBA(10, 10, 10);
-			c[ImGuiCol_TitleBgActive] = RGBA(58, 58, 58);
+			c[ImGuiCol_TitleBgActive] = RGBA(10, 10, 10);
 			c[ImGuiCol_TitleBgCollapsed] = RGBA(0, 0, 0, 130);
 
 			// Menu / navigation overlays
@@ -98,10 +98,9 @@ namespace RealEngine {
 			c[ImGuiCol_Tab] = ImLerp(c[ImGuiCol_Header], c[ImGuiCol_TitleBgActive], 0.80f);
 			c[ImGuiCol_TabHovered] = c[ImGuiCol_HeaderHovered];
 			c[ImGuiCol_TabSelected] = ImLerp(c[ImGuiCol_HeaderActive], c[ImGuiCol_TitleBgActive], 0.60f);
-			c[ImGuiCol_TabSelectedOverline] = c[ImGuiCol_HeaderActive];
 			c[ImGuiCol_TabDimmed] = ImLerp(c[ImGuiCol_Tab], c[ImGuiCol_TitleBg], 0.80f);
 			c[ImGuiCol_TabDimmedSelected] = ImLerp(c[ImGuiCol_TabSelected], c[ImGuiCol_TitleBg], 0.40f);
-			c[ImGuiCol_TabDimmedSelectedOverline] = ImVec4(0.50f, 0.50f, 0.50f, 0.00f);
+			c[ImGuiCol_TabSelectedOverline] = ImVec4(0.103f, 0.351f, 0.918f, 1.000f);
 
 			// Docking
 			c[ImGuiCol_DockingPreview] = ImVec4(c[ImGuiCol_HeaderActive].x, c[ImGuiCol_HeaderActive].y, c[ImGuiCol_HeaderActive].z, 0.70f);
@@ -132,6 +131,7 @@ namespace RealEngine {
 			style.WindowRounding = 4.0f;
 			style.PopupRounding = 4.0f;
 			style.TabRounding = 4.0f;
+			style.TabBarOverlineSize = 3.0f;
 
 			// Spacing (subtle adjustments for balance)
 			style.WindowPadding = ImVec2(10, 10);
@@ -189,6 +189,10 @@ namespace RealEngine {
 		float main_scale = ImGui_ImplGlfw_GetContentScaleForMonitor(glfwGetPrimaryMonitor());
 		style.ScaleAllSizes(main_scale);
 		style.FontScaleDpi = main_scale;
+
+		ImGuiIO& io = ImGui::GetIO();
+		io.ConfigDpiScaleFonts = true;
+		io.ConfigDpiScaleViewports = true;
 	}
 
 	void ImGuiLayer::Begin() {
