@@ -39,10 +39,10 @@ namespace RealEngine {
 		const char* version = (char*)glGetString(GL_VERSION);
 		const char* glslVersion = (char*)glGetString(GL_SHADING_LANGUAGE_VERSION);
 		RE_CORE_INFO("OpenGL Info:");
-		RE_CORE_INFO("    OpenGL Vendor: {0}", vendor);
-		RE_CORE_INFO("    OpenGL Renderer: {0}", renderer);
-		RE_CORE_INFO("    OpenGL Version: {0}", version);
-		RE_CORE_INFO("    GLSL Version: {0}", glslVersion);
+		RE_CORE_INFO("OpenGL Vendor: {0}", vendor);
+		RE_CORE_INFO("OpenGL Renderer: {0}", renderer);
+		RE_CORE_INFO("OpenGL Version: {0}", version);
+		RE_CORE_INFO("GLSL Version: {0}", glslVersion);
 
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_MULTISAMPLE);
