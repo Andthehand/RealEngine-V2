@@ -12,10 +12,10 @@ namespace RealEngine {
 		RE_PROFILE_FUNCTION();
 
 		switch (severity) {
-			case GL_DEBUG_SEVERITY_HIGH:			RE_CORE_CRITICAL("GLFW Error: {}", message); return;
-			case GL_DEBUG_SEVERITY_MEDIUM:			RE_CORE_ERROR("GLFW Error: {}", message); return;
-			case GL_DEBUG_SEVERITY_LOW:				RE_CORE_WARN("GLFW Error: {}", message); return;
-			case GL_DEBUG_SEVERITY_NOTIFICATION:	RE_CORE_TRACE("GLFW Error: {}", message); return;
+			case GL_DEBUG_SEVERITY_HIGH:			RE_CORE_CRITICAL("GLFW High Severity: {}", message); return;
+			case GL_DEBUG_SEVERITY_MEDIUM:			RE_CORE_ERROR("GLFW Medium Severity: {}", message); return;
+			case GL_DEBUG_SEVERITY_LOW:				RE_CORE_WARN("GLFW Low Severity: {}", message); return;
+			case GL_DEBUG_SEVERITY_NOTIFICATION:	RE_CORE_TRACE("GLFW Notification: {}", message); return;
 		}
 
 		RE_CORE_ASSERT(false, "Unknown severity level!");
@@ -31,7 +31,11 @@ namespace RealEngine {
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDebugMessageCallback(OpenGLMessageCallback, nullptr);
 
-		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_FALSE);
+		// Turn errors on
+		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
+		// Filter out notifications
+		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, NULL, GL_FALSE);
+
 #endif
 
 		const char* vendor = (char*)glGetString(GL_VENDOR);
