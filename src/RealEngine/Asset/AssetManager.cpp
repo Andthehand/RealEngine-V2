@@ -2,6 +2,8 @@
 
 #include "RealEngine/Core/Project.h"
 
+#include <ryml_std.hpp>
+
 namespace RealEngine {
 	namespace Utils {
 		static std::unordered_map<std::filesystem::path, AssetType> s_AssetExtensionMap = {
