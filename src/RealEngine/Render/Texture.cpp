@@ -52,43 +52,6 @@ namespace RealEngine {
 		}
 	}
 
-	Texture2D::Texture2D(const std::filesystem::path& path, uint32_t mipLevels) {
-		RE_PROFILE_FUNCTION();
-		
-		stbi_set_flip_vertically_on_load(true);
-		int width, height, channels;
-		unsigned char* data = stbi_load(path.string().c_str(), &width, &height, &channels, 0);
-		
-		RE_CORE_ASSERT(data, "Failed to load image with path: {}", path);
-		m_Width = width;
-		m_Height = height;
-
-		switch (channels) {
-			case 3: m_InternalFormat = TextureDataType::RGB8;	m_DataFormat = TextureFormat::RGB; break;
-			case 4: m_InternalFormat = TextureDataType::RGBA8;	m_DataFormat = TextureFormat::RGBA; break;
-			default: RE_CORE_ASSERT(false, "Grayscale Images are not supported!");
-		}
-
-		// TODO: Only creates 1 mipmap level ?fix?
-		// Allocate memory for the texture
-		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererID);
-		glTextureStorage2D(m_RendererID, mipLevels, (GLenum)m_InternalFormat, m_Width, m_Height);
-
-		// Filters
-		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		// Wrapping
-		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-		// Upload data
-		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, (GLenum)m_DataFormat, GL_UNSIGNED_BYTE, data);
-		glGenerateTextureMipmap(m_RendererID);
-
-		stbi_image_free(data);
-	}
-
 	Texture2D::Texture2D(const Texture2DCreateInfo& info, const void* data)
 		: m_Width(info.Width), m_Height(info.Height), m_InternalFormat(info.InternalFormat), m_DataFormat(info.DataFormat) {
 		RE_PROFILE_FUNCTION();
