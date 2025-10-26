@@ -151,7 +151,7 @@ namespace RealEngine {
 
     struct SpriteRendererComponent {
         glm::vec4 Color = { 1.0f, 1.0f, 1.0f, 1.0f };
-		Ref<Texture2D> Texture; // TODO: Move to ResourceHandle
+		Ref<Texture2D> Texture; // Keep as Ref not handle to manage lifetime
 
         SpriteRendererComponent() = default;
         SpriteRendererComponent(const glm::vec4& color)

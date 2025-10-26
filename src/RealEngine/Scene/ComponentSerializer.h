@@ -4,8 +4,11 @@
 
 #include <entt/entt.hpp>
 
+#include "RealEngine/Core/Project.h"
+
 #include "RealEngine/Scene/Entity.h"
 #include "RealEngine/Scene/Components.h"
+
 #include "RealEngine/Formatter/RealEngineFormatter.h"
 
 namespace RealEngine {
@@ -74,6 +77,10 @@ namespace RealEngine {
     inline bool write(ryml::NodeRef* node, const SpriteRendererComponent& comp) {
         *node |= ryml::MAP;
         (*node)["Color"] << comp.Color;
+        
+        if(comp.Texture)
+            (*node)["Texture"] << comp.Texture->GetHandle();
+
         return true;
 	}
 
@@ -83,6 +90,18 @@ namespace RealEngine {
             return false;
         }
         node["Color"] >> out->Color;
+
+        if (node.has_child("Texture")) {
+            AssetHandle handle;
+            node["Texture"] >> handle;
+            Ref<Asset> asset = RealEngine::Project::GetAssetManager().GetAsset<Texture2D>(handle);
+            if (asset) {
+                out->Texture = std::dynamic_pointer_cast<Texture2D>(asset);
+            } else {
+                RE_CORE_WARN("Failed to load Texture2D asset with handle: {}", (uint64_t)handle);
+            }
+		}
+
         return true;
 	}
 

@@ -22,6 +22,11 @@
 #include "RealEngine/Events/WindowEvents.h"
 
 // ==============================
+// Asset
+// ==============================
+#include "RealEngine/Asset/Asset.h"
+
+// ==============================
 // Rendering
 // ==============================
 #include "RealEngine/Render/RenderCommands.h"

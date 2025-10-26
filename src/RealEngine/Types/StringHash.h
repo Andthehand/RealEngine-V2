@@ -2,10 +2,16 @@
 
 #include <string>
 #include <cstdint>
+#include <filesystem>
 
 namespace RealEngine {
     class StringHash {
     public:
+		// Used for serialization/deserialization also compile time hashing
+        constexpr explicit StringHash(uint32_t hash) : m_Hash(hash) {}
+
+		explicit StringHash() : m_Hash(0) {}
+        explicit StringHash(const std::filesystem::path& path);
         explicit StringHash(const std::string& string);
         explicit StringHash(const char* string);
 
@@ -18,8 +24,6 @@ namespace RealEngine {
         constexpr bool operator==(const StringHash& other) const { return m_Hash == other.m_Hash; }
         constexpr bool operator!=(const StringHash& other) const { return m_Hash != other.m_Hash; }
     private:
-        constexpr explicit StringHash(uint32_t hash) : m_Hash(hash) {}
-
         void InitDebugString(const char* str);
 
         static uint32_t HashRuntime(const char* str);
@@ -30,7 +34,17 @@ namespace RealEngine {
         uint32_t m_Hash;
 
 #ifdef RE_DEBUG
-        std::string m_String;
+        static inline std::unordered_map<uint32_t, std::string> s_StringLookup;
 #endif
     };
 }
+
+namespace std {
+    template<>
+    struct hash<RealEngine::StringHash> {
+        std::size_t operator()(const RealEngine::StringHash& stringHash) const {
+            return (uint32_t)stringHash;
+        }
+    };
+}
+

@@ -1,6 +1,8 @@
 #pragma once
 #include <filesystem>
 
+#include "RealEngine/Asset/Asset.h"
+
 namespace RealEngine {
 	enum class TextureFormat : GLenum {
 		NONE = 0,
@@ -85,7 +87,7 @@ namespace RealEngine {
 	 * Supports loading textures with 3 (RGB) or 4 (RGBA) channels.
 	 * Provides binding functionality for use in shaders.
 	 */
-	class Texture2D {
+	class Texture2D : public Asset {
 	public:
 		/**
 		 * @brief Constructs a 2D texture from the given file path.
@@ -103,6 +105,9 @@ namespace RealEngine {
 		uint32_t GetHeight() const { return m_Height; }
 
 		uint32_t GetRendererID() const { return m_RendererID; }
+
+		static AssetType GetStaticType() { return AssetType::Texture2D; }
+		virtual AssetType GetType() const override { return GetStaticType(); }
 
 		/**
 		 * @brief Creates a reference-counted Texture2D instance.

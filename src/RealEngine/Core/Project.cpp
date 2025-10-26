@@ -10,16 +10,19 @@ namespace RealEngine {
 		s_ProjectPath = ""; // Empty because we don't know where to save yet
 
 		s_CurrentScene = CreateRef<Scene>();
+		s_AssetManager.Clear();
 	}
 
 	void Project::ClearProject() {
 		s_ProjectName = "";
 		s_ProjectPath = "";
 		s_CurrentScene = nullptr;
+		s_AssetManager.Clear();
 	}
 
 	void Project::Save() {
 		if (!IsFullyInitialized()) {
+			// Prompt user to select save location
 			std::filesystem::path filePath = FileDialogs::SaveFile("Real Engine Project (*.reproj)\0*.reproj\0");
 			if (filePath.empty()) {
 				RE_CORE_WARN("Project save was canceled or failed!");
@@ -52,6 +55,9 @@ namespace RealEngine {
 			RE_CORE_WARN("Project file missing 'ProjectName'");
 		}
 
+		// Needs to be loaded before the scene but after project path is set
+		s_AssetManager.Load();
+
 		if (root.has_child("CurrentScene")) {
 			std::string scenePath;
 
@@ -79,6 +85,7 @@ namespace RealEngine {
 		if (projectName.empty())
 			return;
 
+		s_AssetManager.Save();
 		s_ProjectName = projectName;
 		std::filesystem::path filePath = s_ProjectPath / (projectName + ".reproj");
 

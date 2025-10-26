@@ -1,10 +1,11 @@
 #include "StringHash.h"
 
 namespace RealEngine {
+    StringHash::StringHash(const std::filesystem::path& path)
+        : StringHash(path.string().c_str()) { }
+
     StringHash::StringHash(const std::string& string)
-        : m_Hash(HashRuntime(string.c_str())) {
-        InitDebugString(string.c_str());
-    }
+        : StringHash(string.c_str()) { }
 
     StringHash::StringHash(const char* string)
         : m_Hash(HashRuntime(string)) {
@@ -13,7 +14,7 @@ namespace RealEngine {
 
 #ifdef RE_DEBUG
     void StringHash::InitDebugString(const char* str) {
-        m_String = str ? std::string(str) : std::string();
+        s_StringLookup[m_Hash] = str ? std::string(str) : std::string();
     }
 #else
     void StringHash::InitDebugString(const char*) {}

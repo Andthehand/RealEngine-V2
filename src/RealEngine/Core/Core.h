@@ -84,4 +84,15 @@ namespace RealEngine {
 	/// Alias for std::weak_ptr (non-owning weak reference).
 	template<typename T>
 	using Weak_Ref = std::weak_ptr<T>;
+
+	/**
+	 * @brief Creates a Weak_Ref (weak_ptr) instance.
+	 * @tparam T The type to reference.
+	 * @tparam Args Constructor argument types.
+	 * @return A std::weak_ptr instance.
+	 */
+	template<typename T, typename ... Args>
+	constexpr Weak_Ref<T> CreateWeakRef() {
+		return std::weak_ptr<T>();
+	}
 }

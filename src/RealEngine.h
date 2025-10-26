@@ -45,6 +45,12 @@
 #include "RealEngine/Scene/Scene.h"
 
 // ==============================
+// Asset
+// ==============================
+#include "RealEngine/Asset/Asset.h"
+#include "RealEngine/Asset/AssetManager.h"
+
+// ==============================
 // Types
 // ==============================
 #include "RealEngine/Types/RingBuffer.h"
