@@ -80,7 +80,13 @@ namespace RealEngine {
 				AssetMetadata metadata;
 				metadata.FilePath = filePathStr;
 				metadata.Type = static_cast<AssetType>(typeValue);
-				m_AssetRegistry.emplace(handle, metadata);
+
+				if(std::filesystem::is_regular_file(metadata.FilePath)) {
+					m_AssetRegistry.emplace(handle, metadata);
+				}
+				else {
+					RE_CORE_WARN("Asset file missing: {}", metadata.FilePath.string());
+				}
 			}
 		}
 		else {

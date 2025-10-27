@@ -25,7 +25,7 @@ namespace RealEngine {
 			RE_PROFILE_FUNCTION();
 			// 1. Check if the asset is imported
 			if (!IsAssetValid(handle)) {
-				RE_CORE_ASSERT(false, "Asset not imported with handle: {}", (uint64_t)handle);
+				RE_CORE_ERROR("Asset not imported with handle: {}", (uint64_t)handle);
 				return nullptr;
 			}
 
