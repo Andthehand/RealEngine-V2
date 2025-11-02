@@ -41,8 +41,7 @@ namespace RealEngine {
 			customNode |= ryml::MAP;
 			switch (metadata.Type) {
 				case AssetType::Texture2D:
-					// Use pointer to avoid exceptions
-					customNode << *std::any_cast<Texture2DMetadata*>(metadata.CustomMetadata);
+					customNode << std::any_cast<Texture2DMetadata>(metadata.CustomMetadata);
 					break;
 				default:
 					RE_CORE_ASSERT(false, "AssetType {} is not supported for CustomMetadata", (uint16_t)metadata.Type);
