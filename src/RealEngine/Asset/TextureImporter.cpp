@@ -4,10 +4,10 @@
 
 namespace RealEngine {
 	Ref<Texture2D> TextureImporter::ImportTexture2D(const AssetMetadata& metadata) {
-		return LoadTexture2D(metadata.FilePath);
+		return LoadTexture2D(metadata.FilePath, std::any_cast<Texture2DMetadata>(metadata.CustomMetadata));
 	}
 
-	Ref<Texture2D> TextureImporter::LoadTexture2D(const std::filesystem::path& path, uint32_t mipmaps) {
+	Ref<Texture2D> TextureImporter::LoadTexture2D(const std::filesystem::path& path, Texture2DMetadata metadata) {
 		RE_PROFILE_FUNCTION();
 
 		stbi_set_flip_vertically_on_load(true);
@@ -31,7 +31,7 @@ namespace RealEngine {
 		default:
 			RE_CORE_ASSERT(false, "Grayscale Images are not supported!");
 		}
-		info.MipLevels = mipmaps;
+		info.MipLevels = metadata.MipLevels;
 
 		Ref<Texture2D> texture = Texture2D::Create(info, data);
 		stbi_image_free(data);

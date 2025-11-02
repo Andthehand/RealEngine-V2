@@ -1,7 +1,5 @@
 #include "AssetImporter.h"
 
-#include "TextureImporter.h"
-
 namespace RealEngine {
 	using AssetImportFunction = std::function<Ref<Asset>(const AssetMetadata&)>;
 	static std::unordered_map<AssetType, AssetImportFunction> s_AssetImportFunctions = {

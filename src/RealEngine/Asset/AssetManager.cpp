@@ -21,6 +21,54 @@ namespace RealEngine {
 
 			return s_AssetExtensionMap.at(extension);
 		}
+
+		static std::any CreateDefaultCustomMetadata(AssetType type) {
+			switch (type) {
+				case AssetType::Texture2D:
+					return Texture2DMetadata{};
+				default:
+					RE_CORE_ASSERT(false, "AssetType {} is not supported for CustomMetadata", (uint16_t)type);
+					return {};
+			}
+		}
+
+		// Helper function to write CustomMetadata to a ryml node
+		static void WriteCustomMetadata(const AssetMetadata& metadata, ryml::NodeRef& assetNode) {
+			if (!metadata.CustomMetadata.has_value())
+				return;
+
+			ryml::NodeRef customNode = assetNode["CustomMetadata"];
+			customNode |= ryml::MAP;
+			switch (metadata.Type) {
+				case AssetType::Texture2D:
+					// Use pointer to avoid exceptions
+					customNode << *std::any_cast<Texture2DMetadata*>(metadata.CustomMetadata);
+					break;
+				default:
+					RE_CORE_ASSERT(false, "AssetType {} is not supported for CustomMetadata", (uint16_t)metadata.Type);
+					break;
+			}
+		}
+
+		// Helper function to read CustomMetadata from a ryml node
+		static void ReadCustomMetadata(AssetMetadata& metadata, const ryml::ConstNodeRef& assetNode) {
+			if (!assetNode.has_child("CustomMetadata"))
+				return;
+
+			ryml::ConstNodeRef customNode = assetNode["CustomMetadata"];
+			switch (metadata.Type) {
+				case AssetType::Texture2D: {
+					Texture2DMetadata value;
+					customNode >> value;
+					metadata.CustomMetadata = value;
+					break;
+				}
+				default:
+					RE_CORE_ASSERT(false, "AssetType {} is not supported for CustomMetadata", (uint16_t)metadata.Type);
+					break;
+
+			}
+		}
 	}
 
 	void AssetManager::Save() {
@@ -39,8 +87,9 @@ namespace RealEngine {
 			ryml::NodeRef assetNode = assetsNode.append_child();
 			assetNode |= ryml::MAP;
 			assetNode.append_child() << ryml::key("Handle") << handle;
-			assetNode.append_child() << ryml::key("FilePath") << metadata.FilePath;
+			assetNode.append_child() << ryml::key("FilePath") << Project::GetRelativePathToAssetFolder(metadata.FilePath);
 			assetNode.append_child() << ryml::key("Type") << (uint16_t)metadata.Type;
+			Utils::WriteCustomMetadata(metadata, assetNode);
 		}
 
 		FileHelper fileHelper(assetRegistryPath, "w");
@@ -78,8 +127,9 @@ namespace RealEngine {
 				assetNode["Type"] >> typeValue;
 				
 				AssetMetadata metadata;
-				metadata.FilePath = filePathStr;
+				metadata.FilePath = Project::ResolveAssetPathFromAssetFolder(filePathStr);
 				metadata.Type = static_cast<AssetType>(typeValue);
+				Utils::ReadCustomMetadata(metadata, assetNode);
 
 				if(std::filesystem::is_regular_file(metadata.FilePath)) {
 					m_AssetRegistry.emplace(handle, metadata);
@@ -111,6 +161,7 @@ namespace RealEngine {
 		AssetMetadata metadata;
 		metadata.FilePath = filePath;
 		metadata.Type = Utils::GetAssetTypeFromFileExtension(filePath.extension());
+		metadata.CustomMetadata = Utils::CreateDefaultCustomMetadata(metadata.Type);
 
 		AssetHandle handle(filePath);
 		m_AssetRegistry.emplace(handle, metadata);

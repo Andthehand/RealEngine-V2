@@ -107,6 +107,18 @@ namespace RealEngine {
 		RE_CORE_WARN("Project was serialized into {}", filePath.string());
 	}
 
+	std::filesystem::path Project::GetRelativePathToAssetFolder(const std::filesystem::path& absolutePath) {
+		RE_CORE_ASSERT(IsFullyInitialized(), "Project is not fully initialized!");
+
+		return std::filesystem::relative(absolutePath, GetAssetsPath());
+	}
+
+	std::filesystem::path Project::ResolveAssetPathFromAssetFolder(const std::filesystem::path& relativePath) {
+		RE_CORE_ASSERT(IsFullyInitialized(), "Project is not fully initialized!");
+
+		return GetAssetsPath() / relativePath;
+	}
+
 	void Project::SetupProject(const std::filesystem::path& projectFilePath) {
 		s_ProjectPath = std::filesystem::absolute(projectFilePath.parent_path());
 		s_ProjectName = projectFilePath.stem().string();

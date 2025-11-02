@@ -31,6 +31,9 @@ namespace RealEngine {
 		static const std::filesystem::path& GetProjectPath() { return s_ProjectPath; }
 		static std::filesystem::path GetAssetsPath() { return s_ProjectPath / "assets"; }
 
+		static std::filesystem::path GetRelativePathToAssetFolder(const std::filesystem::path& absolutePath);
+		static std::filesystem::path ResolveAssetPathFromAssetFolder(const std::filesystem::path& relativePath);
+
 		static bool IsFullyInitialized() { return !s_ProjectPath.empty(); }
 	private:
 		static void SetupProject(const std::filesystem::path& projectFilePath);

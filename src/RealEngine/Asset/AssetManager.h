@@ -42,6 +42,13 @@ namespace RealEngine {
 
 		void Clear();
 
+		AssetMetadata* GetAssetMetadata(AssetHandle handle) {
+			RE_PROFILE_FUNCTION();
+			RE_CORE_ASSERT(IsAssetValid(handle), "Achievement unlocked how did we get here?");
+
+			return &m_AssetRegistry.at(handle);
+		}
+
 		bool IsAssetValid(AssetHandle handle) const {
 			return m_AssetRegistry.find(handle) != m_AssetRegistry.end();
 		}

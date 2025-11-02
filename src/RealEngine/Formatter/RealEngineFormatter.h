@@ -4,6 +4,8 @@
 #include "RealEngine/Types/UUID.h"
 #include "RealEngine/Types/StringHash.h"
 
+#include "RealEngine/Asset/AssetImporter.h"
+
 #include <ryml.hpp>
 
 template <>
@@ -67,6 +69,22 @@ namespace RealEngine {
     inline bool write(ryml::NodeRef* node, const RealEngine::StringHash& val) {
         *node |= ryml::VAL;
         (*node) << (uint32_t)val;
+        return true;
+	}
+
+    inline bool read(const ryml::ConstNodeRef& node, RealEngine::Texture2DMetadata* val) {
+        if (!node.has_child("MipLevels")) {
+            RE_CORE_ASSERT(false, "Expected a node with 'MipLevels' child");
+            return false;
+        }
+
+		node["MipLevels"] >> val->MipLevels;
+		return true;
+    }
+
+    inline bool write(ryml::NodeRef* node, const RealEngine::Texture2DMetadata& val) {
+        *node |= ryml::MAP;
+        (*node)["MipLevels"] << val.MipLevels;
         return true;
 	}
 }
