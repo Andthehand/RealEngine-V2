@@ -15,6 +15,7 @@ namespace RealEngine {
 		~AssetManager() = default;
 
 		void Save();
+		// Clear and reload the asset registry from disk
 		void Load();
 
 		AssetHandle ImportAssetIfNeeded(const std::filesystem::path& filePath);
@@ -41,6 +42,7 @@ namespace RealEngine {
 		}
 
 		void Clear();
+		void ClearUnusedAssets();
 
 		AssetMetadata* GetAssetMetadata(AssetHandle handle) {
 			RE_PROFILE_FUNCTION();
@@ -49,13 +51,10 @@ namespace RealEngine {
 			return &m_AssetRegistry.at(handle);
 		}
 
-		bool IsAssetValid(AssetHandle handle) const {
-			return m_AssetRegistry.find(handle) != m_AssetRegistry.end();
-		}
-
-		bool IsAssetLoaded(AssetHandle handle) const {
-			return m_LoadedAssets.find(handle) != m_LoadedAssets.end();
-		}
+		// Check if the asset is imported
+		bool IsAssetValid(AssetHandle handle) const;
+		// Check if the asset is loaded in memory
+		bool IsAssetLoaded(AssetHandle handle) const;
 	private:
 		template<typename T>
 		Ref<T> LoadAsset(AssetHandle handle) {

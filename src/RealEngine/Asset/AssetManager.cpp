@@ -173,4 +173,29 @@ namespace RealEngine {
 		m_AssetRegistry.clear();
 		m_LoadedAssets.clear();
 	}
+
+	void AssetManager::ClearUnusedAssets() {
+		RE_PROFILE_FUNCTION();
+		for (auto it = m_LoadedAssets.begin(); it != m_LoadedAssets.end(); ) {
+			if (it->second.use_count() == 1) {
+#ifdef RE_DEBUG
+				AssetHandle handle = it->first;
+				std::filesystem::path& path = m_AssetRegistry[handle].FilePath;
+				RE_CORE_INFO("Unloading unused asset with filename: {}", path.filename());
+#endif
+				it = m_LoadedAssets.erase(it);
+			}
+			else {
+				++it;
+			}
+		}
+	}
+
+	bool AssetManager::IsAssetValid(AssetHandle handle) const {
+		return m_AssetRegistry.find(handle) != m_AssetRegistry.end();
+	}
+
+	bool AssetManager::IsAssetLoaded(AssetHandle handle) const {
+		return m_LoadedAssets.find(handle) != m_LoadedAssets.end();
+	}
 }

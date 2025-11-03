@@ -107,6 +107,13 @@ namespace RealEngine {
 		RE_CORE_WARN("Project was serialized into {}", filePath.string());
 	}
 
+	void Project::SetCurrentScene(const Ref<Scene>& scene) {
+		s_CurrentScene = scene; 
+
+		// Clean up assets from previous scene
+		s_AssetManager.ClearUnusedAssets();
+	}
+
 	std::filesystem::path Project::GetRelativePathToAssetFolder(const std::filesystem::path& absolutePath) {
 		RE_CORE_ASSERT(IsFullyInitialized(), "Project is not fully initialized!");
 

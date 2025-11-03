@@ -23,7 +23,7 @@ namespace RealEngine {
 		static void Save(const std::string& projectName);
 
 		static Ref<Scene>& GetCurrentScene() { return s_CurrentScene; }
-		static void SetCurrentScene(const Ref<Scene>& scene) { s_CurrentScene = scene; }
+		static void SetCurrentScene(const Ref<Scene>& scene);
 
 		static AssetManager& GetAssetManager() { return s_AssetManager; }
 
