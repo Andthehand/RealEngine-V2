@@ -32,6 +32,8 @@ namespace RealEngine {
 			RE_CORE_ASSERT(false, "Grayscale Images are not supported!");
 		}
 		info.MipLevels = metadata.MipLevels;
+		info.FilterMode = metadata.FilterMode;
+		info.WrapMode = metadata.WrapMode;
 
 		Ref<Texture2D> texture = Texture2D::Create(info, data);
 		stbi_image_free(data);

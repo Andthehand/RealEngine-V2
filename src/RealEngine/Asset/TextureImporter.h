@@ -7,6 +7,9 @@
 namespace RealEngine {
 	struct Texture2DMetadata {
 		uint32_t MipLevels = 1;
+
+		TextureWrapMode WrapMode = TextureWrapMode::REPEAT;
+		TextureFilterMode FilterMode = TextureFilterMode::BILINEAR;
 	};
 
 	class TextureImporter {

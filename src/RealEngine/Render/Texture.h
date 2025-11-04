@@ -71,11 +71,28 @@ namespace RealEngine {
 		RGBA32UI =   GL_RGBA32UI	// 32-bit unsigned integer Red, Green, Blue, Alpha channels (GL_RGBA32UI)
 	};
 
+	enum class TextureFilterMode : GLenum {
+		NEAREST		=	GL_NEAREST_MIPMAP_LINEAR,
+		BILINEAR	=	GL_LINEAR_MIPMAP_NEAREST,
+		TRILINEAR	=	GL_LINEAR_MIPMAP_LINEAR
+	};
+
+	enum class TextureWrapMode : GLenum {
+		REPEAT			=	GL_REPEAT,
+		MIRRORED_REPEAT =	GL_MIRRORED_REPEAT,
+		CLAMP_TO_EDGE	=	GL_CLAMP_TO_EDGE,
+		CLAMP_TO_BORDER =	GL_CLAMP_TO_BORDER
+	};
+
 	struct Texture2DCreateInfo {
 		uint32_t Width;
 		uint32_t Height;
+
 		TextureDataType InternalFormat = TextureDataType::RGBA8;
 		TextureFormat DataFormat = TextureFormat::RGBA;
+
+		TextureWrapMode WrapMode = TextureWrapMode::REPEAT;
+		TextureFilterMode FilterMode = TextureFilterMode::BILINEAR;
 
 		uint32_t MipLevels = 1;
 	};

@@ -73,18 +73,30 @@ namespace RealEngine {
 	}
 
     inline bool read(const ryml::ConstNodeRef& node, RealEngine::Texture2DMetadata* val) {
-        if (!node.has_child("MipLevels")) {
-            RE_CORE_ASSERT(false, "Expected a node with 'MipLevels' child");
+        if (!node.has_child("MipLevels") || 
+            !node.has_child("WrapMode") ||
+            !node.has_child("FilterMode")) {
+            RE_CORE_ASSERT(false, "Expected a node with 'MipLevels', 'WrapMode', and 'FilterMode' children");
             return false;
         }
 
 		node["MipLevels"] >> val->MipLevels;
+
+		uint32_t wrapMode, filterMode;
+        node["WrapMode"] >> wrapMode;
+		node["FilterMode"] >> filterMode;
+
+        val->WrapMode = (RealEngine::TextureWrapMode)wrapMode;
+		val->FilterMode = (RealEngine::TextureFilterMode)filterMode;
+
 		return true;
     }
 
     inline bool write(ryml::NodeRef* node, const RealEngine::Texture2DMetadata& val) {
         *node |= ryml::MAP;
         (*node)["MipLevels"] << val.MipLevels;
+        (*node)["WrapMode"] << (uint32_t)val.WrapMode;
+		(*node)["FilterMode"] << (uint32_t)val.FilterMode;
         return true;
 	}
 }

@@ -50,6 +50,19 @@ namespace RealEngine {
 					return 0;
 			}
 		}
+
+		GLenum GetGLMagFilterMode(TextureFilterMode filterMode) {
+			switch (filterMode) {
+				case TextureFilterMode::NEAREST:   
+					return GL_NEAREST;
+				case TextureFilterMode::BILINEAR:
+				case TextureFilterMode::TRILINEAR: 
+					return GL_LINEAR;
+				default:
+					RE_CORE_ASSERT(false, "Unsupported TextureFilterMode");
+					return 0;
+			}
+		}
 	}
 
 	Texture2D::Texture2D(const Texture2DCreateInfo& info, const void* data)
@@ -63,12 +76,12 @@ namespace RealEngine {
 		glTextureStorage2D(m_RendererID, info.MipLevels, (GLenum)info.InternalFormat, m_Width, m_Height);
 		
 		//Filters
-		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MIN_FILTER, (GLenum)info.FilterMode);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_MAG_FILTER, Utils::GetGLMagFilterMode(info.FilterMode));
 		
 		//Wrapping
-		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_S, (GLenum)info.WrapMode);
+		glTextureParameteri(m_RendererID, GL_TEXTURE_WRAP_T, (GLenum)info.WrapMode);
 		
 		//Upload the image to the GPU
 		if (data != nullptr) {
