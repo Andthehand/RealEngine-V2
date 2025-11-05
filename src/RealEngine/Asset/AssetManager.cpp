@@ -186,7 +186,7 @@ namespace RealEngine {
 				it = m_LoadedAssets.erase(it);
 			}
 			else {
-				++it;
+				it++;
 			}
 		}
 	}

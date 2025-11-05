@@ -1,4 +1,4 @@
-#include "RealEngine/Core/FileDialogs.h"
+#include "RealEngine/Core/Dialogs.h"
 
 #include <filesystem>
 
@@ -103,15 +103,12 @@ namespace RealEngine {
     }
 
 	std::filesystem::path FileDialogs::OpenFile(const char* filter) {
-        GtkWidget* dialog;
-        std::string result;
-
         if (!gtk_init_check(NULL, NULL)) {
             RE_CORE_ASSERT(false, "GTK failed to initialize!");
             return "";
         }
 
-        dialog = gtk_file_chooser_dialog_new("Open File",
+        GtkWidget* dialog = gtk_file_chooser_dialog_new("Open File",
             NULL,
             GTK_FILE_CHOOSER_ACTION_OPEN,
             "_Cancel", GTK_RESPONSE_CANCEL,
@@ -124,6 +121,7 @@ namespace RealEngine {
         /* Set the default path */
         SetDefaultPath(dialog, std::filesystem::current_path().c_str());
 
+        std::string result;
         if (gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_ACCEPT)
         {
             char* filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dialog));

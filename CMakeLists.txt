@@ -62,7 +62,7 @@ set(SOURCE_FILES
     src/RealEngine/Core/Input.cpp
     src/RealEngine/Core/Project.h
     src/RealEngine/Core/Project.cpp
-    src/RealEngine/Core/FileDialogs.h
+    "src/RealEngine/Core/Dialogs.h"
 
     # Events
     src/RealEngine/Events/Event.h
@@ -121,9 +121,9 @@ set(SOURCE_FILES
 
 # Platform-specific files
 if(WIN32)
-    list(APPEND SOURCE_FILES "src/Platform/Windows/WindowsFileDialogs.cpp")
+    list(APPEND SOURCE_FILES "src/Platform/Windows/WindowsFileDialogs.cpp" "src/Platform/Windows/WindowsInfoDialog.cpp")
 elseif(UNIX AND NOT APPLE)
-    list(APPEND SOURCE_FILES "src/Platform/Linux/LinuxFileDialogs.cpp")
+    list(APPEND SOURCE_FILES "src/Platform/Linux/LinuxFileDialogs.cpp" "src/Platform/Linux/LinuxInfoDialog.cpp")
 endif()
 
 # ------------------------

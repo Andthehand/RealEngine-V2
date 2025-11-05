@@ -11,7 +11,7 @@
 #include "RealEngine/Core/Logger.h"
 #include "RealEngine/Core/MouseCodes.h"
 #include "RealEngine/Core/Profiler.h"
-#include "RealEngine/Core/FileDialogs.h"
+#include "RealEngine/Core/Dialogs.h"
 
 // ==============================
 // Events
