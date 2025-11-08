@@ -51,6 +51,11 @@
 #include "RealEngine/Asset/AssetManager.h"
 
 // ==============================
+// Scripting
+// ==============================
+#include "RealEngine/Scripting/ScriptEngine.h"
+
+// ==============================
 // Types
 // ==============================
 #include "RealEngine/Types/RingBuffer.h"

@@ -19,6 +19,7 @@ set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 set(RYML_INSTALL OFF CACHE BOOL "" FORCE)
+set(CORAL_TESTING OFF CACHE BOOL "" FORCE)
 
 # ------------------------
 # Vendor libraries (static libs / subprojects)
@@ -31,6 +32,7 @@ add_subdirectory(vendor/glm)
 add_subdirectory(vendor/ImGui)
 add_subdirectory(vendor/rapidyaml)
 add_subdirectory(vendor/entt)
+add_subdirectory(vendor/coral/cmake)
 
 if(BUILD_DOCS)
     add_subdirectory(docs)
@@ -117,7 +119,7 @@ set(SOURCE_FILES
 
     # Formatting / vendor headers
     vendor/stb/stb_image.h
- "src/RealEngine/Types/RingBuffer.h"  "src/RealEngine/Core/ImGuiLogSink.h" "src/RealEngine/Asset/AssetManager.h" "src/RealEngine/Asset/Asset.h" "src/RealEngine/Asset/AssetManager.cpp"  "src/RealEngine/Asset/AssetMetadata.h" "src/RealEngine/Asset/AssetImporter.h" "src/RealEngine/Asset/AssetImporter.cpp" "src/RealEngine/Asset/TextureImporter.h" "src/RealEngine/Asset/TextureImporter.cpp")
+ "src/RealEngine/Types/RingBuffer.h"  "src/RealEngine/Core/ImGuiLogSink.h" "src/RealEngine/Asset/AssetManager.h" "src/RealEngine/Asset/Asset.h" "src/RealEngine/Asset/AssetManager.cpp"  "src/RealEngine/Asset/AssetMetadata.h" "src/RealEngine/Asset/AssetImporter.h" "src/RealEngine/Asset/AssetImporter.cpp" "src/RealEngine/Asset/TextureImporter.h" "src/RealEngine/Asset/TextureImporter.cpp" "src/RealEngine/Scripting/ScriptEngine.h" "src/RealEngine/Scripting/ScriptEngine.cpp")
 
 # Platform-specific files
 if(WIN32)
@@ -140,9 +142,12 @@ target_include_directories(RealEngine PUBLIC # Keep public for RealEngineTests t
 # Precompiled header
 target_precompile_headers(RealEngine PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/repch.h")
 
+set(CORAL_DIRECTORY "CORAL_DIRECTORY=\"${Coral_BINARY_DIR}\"")
+
 # Compile definitions for configs
 target_compile_definitions(RealEngine
     PUBLIC
+        ${CORAL_DIRECTORY}
         $<$<CONFIG:Debug>:RE_DEBUG>
         $<$<CONFIG:RelWithDebInfo>:RE_DEBUG>
 )
@@ -186,6 +191,7 @@ target_link_libraries(RealEngine
     imgui
     ryml::ryml
     EnTT::EnTT
+    Coral.Native
     $<$<BOOL:${PLATFORM_LIBS}>:${PLATFORM_LIBS}>
 )
 
