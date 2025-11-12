@@ -14,5 +14,6 @@ namespace RealEngine {
 	private:
 		static inline Coral::HostInstance s_CoralInstance;
 		static inline Coral::AssemblyLoadContext s_AppLoadContext;
+		static inline Coral::ManagedAssembly s_Assembly;
 	};
 }

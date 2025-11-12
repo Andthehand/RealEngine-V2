@@ -9,6 +9,15 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.csproj
+*.vcxproj
+*.sln
+*.filters
+
+# Cmake
+CMakeFiles/
+out/
+*.cmake
 
 # Doxygen Files
 docs/doxygen

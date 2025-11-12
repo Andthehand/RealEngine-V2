@@ -119,7 +119,7 @@ set(SOURCE_FILES
 
     # Formatting / vendor headers
     vendor/stb/stb_image.h
- "src/RealEngine/Types/RingBuffer.h"  "src/RealEngine/Core/ImGuiLogSink.h" "src/RealEngine/Asset/AssetManager.h" "src/RealEngine/Asset/Asset.h" "src/RealEngine/Asset/AssetManager.cpp"  "src/RealEngine/Asset/AssetMetadata.h" "src/RealEngine/Asset/AssetImporter.h" "src/RealEngine/Asset/AssetImporter.cpp" "src/RealEngine/Asset/TextureImporter.h" "src/RealEngine/Asset/TextureImporter.cpp" "src/RealEngine/Scripting/ScriptEngine.h" "src/RealEngine/Scripting/ScriptEngine.cpp")
+ "src/RealEngine/Types/RingBuffer.h"  "src/RealEngine/Core/ImGuiLogSink.h" "src/RealEngine/Asset/AssetManager.h" "src/RealEngine/Asset/Asset.h" "src/RealEngine/Asset/AssetManager.cpp"  "src/RealEngine/Asset/AssetMetadata.h" "src/RealEngine/Asset/AssetImporter.h" "src/RealEngine/Asset/AssetImporter.cpp" "src/RealEngine/Asset/TextureImporter.h" "src/RealEngine/Asset/TextureImporter.cpp" "src/RealEngine/Scripting/ScriptEngine.h" "src/RealEngine/Scripting/ScriptEngine.cpp" "src/RealEngine/Scripting/ScriptGlue.h" "src/RealEngine/Scripting/ScriptGlue.cpp")
 
 # Platform-specific files
 if(WIN32)
