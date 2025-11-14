@@ -6,18 +6,19 @@
 
 namespace RealEngine {
 	void Project::CreateNewProject() {
-		s_ProjectName = "NewProject";
-		s_ProjectPath = ""; // Empty because we don't know where to save yet
+		ClearProject();
 
+		s_ProjectName = "NewProject";
 		s_CurrentScene = CreateRef<Scene>();
-		s_AssetManager.Clear();
 	}
 
 	void Project::ClearProject() {
 		s_ProjectName = "";
 		s_ProjectPath = "";
 		s_CurrentScene = nullptr;
+
 		s_AssetManager.Clear();
+		ScriptEngine::Shutdown();
 	}
 
 	void Project::Save() {
@@ -57,6 +58,7 @@ namespace RealEngine {
 
 		// Needs to be loaded before the scene but after project path is set
 		s_AssetManager.Load();
+		ScriptEngine::Init();
 
 		if (root.has_child("CurrentScene")) {
 			std::string scenePath;
@@ -131,10 +133,10 @@ namespace RealEngine {
 		s_ProjectName = projectFilePath.stem().string();
 
 		std::filesystem::path assetsPath = s_ProjectPath / "assets";
-		if (!std::filesystem::is_directory(assetsPath)) {
-			RE_CORE_WARN("Creating assets directory: {}", assetsPath.string());
+		std::filesystem::path scriptsPath = assetsPath / "Scripts";
 
-			std::filesystem::create_directory(assetsPath);
-		}
+		// This will create the directories if they do not already exist
+		std::filesystem::create_directory(assetsPath);
+		std::filesystem::create_directory(scriptsPath);
 	}
 }

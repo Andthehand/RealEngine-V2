@@ -1,10 +1,12 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <glm/gtx/quaternion.hpp>
+
+#include <Coral/ManagedObject.hpp>
 
 #include "RealEngine/Types/UUID.h"
 #include "RealEngine/Render/Texture.h"
-#include <glm/gtx/quaternion.hpp>
 
 // Has to be a function so that the compiler actually compiles it
 #define RE_COMPONENT_NAME(name) static const char* GetName() { return #name; }
@@ -165,4 +167,14 @@ namespace RealEngine {
 
         RE_REGISTER_COMPONENT(SpriteRendererComponent)
 	};
+
+    struct ScriptComponent {
+		Coral::ManagedObject Instance;
+
+		ScriptComponent() = default;
+        ScriptComponent(const Coral::ManagedObject& instance)
+			: Instance(instance) {}
+
+		RE_REGISTER_COMPONENT(ScriptComponent)
+    };
 }

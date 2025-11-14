@@ -105,6 +105,26 @@ namespace RealEngine {
         return true;
 	}
 
+    inline bool write(ryml::NodeRef* node, const ScriptComponent& comp) {
+        *node |= ryml::MAP;
+        (*node)["ClassName"] << comp.Instance.m_Type->GetFullName();
+
+		return true;
+    }
+
+    inline bool read(const ryml::ConstNodeRef& node, ScriptComponent* out) {
+        if (!node.has_child("ClassName")) {
+            RE_CORE_ASSERT(false, "ScriptComponent does not have a 'ClassName' child node");
+            return false;
+        }
+
+        std::string className;
+        node["ClassName"] >> className;
+        
+        out->Instance = ScriptEngine::CreateObject(100, className);
+        return true;
+	}
+
 	template<typename T>
 	void SerializeComponent(ryml::NodeRef node, Entity& entity) {
         if (entity.HasComponent<T>()) {
@@ -119,7 +139,7 @@ namespace RealEngine {
             const auto componentNode = node[T::GetName()];
             T component{};
             if (read(componentNode, &component)) {
-                entity.AddComponent<T>(component);
+                entity.AddComponent<T>(std::move(component));
             } else {
                 RE_CORE_ASSERT(false, "Failed to read component {}", T::GetName());
             }
