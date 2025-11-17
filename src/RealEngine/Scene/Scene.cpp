@@ -7,6 +7,45 @@
 #include <ryml.hpp>
 
 namespace RealEngine {
+	namespace Utils {
+		template<typename... Component>
+		static void CopyComponent(entt::registry& dst, entt::registry& src, const std::unordered_map<UUID, entt::entity>& enttMap) {
+			RE_PROFILE_FUNCTION();
+
+			([&]() {
+				auto view = src.view<Component>();
+				for (auto srcEntity : view) {
+					entt::entity dstEntity = enttMap.at(src.get<IDComponent>(srcEntity).ID);
+
+					auto& srcComponent = src.get<Component>(srcEntity);
+					dst.emplace_or_replace<Component>(dstEntity, srcComponent);
+				}
+				}(), ...);
+		}
+
+		template<typename... Component>
+		static void CopyComponent(ComponentList::ComponentGroup<Component...>, entt::registry& dst, entt::registry& src, const std::unordered_map<UUID, entt::entity>& enttMap) {
+			RE_PROFILE_FUNCTION();
+
+			CopyComponent<Component...>(dst, src, enttMap);
+		}
+
+		template<typename... Component>
+		static void CopyComponentIfExists(Entity dst, Entity src) {
+			RE_PROFILE_FUNCTION();
+
+			([&]() {
+				if (src.HasComponent<Component>())
+					dst.AddOrReplaceComponent<Component>(src.GetComponent<Component>());
+				}(), ...);
+		}
+
+		template<typename... Component>
+		static void CopyComponentIfExists(ComponentList::ComponentGroup<Component...>, Entity dst, Entity src) {
+			CopyComponentIfExists<Component...>(dst, src);
+		}
+	}
+
 	Scene::Scene(const std::filesystem::path& filepath)
 		: m_SceneRenderer(this) {
 		RE_PROFILE_FUNCTION();
@@ -17,17 +56,52 @@ namespace RealEngine {
 	Scene::Scene()
 		: m_SceneRenderer(this) { }
 
+	Ref<Scene> Scene::Copy(Ref<Scene> other) {
+		RE_PROFILE_FUNCTION();
+
+		Ref<Scene> newScene = CreateRef<Scene>();
+
+		auto& srcSceneRegistry = other->m_Registry;
+		auto& dstSceneRegistry = newScene->m_Registry;
+		std::unordered_map<UUID, entt::entity> enttMap;
+
+		// Create entities in new scene
+		auto idView = srcSceneRegistry.view<IDComponent>();
+		for (auto e : idView) {
+			UUID uuid = srcSceneRegistry.get<IDComponent>(e).ID;
+			const auto& name = srcSceneRegistry.get<TagComponent>(e).Tag;
+			Entity newEntity = newScene->CreateEntity(uuid, name);
+			enttMap[uuid] = (entt::entity)newEntity;
+		}
+
+		Utils::CopyComponent(ComponentList::GetAllComponents(), dstSceneRegistry, srcSceneRegistry, enttMap);
+
+		return newScene;
+	}
+
+	void Scene::OnRuntimeStart() {
+		RE_PROFILE_FUNCTION();
+
+		RE_CORE_INFO("Scene runtime started");
+	}
+
+	void Scene::OnRuntimeStop() {
+		RE_PROFILE_FUNCTION();
+
+		RE_CORE_INFO("Scene runtime stopped");
+	}
+
 	void Scene::OnUpdateEditor(float deltaTime, const EditorCamera& camera) {
 		RE_PROFILE_FUNCTION();
 
 		RenderScene(camera.GetViewProjection());
 	}
 
-	void Scene::OnUpdateRuntime(float deltaTime) {
+	void Scene::OnUpdateRuntime(float deltaTime, const EditorCamera& camera) {
 		RE_PROFILE_FUNCTION();
 
 		// TODO: Add a runtime camera
-		// RenderScene();
+		RenderScene(camera.GetViewProjection());
 	}
 
 	void Scene::RenderScene(const glm::mat4 cameraProjection) {

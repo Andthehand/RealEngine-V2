@@ -16,8 +16,15 @@ namespace RealEngine {
 		Scene();
 		~Scene() = default;
 
+		static Ref<Scene> Copy(Ref<Scene> other);
+
+		void OnRuntimeStart();
+		void OnRuntimeStop();
+
 		void OnUpdateEditor(float deltaTime, const EditorCamera& camera);
-		void OnUpdateRuntime(float deltaTime);
+
+		// TODO: Remove camera parameter, use camera component from scene
+		void OnUpdateRuntime(float deltaTime, const EditorCamera& camera);
 
 		void RenderScene(const glm::mat4 cameraProjection);
 
