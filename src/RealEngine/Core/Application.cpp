@@ -69,7 +69,7 @@ namespace RealEngine {
 		m_Running = false;
 	}
 
-	void Application::OnEvent(Event& e) {
+	void Application::OnEvent(Event&& e) {
 		RE_PROFILE_FUNCTION();
 
 		EventDispatcher dispatcher(e);

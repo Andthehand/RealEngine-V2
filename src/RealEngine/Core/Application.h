@@ -76,7 +76,7 @@ namespace RealEngine {
 		 *
 		 * @param e The event to process.
 		 */
-		void OnEvent(Event& e);
+		void OnEvent(Event&& e);
 
 		bool OnWindowClose(WindowCloseEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);

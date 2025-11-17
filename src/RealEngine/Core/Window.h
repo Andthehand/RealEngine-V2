@@ -52,9 +52,9 @@ namespace RealEngine {
 		 * 
 		 * The Application class is the only one that should set this callback.
 		 */
-		void SetEventCallback(const std::function<void(Event&)>& callback) { m_EventCallback = callback; }
+		void SetEventCallback(const std::function<void(Event&&)>& callback) { m_EventCallback = callback; }
 	private:
-		std::function<void(Event&)> m_EventCallback;
+		std::function<void(Event&&)> m_EventCallback;
 
 		GLFWwindow* m_Window;
 		int m_Width, m_Height;

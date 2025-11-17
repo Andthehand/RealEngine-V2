@@ -1,5 +1,7 @@
 #include "Project.h"
 
+#include "RealEngine/Events/ProjectEvents.h"
+
 #include <ryml.hpp>
 #include <ryml_std.hpp>
 #include <algorithm>
@@ -110,7 +112,9 @@ namespace RealEngine {
 	}
 
 	void Project::SetCurrentScene(const Ref<Scene>& scene) {
-		s_CurrentScene = scene; 
+		SceneChangedEvent event;
+		RE_RAISE_EVENT(event);
+		s_CurrentScene = scene;
 
 		// Clean up assets from previous scene
 		s_AssetManager.ClearUnusedAssets();

@@ -59,69 +59,69 @@ namespace RealEngine {
 			RE_PROFILE_SCOPE("SetGLFWCallbacks");
 
 			glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window) {
-				std::function<void(Event&)> callback = *(std::function<void(Event&)>*)glfwGetWindowUserPointer(window);
+				std::function<void(Event&&)> callback = *(std::function<void(Event&&)>*)glfwGetWindowUserPointer(window);
 				WindowCloseEvent event;
-				callback(event);
+				callback(std::move(event));
 			});
 
 			glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) {
-				std::function<void(Event&)> callback = *(std::function<void(Event&)>*)glfwGetWindowUserPointer(window);
+				std::function<void(Event&&)> callback = *(std::function<void(Event&&)>*)glfwGetWindowUserPointer(window);
 				WindowResizeEvent event(width, height);
-				callback(event);
+				callback(std::move(event));
 			});
 
 			glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int /*scancode*/, int action, int /*mods*/) {
-				std::function<void(Event&)> callback = *(std::function<void(Event&)>*)glfwGetWindowUserPointer(window);
+				std::function<void(Event&&)> callback = *(std::function<void(Event&&)>*)glfwGetWindowUserPointer(window);
 
 				switch (action) {
 					case GLFW_PRESS: {
 						KeyPressedEvent event(key);
-						callback(event);
+						callback(std::move(event));
 						break;
 					}
 					case GLFW_RELEASE: {
 						KeyReleasedEvent event(key);
-						callback(event);
+						callback(std::move(event));
 						break;
 					}
 				}
 			});
 
 			glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xpos, double ypos) {
-				std::function<void(Event&)> callback = *(std::function<void(Event&)>*)glfwGetWindowUserPointer(window);
+				std::function<void(Event&&)> callback = *(std::function<void(Event&&)>*)glfwGetWindowUserPointer(window);
 				MouseMovedEvent event((float)xpos, (float)ypos);
-				callback(event);
+				callback(std::move(event));
 			});
 
 			glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int /*mods*/) {
-				std::function<void(Event&)> callback = *(std::function<void(Event&)>*)glfwGetWindowUserPointer(window);
+				std::function<void(Event&&)> callback = *(std::function<void(Event&&)>*)glfwGetWindowUserPointer(window);
 
 				switch (action) {
 				case GLFW_PRESS: {
 					MouseButtonPressedEvent event((MouseCode)button);
-					callback(event);
+					callback(std::move(event));
 					break;
 				}
 				case GLFW_RELEASE: {
 					MouseButtonReleasedEvent event((MouseCode)button);
-					callback(event);
+					callback(std::move(event));
 					break;
 				}
 				}
 			});
 
 			glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xoffset, double yoffset) {
-				std::function<void(Event&)> callback = *(std::function<void(Event&)>*)glfwGetWindowUserPointer(window);
+				std::function<void(Event&&)> callback = *(std::function<void(Event&&)>*)glfwGetWindowUserPointer(window);
 				MouseScrolledEvent event((float)xoffset, (float)yoffset);
-				callback(event);
+				callback(std::move(event));
 			});
 
 			glfwSetWindowContentScaleCallback(m_Window, [](GLFWwindow* window, float xscale, float yscale) {
-				std::function<void(Event&)> callback = *(std::function<void(Event&)>*)glfwGetWindowUserPointer(window);
+				std::function<void(Event&&)> callback = *(std::function<void(Event&&)>*)glfwGetWindowUserPointer(window);
 
 				//x and y scale are the same
 				WindowRescaledEvent event(xscale);
-				callback(event);
+				callback(std::move(event));
 			});
 		}
 	}

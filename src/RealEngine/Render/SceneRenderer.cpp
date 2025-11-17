@@ -47,8 +47,9 @@ namespace RealEngine {
 	}
 
 	void SceneRenderer::OnRender(const glm::mat4& cameraProjection) {
-		RE_PROFILE_FUNCTION();
+		RE_PROFILE_FUNCTION(); 
 		m_CameraBuffer->SetData(&cameraProjection, sizeof(glm::mat4));
+		m_CameraBuffer->SetBinding(0);
 
 		{
 			RE_PROFILE_SCOPE("SceneRenderer::OnRender - 2D");
@@ -87,7 +88,7 @@ namespace RealEngine {
 				}
 			}
 
-			if (textureIndex == 0) { // Not found
+			if (textureIndex == 0) { // Not found (add into texture list)
 				textureIndex = m_Render2DData.TextureSlotIndex;
 				m_Render2DData.TextureSlots[m_Render2DData.TextureSlotIndex++] = sprite.Texture;
 			}

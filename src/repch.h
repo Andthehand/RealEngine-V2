@@ -20,6 +20,7 @@
 #include "RealEngine/Events/KeyEvents.h"
 #include "RealEngine/Events/MouseEvents.h"
 #include "RealEngine/Events/WindowEvents.h"
+#include "RealEngine/Events/ProjectEvents.h"
 
 // ==============================
 // Asset
