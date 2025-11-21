@@ -13,7 +13,7 @@ namespace RealEngine {
             GTK_DIALOG_USE_HEADER_BAR,
             GTK_MESSAGE_WARNING,
             GTK_BUTTONS_CLOSE,
-            message.c_str());
+            "%s", message.c_str());
 
         gtk_window_set_title(GTK_WINDOW(dialog), title.c_str());
 

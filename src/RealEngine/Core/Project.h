@@ -19,6 +19,8 @@ namespace RealEngine {
 	 */
 	class Project {
 	public:
+		~Project();
+
 		//-------------------------------------------------------------------------
 		// Project Lifecycle
 		//-------------------------------------------------------------------------
@@ -30,6 +32,8 @@ namespace RealEngine {
 		 * but does not save anything to disk.
 		 */
 		static void CreateNewProject();
+
+		static void Delete();
 
 		/**
 		 * @brief Loads an existing project from a file.

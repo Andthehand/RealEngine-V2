@@ -3,17 +3,24 @@
 
 #include "RealEngine/Events/ProjectEvents.h"
 
-#include <ryml.hpp>
-#include <ryml_std.hpp>
 #include <algorithm>
 
 namespace RealEngine {
+	Project::~Project() {
+		m_CurrentScene.reset();
+		m_ScriptEngine.reset();
+	}
+
 	void Project::CreateNewProject() {
 		s_ActiveProject = CreateRef<Project>();
 
 		s_ActiveProject->m_ProjectPath = "";
 		s_ActiveProject->m_ProjectName = "NewProject";
 		s_ActiveProject->m_CurrentScene = CreateRef<Scene>();
+	}
+
+	void Project::Delete() {
+		s_ActiveProject->m_CurrentScene.reset();
 	}
 
 	void Project::Save() {

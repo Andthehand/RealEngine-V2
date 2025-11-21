@@ -4,6 +4,7 @@
 #include "RealEngine/Core/Project.h"
 
 #include <Coral/TypeCache.hpp>
+#include <Coral/GC.hpp>
 
 namespace RealEngine {
 	static void ExceptionCallback(std::string_view InMessage) {
@@ -32,6 +33,7 @@ namespace RealEngine {
 
 	ScriptEngine::ScriptEngine(const std::filesystem::path& scriptPath, const std::string& libName) {
 		RE_PROFILE_FUNCTION();
+
 		Coral::HostSettings settings = {
 			.CoralDirectory = (scriptPath).string(),
 			.MessageCallback = DefaultMessageCallback,
@@ -56,11 +58,15 @@ namespace RealEngine {
 	}
 
 	ScriptEngine::~ScriptEngine() {
+		RE_PROFILE_FUNCTION();
+
 		m_CoralInstance.UnloadAssemblyLoadContext(m_AppLoadContext);
 		m_CoralInstance.Shutdown();
 	}
 
 	Coral::ManagedObject ScriptEngine::CreateObject(uint64_t entityID, std::string_view className) {
+		RE_PROFILE_FUNCTION();
+
 		Coral::ManagedObject entityObject = m_Assembly.GetType(className).CreateInstance(entityID);
 		entityObject.InvokeMethod("OnCreate");
 
@@ -68,6 +74,8 @@ namespace RealEngine {
 	}
 
 	std::vector<std::string> ScriptEngine::GetValidScriptClasses() {
+		RE_PROFILE_FUNCTION();
+
 		std::vector<std::string> classNames;
 		Coral::Type entityType = *Coral::TypeCache::Get().GetTypeByName("RealEngine.Entity");
 

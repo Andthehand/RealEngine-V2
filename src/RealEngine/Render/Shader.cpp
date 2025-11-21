@@ -35,6 +35,9 @@ namespace RealEngine {
 				case Fragment: return "Fragment";
 				case Vertex: return "Vertex";
 				case Compute: return "Compute";
+				case Unknown:
+					RE_CORE_ASSERT(false, "ShaderType is Unknown!");
+					return "Unknown";
 			}
 
 			RE_CORE_ASSERT(false, "ShaderType not implemented yet");
@@ -46,6 +49,9 @@ namespace RealEngine {
 				case Fragment: return GL_FRAGMENT_SHADER;
 				case Vertex: return GL_VERTEX_SHADER;
 				case Compute: return GL_COMPUTE_SHADER;
+				case Unknown:
+					RE_CORE_ASSERT(false, "ShaderType is Unknown!");
+					return GL_INVALID_ENUM;
 			}
 
 			RE_CORE_ASSERT(false, "ShaderType not implemented yet");

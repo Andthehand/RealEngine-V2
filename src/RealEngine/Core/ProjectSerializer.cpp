@@ -1,5 +1,8 @@
 #include "ProjectSerializer.h"
 
+#include <ryml.hpp>
+#include <ryml_std.hpp>
+
 namespace RealEngine {
 	bool ProjectSerializer::Serialize(Ref<Project> project, const std::filesystem::path& filepath) {
 		if (project->m_ProjectName.empty())
@@ -26,7 +29,7 @@ namespace RealEngine {
 		FILE* file = fileHelper.GetFileHandle();
 		ryml::emit_yaml(tree, file);
 
-		RE_CORE_WARN("Project was serialized into {}", filePath.string());
+		RE_CORE_WARN("Project was serialized into {}", filePath);
 		return true;
 	}
 
