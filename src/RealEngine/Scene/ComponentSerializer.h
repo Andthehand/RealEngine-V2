@@ -121,7 +121,7 @@ namespace RealEngine {
         std::string className;
         node["ClassName"] >> className;
         
-        out->Instance = ScriptEngine::CreateObject(100, className);
+        out->Instance = Project::GetScriptEngine()->CreateObject(100, className);
         return true;
 	}
 

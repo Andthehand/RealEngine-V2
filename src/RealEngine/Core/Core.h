@@ -21,6 +21,7 @@
 	 * Usage: PACKED_STRUCT(Name) { ... };
 	 */
 	#define PACKED_STRUCT(name) __pragma(pack(push, 1)) struct name __pragma(pack(pop))
+
 #elif defined(__GNUC__)
 	/**
      * @brief Defines a packed struct for GCC/Clang compilers.
@@ -28,6 +29,7 @@
      */
 	#define PACKED_STRUCT(name) struct __attribute__((packed)) name
 #endif
+
 
 /// Expands a macro argument (used internally to ensure proper macro expansion).
 #define RE_EXPAND_MACRO(x) x

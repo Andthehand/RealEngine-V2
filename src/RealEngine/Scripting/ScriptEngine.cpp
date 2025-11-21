@@ -30,46 +30,38 @@ namespace RealEngine {
 		}
 	}
 
-	void ScriptEngine::Init() {
+	ScriptEngine::ScriptEngine(const std::filesystem::path& scriptPath, const std::string& libName) {
 		RE_PROFILE_FUNCTION();
-		std::filesystem::path projectScriptsPath = Project::GetScriptsPath() / "Build";
-
 		Coral::HostSettings settings = {
-			.CoralDirectory = (projectScriptsPath).string(),
+			.CoralDirectory = (scriptPath).string(),
 			.MessageCallback = DefaultMessageCallback,
 			.MessageFilter = Coral::MessageLevel::All,
 			.ExceptionCallback = ExceptionCallback
 		};
 
-		if (s_CoralInstance.Initialize(settings) != Coral::CoralInitStatus::Success) {
+		if (m_CoralInstance.Initialize(settings) != Coral::CoralInitStatus::Success) {
 			RE_CORE_ASSERT(false, "Coral failed to initialize");
 			return;
 		}
 
-		s_AppLoadContext = s_CoralInstance.CreateAssemblyLoadContext("AppContext");
+		m_AppLoadContext = m_CoralInstance.CreateAssemblyLoadContext("AppContext");
 		
 		// Load RealEngine assembly first to register internal calls
-		std::filesystem::path realEngineAssemblyPath = projectScriptsPath / "RealEngine.dll";
-		Coral::ManagedAssembly& realEngineAssembly = s_AppLoadContext.LoadAssembly(realEngineAssemblyPath.string());
+		std::filesystem::path realEngineAssemblyPath = scriptPath / "RealEngine.dll";
+		Coral::ManagedAssembly& realEngineAssembly = m_AppLoadContext.LoadAssembly(realEngineAssemblyPath.string());
 		ScriptGlue::RegisterFunctions(realEngineAssembly);
 
-		std::filesystem::path assemblyPath = projectScriptsPath / (Project::GetProjectName() + ".dll");
-		s_Assembly = s_AppLoadContext.LoadAssembly(assemblyPath.string());
-
-		isInitialized = true;
+		std::filesystem::path assemblyPath = scriptPath / (libName + ".dll");
+		m_Assembly = m_AppLoadContext.LoadAssembly(assemblyPath.string());
 	}
 
-	void ScriptEngine::Shutdown() {
-		if (isInitialized) {
-			s_CoralInstance.UnloadAssemblyLoadContext(s_AppLoadContext);
-			s_CoralInstance.Shutdown();
-
-			isInitialized = false;
-		}
+	ScriptEngine::~ScriptEngine() {
+		m_CoralInstance.UnloadAssemblyLoadContext(m_AppLoadContext);
+		m_CoralInstance.Shutdown();
 	}
 
 	Coral::ManagedObject ScriptEngine::CreateObject(uint64_t entityID, std::string_view className) {
-		Coral::ManagedObject entityObject = s_Assembly.GetType(className).CreateInstance(entityID);
+		Coral::ManagedObject entityObject = m_Assembly.GetType(className).CreateInstance(entityID);
 		entityObject.InvokeMethod("OnCreate");
 
 		return entityObject;
@@ -79,7 +71,7 @@ namespace RealEngine {
 		std::vector<std::string> classNames;
 		Coral::Type entityType = *Coral::TypeCache::Get().GetTypeByName("RealEngine.Entity");
 
-		for (const Coral::Type* type : s_Assembly.GetTypes()) {
+		for (const Coral::Type* type : m_Assembly.GetTypes()) {
 			if (type->IsSubclassOf(entityType)) {
 				classNames.push_back(std::string(type->GetFullName()));
 			}

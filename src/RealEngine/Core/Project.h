@@ -19,9 +19,6 @@ namespace RealEngine {
 	 */
 	class Project {
 	public:
-		/** @brief Deleted constructor to prevent instantiation. */
-		Project() = delete;
-
 		//-------------------------------------------------------------------------
 		// Project Lifecycle
 		//-------------------------------------------------------------------------
@@ -33,14 +30,6 @@ namespace RealEngine {
 		 * but does not save anything to disk.
 		 */
 		static void CreateNewProject();
-
-		/**
-		 * @brief Clears all project data.
-		 *
-		 * Resets static variables, unloads the current scene, and clears assets.
-		 * Effectively acts as a destructor for static project data.
-		 */
-		static void ClearProject();
 
 		/**
 		 * @brief Loads an existing project from a file.
@@ -68,7 +57,7 @@ namespace RealEngine {
 		// Getters
 		//-------------------------------------------------------------------------
 
-		static Ref<Scene>& GetCurrentScene() { return s_CurrentScene; }
+		static Ref<Scene>& GetCurrentScene() { return s_ActiveProject->m_CurrentScene; }
 
 		/**
 		 * @brief Sets the currently active scene.
@@ -82,7 +71,10 @@ namespace RealEngine {
 		 * @brief Provides access to the global asset manager.
 		 * @return Reference to the static AssetManager instance.
 		 */
-		static AssetManager& GetAssetManager() { return s_AssetManager; }
+		static AssetManager& GetAssetManager() { return s_ActiveProject->m_AssetManager; }
+
+		static Ref<ScriptEngine> GetScriptEngine() { return s_ActiveProject->m_ScriptEngine; }
+
 		
 		//-------------------------------------------------------------------------
 		// Project Metadata Accessors
@@ -92,19 +84,19 @@ namespace RealEngine {
 		 * @brief Gets the current project name.
 		 * @return The project name as a string reference.
 		 */
-		static const std::string& GetProjectName() { return s_ProjectName; }
+		static const std::string& GetProjectName() { return s_ActiveProject->m_ProjectName; }
 
 		/**
 		 * @brief Gets the absolute path to the current project folder.
 		 * @return The project path as a std::filesystem::path reference.
 		 */
-		static const std::filesystem::path& GetProjectPath() { return s_ProjectPath; }
+		static const std::filesystem::path& GetProjectPath() { return s_ActiveProject->m_ProjectPath; }
 
 		/**
 		 * @brief Gets the absolute path to the project's asset folder.
 		 * @return Path to the "assets" subfolder of the project directory.
 		 */
-		static std::filesystem::path GetAssetsPath() { return s_ProjectPath / "assets"; }
+		static std::filesystem::path GetAssetsPath() { return s_ActiveProject->m_ProjectPath / "assets"; }
 
 		static std::filesystem::path GetScriptsPath() { return GetAssetsPath() / "Scripts"; }
 
@@ -135,7 +127,7 @@ namespace RealEngine {
 		 * @brief Checks whether the project has been fully initialized.
 		 * @return True if the project path is set, false otherwise.
 		 */
-		static bool IsFullyInitialized() { return !s_ProjectPath.empty(); }
+		static bool IsFullyInitialized() { return !s_ActiveProject->m_ProjectPath.empty(); }
 
 	private:
 		/**
@@ -149,11 +141,16 @@ namespace RealEngine {
 
 	private:
 		// Project metadata
-		inline static std::string s_ProjectName;
-		inline static std::filesystem::path s_ProjectPath;
-		inline static Ref<Scene> s_CurrentScene;
+		std::string m_ProjectName;
+		std::filesystem::path m_ProjectPath;
+		Ref<Scene> m_CurrentScene;
 
 		// Asset management
-		inline static AssetManager s_AssetManager;
+		AssetManager m_AssetManager;
+		Ref<ScriptEngine> m_ScriptEngine;
+
+		inline static Ref<Project> s_ActiveProject;
+
+		friend class ProjectSerializer;
 	};
 }
