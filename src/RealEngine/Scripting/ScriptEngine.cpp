@@ -64,10 +64,16 @@ namespace RealEngine {
 		m_CoralInstance.Shutdown();
 	}
 
-	Coral::ManagedObject ScriptEngine::CreateObject(uint64_t entityID, std::string_view className) {
+	void ScriptEngine::UpdateGC() {
 		RE_PROFILE_FUNCTION();
 
-		Coral::ManagedObject entityObject = m_Assembly.GetType(className).CreateInstance(entityID);
+		Coral::GC::Collect();
+	}
+
+	Coral::ManagedObject ScriptEngine::CreateObject(UUID entityID, std::string_view className) {
+		RE_PROFILE_FUNCTION();
+
+		Coral::ManagedObject entityObject = m_Assembly.GetType(className).CreateInstance((uint64_t)entityID);
 		entityObject.InvokeMethod("OnCreate");
 
 		return entityObject;

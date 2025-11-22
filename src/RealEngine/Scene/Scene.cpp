@@ -67,9 +67,9 @@ namespace RealEngine {
 
 		// Create entities in new scene
 		auto idView = srcSceneRegistry.view<IDComponent>();
-		for (auto e : idView) {
-			UUID uuid = srcSceneRegistry.get<IDComponent>(e).ID;
-			const auto& name = srcSceneRegistry.get<TagComponent>(e).Tag;
+		for (auto entity : idView) {
+			UUID uuid = srcSceneRegistry.get<IDComponent>(entity).ID;
+			const auto& name = srcSceneRegistry.get<TagComponent>(entity).Tag;
 			Entity newEntity = newScene->CreateEntity(uuid, name);
 			enttMap[uuid] = (entt::entity)newEntity;
 		}
@@ -82,13 +82,18 @@ namespace RealEngine {
 	void Scene::OnRuntimeStart() {
 		RE_PROFILE_FUNCTION();
 
-		RE_CORE_INFO("Scene runtime started");
+		auto view = m_Registry.view<IDComponent, ScriptComponent>();
+		for (auto entity : view) {
+			auto [id, script] = view.get<IDComponent, ScriptComponent>(entity);
+
+			script.Instance = Project::GetScriptEngine()->CreateObject(id.ID, script.ClassName);
+		}
 	}
 
 	void Scene::OnRuntimeStop() {
 		RE_PROFILE_FUNCTION();
 
-		RE_CORE_INFO("Scene runtime stopped");
+		Project::GetScriptEngine()->UpdateGC();
 	}
 
 	void Scene::OnUpdateEditor(float deltaTime, const EditorCamera& camera) {

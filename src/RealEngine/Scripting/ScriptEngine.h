@@ -11,7 +11,9 @@ namespace RealEngine {
 		ScriptEngine(const std::filesystem::path& scriptPath, const std::string& libName);
 		~ScriptEngine();
 
-		Coral::ManagedObject CreateObject(uint64_t entityID, std::string_view className);
+		void UpdateGC();
+
+		Coral::ManagedObject CreateObject(UUID entityID, std::string_view className);
 
 		std::vector<std::string> GetValidScriptClasses();
 	private:

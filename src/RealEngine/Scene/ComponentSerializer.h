@@ -107,7 +107,7 @@ namespace RealEngine {
 
     inline bool write(ryml::NodeRef* node, const ScriptComponent& comp) {
         *node |= ryml::MAP;
-        (*node)["ClassName"] << comp.Instance.m_Type->GetFullName();
+        (*node)["ClassName"] << comp.ClassName;
 
 		return true;
     }
@@ -118,10 +118,8 @@ namespace RealEngine {
             return false;
         }
 
-        std::string className;
-        node["ClassName"] >> className;
+        node["ClassName"] >> out->ClassName;
         
-        out->Instance = Project::GetScriptEngine()->CreateObject(100, className);
         return true;
 	}
 
