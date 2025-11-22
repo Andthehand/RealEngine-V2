@@ -68,15 +68,24 @@ namespace RealEngine {
 		RE_PROFILE_FUNCTION();
 
 		Coral::GC::Collect();
+		Coral::GC::WaitForPendingFinalizers();
 	}
 
 	Coral::ManagedObject ScriptEngine::CreateObject(UUID entityID, std::string_view className) {
 		RE_PROFILE_FUNCTION();
 
-		Coral::ManagedObject entityObject = m_Assembly.GetType(className).CreateInstance((uint64_t)entityID);
-		entityObject.InvokeMethod("OnCreate");
+		Coral::Type& entityType = m_Assembly.GetType(className);
+		if (entityType) {
+			Coral::ManagedObject entityObject = entityType.CreateInstance((uint64_t)entityID);
+			entityObject.InvokeMethod("OnCreate");
 
-		return entityObject;
+			return entityObject;
+		}
+		else {
+			RE_CORE_ERROR("Failed to create script object of class '{0}' - class not found! (Maybe Renamed?)", className);
+
+			return Coral::ManagedObject();
+		}
 	}
 
 	std::vector<std::string> ScriptEngine::GetValidScriptClasses() {
