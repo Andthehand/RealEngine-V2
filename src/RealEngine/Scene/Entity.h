@@ -66,6 +66,7 @@ namespace RealEngine {
 		}
 
 		operator entt::entity() const { return m_EntityHandle; }
+		operator bool() const { return m_EntityHandle != entt::null; }
 	private:
 		Scene* m_Scene;
 		entt::entity m_EntityHandle;

@@ -61,7 +61,7 @@ namespace RealEngine {
 		// Getters
 		//-------------------------------------------------------------------------
 
-		static Ref<Scene>& GetCurrentScene() { return s_ActiveProject->m_CurrentScene; }
+		static Ref<Scene> GetCurrentScene() { return s_ActiveProject->m_CurrentScene; }
 
 		/**
 		 * @brief Sets the currently active scene.

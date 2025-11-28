@@ -42,7 +42,7 @@ namespace RealEngine {
 
     inline bool write(ryml::NodeRef* node, const TransformComponent& comp) {
         *node |= ryml::MAP;
-        (*node)["Position"] << comp.GetPosition();
+        (*node)["Position"] << comp.GetTransation();
         (*node)["Rotation"] << comp.GetRotationQuat();
         (*node)["Scale"]    << comp.GetScale();
         return true;
@@ -67,7 +67,7 @@ namespace RealEngine {
         if (node.has_child("Scale")) node["Scale"] >> scale;
         else RE_CORE_WARN("TransformComponent missing 'Scale' - using default (1,1,1)");
 
-        out->SetPosition(position);
+        out->SetTransation(position);
         out->SetRotationQuat(rotation);
         out->SetScale(scale);
 

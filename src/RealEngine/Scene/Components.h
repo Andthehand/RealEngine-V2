@@ -99,12 +99,12 @@ namespace RealEngine {
     };
 
     struct TransformComponent {
-        void SetPosition(const glm::vec3& position) { Position = position;                  dirty = true; }
+        void SetTransation(const glm::vec3& transation) { Transation = transation;            dirty = true; }
         void SetRotationEuler(const glm::vec3& rotation) { Rotation = glm::quat(rotation);  dirty = true; }
 		void SetRotationQuat(const glm::quat& rotation)  { Rotation = rotation;             dirty = true; }
         void SetScale(const glm::vec3& scale)       { Scale = scale;                        dirty = true; }
 
-		const glm::vec3& GetPosition() const { return Position; }
+		const glm::vec3& GetTransation() const { return Transation; }
 		glm::vec3 GetRotationEuler() const { return glm::eulerAngles(Rotation); }
 		const glm::quat& GetRotationQuat() const { return Rotation; }
 		const glm::vec3& GetScale()    const { return Scale; }
@@ -112,7 +112,7 @@ namespace RealEngine {
         const glm::mat4& GetTransform() {
             if (dirty) {
                 // Use matrix_transform + quaternion conversion; supply base matrices explicitly
-                glm::mat4 translation = glm::translate(glm::mat4(1.0f), Position);
+                glm::mat4 translation = glm::translate(glm::mat4(1.0f), Transation);
                 glm::mat4 rotation    = glm::toMat4(Rotation);
                 glm::mat4 scaling     = glm::scale(glm::mat4(1.0f), Scale);
 
@@ -126,24 +126,24 @@ namespace RealEngine {
         TransformComponent() = default;
 
         TransformComponent(const glm::vec3& position)
-            : Position(position) { }
+            : Transation(position) { }
 		TransformComponent(const glm::vec3& position, const glm::vec3& rotation)
-			: Position(position), Rotation(rotation) { }
+			: Transation(position), Rotation(rotation) { }
 		TransformComponent(const glm::vec3& position, const glm::vec3& rotation, const glm::vec3& scale)
-			: Position(position), Rotation(rotation), Scale(scale) { }
+			: Transation(position), Rotation(rotation), Scale(scale) { }
 
         TransformComponent(const glm::vec3& position, const glm::quat& rotation)
-			: Position(position), Rotation(rotation) { }
+			: Transation(position), Rotation(rotation) { }
         TransformComponent(const glm::vec3& position, const glm::quat& rotation, const glm::vec3& scale)
-            : Position(position), Rotation(rotation), Scale(scale) { }
+            : Transation(position), Rotation(rotation), Scale(scale) { }
 
         bool operator==(const TransformComponent& other) const {
-            return Position == other.Position;
+            return Transation == other.Transation;
         }
 
         RE_REGISTER_COMPONENT(TransformComponent)
     private:
-        glm::vec3 Position = glm::vec3(0.0f);
+        glm::vec3 Transation = glm::vec3(0.0f);
         glm::quat Rotation = { 1.0f, 0.0f, 0.0f, 0.0f };
         glm::vec3 Scale = glm::vec3(1.0f);
 

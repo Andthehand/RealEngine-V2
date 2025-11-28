@@ -86,7 +86,7 @@ TEST_F(ComponentSerializerTest, TransformComponent_SerializeDeserialize) {
     TransformComponent deserialized{};
     transformNode >> deserialized;
 
-    EXPECT_EQ(deserialized.GetPosition(), position);
+    EXPECT_EQ(deserialized.GetTransation(), position);
     EXPECT_EQ(deserialized.GetRotationQuat(), rotation);
     EXPECT_EQ(deserialized.GetScale(), scale);
 }
