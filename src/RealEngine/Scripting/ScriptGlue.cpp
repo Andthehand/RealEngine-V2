@@ -9,7 +9,11 @@
 	assembly.AddInternalCall("RealEngine.InternalCalls", #functionName, reinterpret_cast<void*>(&functionName));
 
 namespace RealEngine {
-	static std::unordered_map<Coral::Type*, std::function<bool(Entity)>> s_EntityHasComponentFuncs;
+	struct ComponentFuncs {
+		std::function<bool(Entity)> HasComponent;
+		std::function<void*(Entity)> GetComponent;
+	};
+	static std::unordered_map<Coral::Type*, ComponentFuncs> s_EntityComponentFuncs;
 
 	enum class LogLevel {
 		Trace = 0,
@@ -40,80 +44,20 @@ namespace RealEngine {
 		RE_CORE_ASSERT(entity);
 
 		Coral::Type& componentType = componentReflectionType;
-		RE_CORE_ASSERT(s_EntityHasComponentFuncs.find(&componentType) != s_EntityHasComponentFuncs.end());
-		return s_EntityHasComponentFuncs.at(&componentType)(entity);
+		RE_CORE_ASSERT(s_EntityComponentFuncs.find(&componentType) != s_EntityComponentFuncs.end());
+		return s_EntityComponentFuncs.at(&componentType).HasComponent(entity);
 	}
 
-	static void TransformComponent_GetTranslation(UUID entityID, glm::vec3* outTranslation) {
+	static void* Entity_GetComponent(UUID entityID, Coral::ReflectionType componentReflectionType) {
+		RE_PROFILE_FUNCTION();
 		Ref<Scene> scene = Project::GetCurrentScene();
 		RE_CORE_ASSERT(scene);
 		Entity entity = scene->GetEntity(entityID);
 		RE_CORE_ASSERT(entity);
 
-		*outTranslation = entity ? entity.GetComponent<TransformComponent>().GetTransation() : glm::vec3(0.0f);
-	}
-
-	static void TransformComponent_SetTranslation(UUID entityID, glm::vec3* translation) {
-		Ref<Scene> scene = Project::GetCurrentScene();
-		RE_CORE_ASSERT(scene);
-		Entity entity = scene->GetEntity(entityID);
-		RE_CORE_ASSERT(entity);
-
-		entity.GetComponent<TransformComponent>().SetTransation(*translation);
-	}
-
-	static void TransformComponent_GetRotation(UUID entityID, glm::quat* outRotation) {
-		Ref<Scene> scene = Project::GetCurrentScene();
-		RE_CORE_ASSERT(scene);
-		Entity entity = scene->GetEntity(entityID);
-		RE_CORE_ASSERT(entity);
-
-		*outRotation = entity ? entity.GetComponent<TransformComponent>().GetRotationQuat() : glm::quat();
-	}
-
-	static void TransformComponent_SetRotation(UUID entityID, glm::quat* rotation) {
-		Ref<Scene> scene = Project::GetCurrentScene();
-		RE_CORE_ASSERT(scene);
-		Entity entity = scene->GetEntity(entityID);
-		RE_CORE_ASSERT(entity);
-
-		entity.GetComponent<TransformComponent>().SetRotationQuat(*rotation);
-	}
-
-	static void TransformComponent_GetScale(UUID entityID, glm::vec3* outScale) {
-		Ref<Scene> scene = Project::GetCurrentScene();
-		RE_CORE_ASSERT(scene);
-		Entity entity = scene->GetEntity(entityID);
-		RE_CORE_ASSERT(entity);
-
-		*outScale = entity ? entity.GetComponent<TransformComponent>().GetScale() : glm::vec3(0.0f);
-	}
-
-	static void TransformComponent_SetScale(UUID entityID, glm::vec3* scale) {
-		Ref<Scene> scene = Project::GetCurrentScene();
-		RE_CORE_ASSERT(scene);
-		Entity entity = scene->GetEntity(entityID);
-		RE_CORE_ASSERT(entity);
-
-		entity.GetComponent<TransformComponent>().SetScale(*scale);
-	}
-
-	static void SpriteRendererComponent_GetColor(UUID entityID, glm::vec4* outColor) {
-		Ref<Scene> scene = Project::GetCurrentScene();
-		RE_CORE_ASSERT(scene);
-		Entity entity = scene->GetEntity(entityID);
-		RE_CORE_ASSERT(entity);
-
-		*outColor = entity ? entity.GetComponent<SpriteRendererComponent>().Color : glm::vec4(0.0f);
-	}
-
-	static void SpriteRendererComponent_SetColor(UUID entityID, glm::vec4* color) {
-		Ref<Scene> scene = Project::GetCurrentScene();
-		RE_CORE_ASSERT(scene);
-		Entity entity = scene->GetEntity(entityID);
-		RE_CORE_ASSERT(entity);
-
-		entity.GetComponent<SpriteRendererComponent>().Color = *color;
+		Coral::Type& componentType = componentReflectionType;
+		RE_CORE_ASSERT(s_EntityComponentFuncs.find(&componentType) != s_EntityComponentFuncs.end());
+		return s_EntityComponentFuncs.at(&componentType).GetComponent(entity);
 	}
 
 	void ScriptGlue::RegisterFunctions(Coral::ManagedAssembly& assembly) {
@@ -125,20 +69,7 @@ namespace RealEngine {
 		}
 
 		RE_ADD_INTERNAL_CALL(Entity_HasComponent);
-
-		//TransformComponent
-		RE_ADD_INTERNAL_CALL(TransformComponent_GetTranslation);
-		RE_ADD_INTERNAL_CALL(TransformComponent_SetTranslation);
-		RE_ADD_INTERNAL_CALL(TransformComponent_GetRotation);
-		RE_ADD_INTERNAL_CALL(TransformComponent_SetRotation);
-		RE_ADD_INTERNAL_CALL(TransformComponent_GetScale);
-		RE_ADD_INTERNAL_CALL(TransformComponent_SetScale);
-		//TransformComponent
-
-		//SpriteRendererComponent
-		RE_ADD_INTERNAL_CALL(SpriteRendererComponent_GetColor);
-		RE_ADD_INTERNAL_CALL(SpriteRendererComponent_SetColor);
-		//SpriteRendererComponent
+		RE_ADD_INTERNAL_CALL(Entity_GetComponent);
 
 		RE_ADD_INTERNAL_CALL(NativeLog);
 
@@ -154,8 +85,10 @@ namespace RealEngine {
 
 			Coral::Type& componentType = assembly.GetType(componentTypeName);
 			RE_CORE_ASSERT(componentType);
-			s_EntityHasComponentFuncs[&componentType] = [](Entity entity) { return entity.HasComponent<Component>(); };
-			}(), ...);
+			auto& funcs = s_EntityComponentFuncs[&componentType];
+			funcs.HasComponent = [](Entity entity) { return entity.HasComponent<Component>(); };
+			funcs.GetComponent = [](Entity entity) { return entity.TryGetComponent<Component>(); };
+		}(), ...);
 	}
 
 	template<typename... Component>
@@ -168,7 +101,7 @@ namespace RealEngine {
 	void ScriptGlue::RegisterComponents(Coral::ManagedAssembly& assembly) {
 		RE_PROFILE_FUNCTION();
 
-		s_EntityHasComponentFuncs.clear();
+		s_EntityComponentFuncs.clear();
 		RegisterComponent(assembly, ComponentList::GetAllComponents());
 	}
 }
