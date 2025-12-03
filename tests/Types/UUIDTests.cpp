@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <unordered_set>
-#include <unordered_map>
 
 #include "RealEngine/Types/UUID.h"
+#include "RealEngine/Types/HashMap.h"
 
 using RealEngine::UUID;
 
@@ -60,7 +60,7 @@ TEST(UUIDTests, HashSpecializationWorksInUnorderedContainers) {
     EXPECT_TRUE(s.find(a) != s.end());
     EXPECT_TRUE(s.find(c) != s.end());
 
-    std::unordered_map<UUID, int> m;
+    HashMap<UUID, int> m;
     m[a] = 10;
     m[b] = 20; // should overwrite same key
     m[c] = 30;

@@ -6,7 +6,7 @@
 
 namespace RealEngine {
 	namespace Utils {
-		static std::unordered_map<std::filesystem::path, AssetType> s_AssetExtensionMap = {
+		static HashMap<std::filesystem::path, AssetType> s_AssetExtensionMap = {
 			{ ".png", AssetType::Texture2D },
 			{ ".jpg", AssetType::Texture2D },
 			{ ".jpeg", AssetType::Texture2D },

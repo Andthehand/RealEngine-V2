@@ -4,12 +4,14 @@
 #include "RealEngine/Scene/Components.h"
 #include "RealEngine/Scene/ComponentSerializer.h"
 
+#include "RealEngine/Types/HashMap.h"
+
 #include <ryml.hpp>
 
 namespace RealEngine {
 	namespace Utils {
 		template<typename... Component>
-		static void CopyComponent(entt::registry& dst, entt::registry& src, const std::unordered_map<UUID, entt::entity>& enttMap) {
+		static void CopyComponent(entt::registry& dst, entt::registry& src, const HashMap<UUID, entt::entity>& enttMap) {
 			RE_PROFILE_FUNCTION();
 
 			([&]() {
@@ -24,7 +26,7 @@ namespace RealEngine {
 		}
 
 		template<typename... Component>
-		static void CopyComponent(ComponentList::ComponentGroup<Component...>, entt::registry& dst, entt::registry& src, const std::unordered_map<UUID, entt::entity>& enttMap) {
+		static void CopyComponent(ComponentList::ComponentGroup<Component...>, entt::registry& dst, entt::registry& src, const HashMap<UUID, entt::entity>& enttMap) {
 			RE_PROFILE_FUNCTION();
 
 			CopyComponent<Component...>(dst, src, enttMap);
@@ -63,7 +65,7 @@ namespace RealEngine {
 
 		auto& srcSceneRegistry = other->m_Registry;
 		auto& dstSceneRegistry = newScene->m_Registry;
-		std::unordered_map<UUID, entt::entity> enttMap;
+		HashMap<UUID, entt::entity> enttMap;
 
 		// Create entities in new scene
 		auto idView = srcSceneRegistry.view<IDComponent>();

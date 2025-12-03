@@ -4,6 +4,7 @@
 #include "RealEngine/Render/SceneRenderer.h"
 
 #include "RealEngine/Types/UUID.h"
+#include "RealEngine/Types/HashMap.h"
 
 #include <entt/entt.hpp>
 
@@ -56,7 +57,7 @@ namespace RealEngine {
 
 	private:
 		entt::registry m_Registry;
-		std::unordered_map<UUID, Entity> m_EntityMap;
+		HashMap<UUID, Entity> m_EntityMap;
 
 		std::filesystem::path m_FilePath;
 

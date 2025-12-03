@@ -46,6 +46,11 @@
 #include "RealEngine/Formatter/YAMLFormatter.h"
 
 // ==============================
+// Types
+// ==============================
+#include "RealEngine/Types/HashMap.h"
+
+// ==============================
 // External Graphics Libraries
 // ==============================
 #include <glad/glad.h>
@@ -67,6 +72,5 @@
 #include <sstream>
 #include <string>
 #include <thread>
-#include <unordered_set>
 #include <utility>
 #include <vector>

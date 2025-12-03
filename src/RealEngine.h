@@ -62,6 +62,7 @@
 #include "RealEngine/Types/RingBuffer.h"
 #include "RealEngine/Types/StringHash.h"
 #include "RealEngine/Types/UUID.h"
+#include "RealEngine/Types/HashMap.h"
 
 // ==============================
 // Formatters

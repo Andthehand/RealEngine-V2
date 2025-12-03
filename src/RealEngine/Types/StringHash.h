@@ -1,8 +1,9 @@
 #pragma once
-
 #include <string>
 #include <cstdint>
 #include <filesystem>
+
+#include "RealEngine/Types/HashMap.h"
 
 namespace RealEngine {
     class StringHash {
@@ -34,7 +35,7 @@ namespace RealEngine {
         uint32_t m_Hash;
 
 #ifdef RE_DEBUG
-        static inline std::unordered_map<uint32_t, std::string> s_StringLookup;
+        static inline HashMap<uint32_t, std::string> s_StringLookup;
 #endif
     };
 }

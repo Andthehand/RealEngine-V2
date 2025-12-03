@@ -14,7 +14,7 @@ namespace RealEngine {
 		std::function<void*(Entity)> GetComponent;
 		std::function<void*(Entity)> AddComponent;
 	};
-	static std::unordered_map<Coral::Type*, ComponentFuncs> s_EntityComponentFuncs;
+	static HashMap<Coral::Type*, ComponentFuncs> s_EntityComponentFuncs;
 
 	enum class LogLevel {
 		Trace = 0,

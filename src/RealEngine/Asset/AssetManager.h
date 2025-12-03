@@ -4,6 +4,8 @@
 #include "AssetMetadata.h"
 #include "AssetImporter.h"
 
+#include "RealEngine/Types/HashMap.h"
+
 #include <memory>
 
 namespace RealEngine {
@@ -71,7 +73,7 @@ namespace RealEngine {
 		}
 	private:
 		// If the asset is out of scope reload it
-		std::unordered_map<AssetHandle, AssetMetadata> m_AssetRegistry;
-		std::unordered_map<AssetHandle, Ref<Asset>> m_LoadedAssets;
+		HashMap<AssetHandle, AssetMetadata> m_AssetRegistry;
+		HashMap<AssetHandle, Ref<Asset>> m_LoadedAssets;
 	};
 }

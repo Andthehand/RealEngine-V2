@@ -119,7 +119,8 @@ set(SOURCE_FILES
 
     # Formatting / vendor headers
     vendor/stb/stb_image.h
- "src/RealEngine/Types/RingBuffer.h"  "src/RealEngine/Core/ImGuiLogSink.h" "src/RealEngine/Asset/AssetManager.h" "src/RealEngine/Asset/Asset.h" "src/RealEngine/Asset/AssetManager.cpp"  "src/RealEngine/Asset/AssetMetadata.h" "src/RealEngine/Asset/AssetImporter.h" "src/RealEngine/Asset/AssetImporter.cpp" "src/RealEngine/Asset/TextureImporter.h" "src/RealEngine/Asset/TextureImporter.cpp" "src/RealEngine/Scripting/ScriptEngine.h" "src/RealEngine/Scripting/ScriptEngine.cpp" "src/RealEngine/Scripting/ScriptGlue.h" "src/RealEngine/Scripting/ScriptGlue.cpp" "src/RealEngine/Formatter/CoreFormatter.h" "src/RealEngine/Events/ProjectEvents.h" "src/RealEngine/Core/ProjectSerializer.h" "src/RealEngine/Core/ProjectSerializer.cpp")
+    vendor/ankerl/unordered_dense.h
+ "src/RealEngine/Types/RingBuffer.h"  "src/RealEngine/Core/ImGuiLogSink.h" "src/RealEngine/Asset/AssetManager.h" "src/RealEngine/Asset/Asset.h" "src/RealEngine/Asset/AssetManager.cpp"  "src/RealEngine/Asset/AssetMetadata.h" "src/RealEngine/Asset/AssetImporter.h" "src/RealEngine/Asset/AssetImporter.cpp" "src/RealEngine/Asset/TextureImporter.h" "src/RealEngine/Asset/TextureImporter.cpp" "src/RealEngine/Scripting/ScriptEngine.h" "src/RealEngine/Scripting/ScriptEngine.cpp" "src/RealEngine/Scripting/ScriptGlue.h" "src/RealEngine/Scripting/ScriptGlue.cpp" "src/RealEngine/Formatter/CoreFormatter.h" "src/RealEngine/Events/ProjectEvents.h" "src/RealEngine/Core/ProjectSerializer.h" "src/RealEngine/Core/ProjectSerializer.cpp" "src/RealEngine/Types/HashMap.h")
 
 # Platform-specific files
 if(WIN32)
@@ -137,6 +138,7 @@ add_library(RealEngine STATIC ${SOURCE_FILES})
 target_include_directories(RealEngine PUBLIC # Keep public for RealEngineTests to inherit
     src
     vendor/stb
+    vendor/ankerl
 )
 
 # Precompiled header
