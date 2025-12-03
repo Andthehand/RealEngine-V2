@@ -12,6 +12,7 @@ namespace RealEngine {
 	struct ComponentFuncs {
 		std::function<bool(Entity)> HasComponent;
 		std::function<void*(Entity)> GetComponent;
+		std::function<void*(Entity)> AddComponent;
 	};
 	static std::unordered_map<Coral::Type*, ComponentFuncs> s_EntityComponentFuncs;
 
@@ -60,16 +61,35 @@ namespace RealEngine {
 		return s_EntityComponentFuncs.at(&componentType).GetComponent(entity);
 	}
 
+	static void* Entity_AddComponent(UUID entityID, Coral::ReflectionType componentReflectionType) {
+		RE_PROFILE_FUNCTION();
+		Ref<Scene> scene = Project::GetCurrentScene();
+		RE_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntity(entityID);
+		RE_CORE_ASSERT(entity);
+
+		Coral::Type& componentType = componentReflectionType;
+		RE_CORE_ASSERT(s_EntityComponentFuncs.find(&componentType) != s_EntityComponentFuncs.end());
+		return s_EntityComponentFuncs.at(&componentType).AddComponent(entity);
+	}
+
+	static UUID Entity_Instantiate(UUID entityID) {
+		RE_PROFILE_FUNCTION();
+		Ref<Scene> scene = Project::GetCurrentScene();
+		RE_CORE_ASSERT(scene);
+		Entity entity = scene->GetEntity(entityID);
+		RE_CORE_ASSERT(entity);
+
+		return scene->CloneEntity(entity).GetUUID();
+	}
+
 	void ScriptGlue::RegisterFunctions(Coral::ManagedAssembly& assembly) {
 		RegisterComponents(assembly);
 
-		auto types = assembly.GetTypes();
-		for (auto& type : types) {
-			RE_CORE_INFO("Found script type: {}", std::string(type->GetFullName()));
-		}
-
 		RE_ADD_INTERNAL_CALL(Entity_HasComponent);
 		RE_ADD_INTERNAL_CALL(Entity_GetComponent);
+		RE_ADD_INTERNAL_CALL(Entity_AddComponent);
+		RE_ADD_INTERNAL_CALL(Entity_Instantiate);
 
 		RE_ADD_INTERNAL_CALL(NativeLog);
 
@@ -88,6 +108,7 @@ namespace RealEngine {
 			auto& funcs = s_EntityComponentFuncs[&componentType];
 			funcs.HasComponent = [](Entity entity) { return entity.HasComponent<Component>(); };
 			funcs.GetComponent = [](Entity entity) { return entity.TryGetComponent<Component>(); };
+			funcs.AddComponent = [](Entity entity) { return &entity.AddOrReplaceComponent<Component>(); };
 		}(), ...);
 	}
 

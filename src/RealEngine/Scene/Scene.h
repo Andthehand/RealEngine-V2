@@ -28,8 +28,10 @@ namespace RealEngine {
 
 		void RenderScene(const glm::mat4 cameraProjection);
 
-		Entity CreateEntity(const std::string& name);
-		Entity CreateEntity(UUID id, const std::string& name);
+		Entity CreateEntity(std::string_view name);
+		Entity CreateEntity(UUID id, std::string_view name);
+
+		Entity CloneEntity(const Entity& entity);
 
 		// Returns the iterator to the next element after the erased one
 		void DestroyEntity(const Entity& entity);
@@ -59,6 +61,7 @@ namespace RealEngine {
 		std::filesystem::path m_FilePath;
 
 		SceneRenderer m_SceneRenderer;
+		bool m_IsRunning = false;
 		
 		friend class Entity;
 		friend class SceneHierarchyPanel;

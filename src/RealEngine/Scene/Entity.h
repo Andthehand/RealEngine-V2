@@ -61,6 +61,14 @@ namespace RealEngine {
 			return m_Scene->m_Registry.all_of<T>(m_EntityHandle);
 		}
 
+		std::string_view GetName() const {
+			return GetComponent<TagComponent>().Tag;
+		}
+
+		UUID GetUUID() const {
+			return GetComponent<IDComponent>().ID;
+		}
+
 		bool operator==(const Entity& other) const {
 			return m_EntityHandle == other.m_EntityHandle;
 		}

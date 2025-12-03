@@ -81,6 +81,7 @@ namespace RealEngine {
 
 	void Scene::OnRuntimeStart() {
 		RE_PROFILE_FUNCTION();
+		m_IsRunning = true;
 
 		auto view = m_Registry.view<IDComponent, ScriptComponent>();
 		for (auto entity : view) {
@@ -92,6 +93,7 @@ namespace RealEngine {
 
 	void Scene::OnRuntimeStop() {
 		RE_PROFILE_FUNCTION();
+		m_IsRunning = false;
 
 		Project::GetScriptEngine()->UpdateGC();
 	}
@@ -118,7 +120,7 @@ namespace RealEngine {
 		}
 	}
 
-	Entity Scene::CreateEntity(const std::string& name) {
+	Entity Scene::CreateEntity(std::string_view name) {
 		RE_PROFILE_FUNCTION();
 
 		UUID entityID;
@@ -127,7 +129,7 @@ namespace RealEngine {
 		return entity;
 	}
 
-	Entity Scene::CreateEntity(UUID id, const std::string& name) {
+	Entity Scene::CreateEntity(UUID id, std::string_view name) {
 		Entity entity(m_Registry.create(), this);
 		entity.AddComponent<IDComponent>(id);
 		entity.AddComponent<TagComponent>(name);
@@ -135,6 +137,16 @@ namespace RealEngine {
 		// Add to lookup for later retrieval
 		m_EntityMap.insert({ id, entity });
 		return entity;
+	}
+
+	Entity Scene::CloneEntity(const Entity& entity) {
+		RE_PROFILE_FUNCTION();
+
+		std::string_view name = entity.GetName();
+		Entity newEntity = CreateEntity(name);
+		Utils::CopyComponentIfExists(ComponentList::GetAllComponents(), newEntity, entity);
+
+		return newEntity;
 	}
 
 	void Scene::DestroyEntity(const Entity& entity) {

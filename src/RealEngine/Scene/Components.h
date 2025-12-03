@@ -89,6 +89,8 @@ namespace RealEngine {
 
         TagComponent(const std::string& tag = "Entity")
             : Tag(tag) { }
+        TagComponent(std::string_view tag = "Entity")
+            : Tag(tag) { }
 
         bool operator==(const TagComponent& other) const {
             return Tag == other.Tag;
