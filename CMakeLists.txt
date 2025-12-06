@@ -6,7 +6,6 @@ project(RealEngine LANGUAGES C CXX)
 # ------------------------
 option(TRACY_ENABLE "Enable Tracy profiler (vendor/tracy)" ON)
 option(BUILD_DOCS "Build Doxygen documentation" OFF)
-option(BUILD_TESTS "Build tests" ON)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -135,7 +134,7 @@ endif()
 add_library(RealEngine STATIC ${SOURCE_FILES})
 
 # Expose public include directory so consumers of the library can use the headers
-target_include_directories(RealEngine PUBLIC # Keep public for RealEngineTests to inherit
+target_include_directories(RealEngine PUBLIC
     src
     vendor/stb
     vendor/ankerl
@@ -196,12 +195,3 @@ target_link_libraries(RealEngine
     Coral.Native
     $<$<BOOL:${PLATFORM_LIBS}>:${PLATFORM_LIBS}>
 )
-
-# ------------------------
-# Tests
-# ------------------------
-if(BUILD_TESTS)
-    enable_testing()
-    add_subdirectory(vendor/googletest)
-    add_subdirectory(tests)
-endif()

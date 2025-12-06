@@ -2,7 +2,7 @@
 
 namespace RealEngine {
 	using AssetImportFunction = std::function<Ref<Asset>(const AssetMetadata&)>;
-	static std::unordered_map<AssetType, AssetImportFunction> s_AssetImportFunctions = {
+	static HashMap<AssetType, AssetImportFunction> s_AssetImportFunctions = {
 		{ AssetType::Texture2D, TextureImporter::ImportTexture2D },
 	};
 

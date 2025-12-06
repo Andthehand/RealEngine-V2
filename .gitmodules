@@ -20,9 +20,6 @@
 [submodule "vendor/entt"]
 	path = vendor/entt
 	url = https://github.com/skypjack/entt.git
-[submodule "vendor/googletest"]
-	path = vendor/googletest
-	url = https://github.com/google/googletest.git
 [submodule "vendor/coral"]
 	path = vendor/coral
 	url = https://github.com/Andthehand/Coral.git
