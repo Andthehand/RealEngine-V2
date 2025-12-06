@@ -91,7 +91,7 @@
 #    endif
 
 #    if !ANKERL_UNORDERED_DENSE_STD_MODULE
-//#        include "stl.h"
+#        include "stl.h"
 #    endif
 
 #    if __has_cpp_attribute(likely) && __has_cpp_attribute(unlikely) && ANKERL_UNORDERED_DENSE_CPP_VERSION >= 202002L
