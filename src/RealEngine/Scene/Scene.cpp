@@ -97,7 +97,10 @@ namespace RealEngine {
 		RE_PROFILE_FUNCTION();
 		m_IsRunning = false;
 
-		Project::GetScriptEngine()->UpdateGC();
+		Ref<ScriptEngine> scriptEngine = Project::GetScriptEngine();
+		if (scriptEngine) {
+			scriptEngine->UpdateGC();
+		}
 	}
 
 	void Scene::OnUpdateEditor(float deltaTime, const EditorCamera& camera) {
