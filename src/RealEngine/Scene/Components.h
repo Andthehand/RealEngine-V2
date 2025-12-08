@@ -100,7 +100,7 @@ namespace RealEngine {
     };
 
     struct TransformComponent {
-        void SetTransation(const glm::vec3& transation) { Transation = transation;            dirty = true; }
+        void SetTransation(const glm::vec3& transation) { Transation = transation;          dirty = true; }
         void SetRotationEuler(const glm::vec3& rotation) { Rotation = glm::quat(rotation);  dirty = true; }
 		void SetRotationQuat(const glm::quat& rotation)  { Rotation = rotation;             dirty = true; }
         void SetScale(const glm::vec3& scale)       { Scale = scale;                        dirty = true; }

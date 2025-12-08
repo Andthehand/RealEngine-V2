@@ -73,7 +73,7 @@ namespace RealEngine {
 		return s_EntityComponentFuncs.at(&componentType).AddComponent(entity);
 	}
 
-	static UUID Entity_Instantiate(UUID entityID) {
+	static uint64_t Entity_Instantiate(UUID entityID) {
 		RE_PROFILE_FUNCTION();
 		Ref<Scene> scene = Project::GetCurrentScene();
 		RE_CORE_ASSERT(scene);

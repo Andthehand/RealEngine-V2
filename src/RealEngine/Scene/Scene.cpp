@@ -148,6 +148,13 @@ namespace RealEngine {
 		Entity newEntity = CreateEntity(name);
 		Utils::CopyComponentIfExists(ComponentList::GetAllComponents(), newEntity, entity);
 
+		// If the scene is running, we need to create the script instance for the cloned entity
+		if (m_IsRunning && newEntity.HasComponent<ScriptComponent>()) {
+			auto& script = newEntity.GetComponent<ScriptComponent>();
+
+			script.Instance = Project::GetScriptEngine()->CreateObject(newEntity.GetUUID(), script.ClassName);
+		}
+
 		return newEntity;
 	}
 
