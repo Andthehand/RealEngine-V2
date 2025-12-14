@@ -7,6 +7,7 @@
 
 #include "RealEngine/Types/UUID.h"
 #include "RealEngine/Render/Texture.h"
+#include "RealEngine/Scripting/ScriptInstance.h"
 
 // Has to be a function so that the compiler actually compiles it
 #define RE_COMPONENT_NAME(name) static const char* GetName() { return #name; }
@@ -170,14 +171,27 @@ namespace RealEngine {
 	};
 
     struct ScriptComponent {
-		Coral::ManagedObject Instance;
+        Scope<ScriptInstance> Instance;
 		std::string ClassName;
 
 		ScriptComponent() = default;
 		ScriptComponent(const std::string& className)
 			: ClassName(className) {}
-        ScriptComponent(const Coral::ManagedObject& instance)
-			: Instance(instance) {}
+        ScriptComponent(Scope<ScriptInstance>&& instance)
+			: Instance(std::move(instance)) {}
+
+        // Copy constructor
+        ScriptComponent(const ScriptComponent& other)
+            : ClassName(other.ClassName) {}
+		// Copy assignment operator
+        ScriptComponent& operator=(const ScriptComponent& other) {
+            ClassName = other.ClassName;
+            return *this;
+        }
+
+		bool operator==(const ScriptComponent& other) const {
+            return ClassName == other.ClassName;
+		}
 
 		RE_REGISTER_COMPONENT(ScriptComponent)
     };

@@ -22,7 +22,7 @@ namespace RealEngine {
 					auto& srcComponent = src.get<Component>(srcEntity);
 					dst.emplace_or_replace<Component>(dstEntity, srcComponent);
 				}
-				}(), ...);
+			}(), ...);
 		}
 
 		template<typename... Component>

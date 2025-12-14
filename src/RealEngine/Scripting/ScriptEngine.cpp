@@ -7,6 +7,31 @@
 #include <Coral/GC.hpp>
 
 namespace RealEngine {
+	namespace Utils {
+		static HashMap<std::string, ScriptFieldType> s_ScriptFieldTypeMap = {
+			{ "System.Single", ScriptFieldType::Float },
+			{ "System.Double", ScriptFieldType::Double },
+			{ "System.Boolean", ScriptFieldType::Bool },
+			{ "System.String", ScriptFieldType::String },
+			{ "System.Char", ScriptFieldType::Char },
+			{ "System.Int16", ScriptFieldType::Short },
+			{ "System.Int32", ScriptFieldType::Int },
+			{ "System.Int64", ScriptFieldType::Long },
+			{ "System.Byte", ScriptFieldType::Byte },
+			{ "System.UInt16", ScriptFieldType::UShort },
+			{ "System.UInt32", ScriptFieldType::UInt },
+			{ "System.UInt64", ScriptFieldType::ULong },
+
+			{ "RealEngine.Color", ScriptFieldType::Color },
+
+			{ "System.Numerics.Vector2", ScriptFieldType::Vector2 },
+			{ "System.Numerics.Vector3", ScriptFieldType::Vector3 },
+			{ "System.Numerics.Vector4", ScriptFieldType::Vector4 },
+
+			{ "RealEngine.Entity", ScriptFieldType::Entity },
+		};
+	}
+
 	static void ExceptionCallback(std::string_view InMessage) {
 		RE_CORE_ASSERT(false, "Unhandled native exception: {0}", InMessage);
 	}
@@ -71,20 +96,22 @@ namespace RealEngine {
 		Coral::GC::WaitForPendingFinalizers();
 	}
 
-	Coral::ManagedObject ScriptEngine::CreateObject(UUID entityID, std::string_view className) {
+	Scope<ScriptInstance> ScriptEngine::CreateObject(UUID entityID, std::string_view className) {
 		RE_PROFILE_FUNCTION();
 
 		Coral::Type& entityType = m_Assembly.GetType(className);
 		if (entityType) {
 			Coral::ManagedObject entityObject = entityType.CreateInstance((uint64_t)entityID);
-			entityObject.InvokeMethod("OnCreate");
 
-			return entityObject;
+			Scope<ScriptInstance> instance = CreateScope<ScriptInstance>(std::move(entityObject));
+			instance->InvokeOnCreate();
+
+			return instance;
 		}
 		else {
 			RE_CORE_ERROR("Failed to create script object of class '{0}' - class not found! (Maybe Renamed?)", className);
 
-			return Coral::ManagedObject();
+			return Scope<ScriptInstance>(nullptr);
 		}
 	}
 
@@ -101,5 +128,40 @@ namespace RealEngine {
 		}
 
 		return classNames;
+	}
+
+	HashMap <std::string, std::vector<ScriptField>> ScriptEngine::GetAllClassFields() {
+		HashMap <std::string, std::vector<ScriptField>> fieldMap;
+
+		std::vector<std::string> classes = GetValidScriptClasses();
+		for (const auto& className : classes) {
+			Coral::Type& type = m_Assembly.GetType(className);
+
+			auto fields = type.GetFields();
+			std::vector<ScriptField> fieldsVector;
+			for (auto& field : fields) {
+				Coral::TypeAccessibility accessibility = field.GetAccessibility();
+				
+				if (accessibility == Coral::TypeAccessibility::Public) {
+					if (Utils::s_ScriptFieldTypeMap.contains(field.GetType().GetFullName())) {
+						// If public and valid type add to list
+						ScriptFieldType fieldType = Utils::s_ScriptFieldTypeMap[field.GetType().GetFullName()];
+
+						ScriptField scriptField{
+							.Name = field.GetName(),
+							.Type = fieldType
+						};
+
+						fieldsVector.push_back(scriptField);
+					} else {
+						RE_CORE_WARN("Field '{0}' in class '{1}' has unsupported type '{2}' and will be ignored in the script editor", std::string(field.GetName()), className, std::string(field.GetType().GetFullName()));
+					}
+				}
+			}
+
+			fieldMap[className] = fieldsVector;
+		}
+
+		return fieldMap;
 	}
 }
