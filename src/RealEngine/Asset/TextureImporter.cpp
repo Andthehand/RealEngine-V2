@@ -20,16 +20,16 @@ namespace RealEngine {
 		info.Width = width;
 		info.Height = height;
 		switch (channels) {
-		case 3:
-			info.InternalFormat = TextureDataType::RGB8;
-			info.DataFormat = TextureFormat::RGB;
-			break;
-		case 4:
-			info.InternalFormat = TextureDataType::RGBA8;
-			info.DataFormat = TextureFormat::RGBA;
-			break;
-		default:
-			RE_CORE_ASSERT(false, "Grayscale Images are not supported!");
+			case 3:
+				info.InternalFormat = TextureDataType::RGB8;
+				info.DataFormat = TextureFormat::RGB;
+				break;
+			case 4:
+				info.InternalFormat = TextureDataType::RGBA8;
+				info.DataFormat = TextureFormat::RGBA;
+				break;
+			default:
+				RE_CORE_ASSERT(false, "Grayscale Images are not supported!");
 		}
 		info.MipLevels = metadata.MipLevels;
 		info.FilterMode = metadata.FilterMode;

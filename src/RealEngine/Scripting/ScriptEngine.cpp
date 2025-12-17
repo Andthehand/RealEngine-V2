@@ -30,6 +30,18 @@ namespace RealEngine {
 
 			{ "RealEngine.Entity", ScriptFieldType::Entity },
 		};
+
+		static void OnAppAssemblyFileSystemEvent(const std::filesystem::path& path, const filewatch::Event change_type) {
+			RE_PROFILE_FUNCTION();
+
+			if (change_type == filewatch::Event::modified) {
+				Application::Get().SubmitToMainThread([]() {
+					Project::GetScriptEngine()->ReloadAssembly();
+
+					RE_CORE_INFO("Reloaded script assembly due to file change.");
+				});
+			}
+		}
 	}
 
 	static void ExceptionCallback(std::string_view InMessage) {
@@ -56,37 +68,55 @@ namespace RealEngine {
 		}
 	}
 
-	ScriptEngine::ScriptEngine(const std::filesystem::path& scriptPath, const std::string& libName) {
+	ScriptEngine::ScriptEngine(const std::filesystem::path& scriptFile) {
 		RE_PROFILE_FUNCTION();
+		m_AssemblyFile = scriptFile;
 
 		Coral::HostSettings settings = {
-			.CoralDirectory = (scriptPath).string(),
+			.CoralDirectory = m_AssemblyFile.parent_path(),
 			.MessageCallback = DefaultMessageCallback,
 			.MessageFilter = Coral::MessageLevel::All,
 			.ExceptionCallback = ExceptionCallback
 		};
 
-		if (m_CoralInstance.Initialize(settings) != Coral::CoralInitStatus::Success) {
-			RE_CORE_ASSERT(false, "Coral failed to initialize");
-			return;
+		if (!s_CoralInstance.IsInitialized()) {
+			if (s_CoralInstance.Initialize(settings) != Coral::CoralInitStatus::Success) {
+				RE_CORE_ASSERT(false, "Coral failed to initialize");
+				return;
+			}
 		}
 
-		m_AppLoadContext = m_CoralInstance.CreateAssemblyLoadContext("AppContext");
-		
-		// Load RealEngine assembly first to register internal calls
-		std::filesystem::path realEngineAssemblyPath = scriptPath / "RealEngine.dll";
-		Coral::ManagedAssembly& realEngineAssembly = m_AppLoadContext.LoadAssembly(realEngineAssemblyPath.string());
-		ScriptGlue::RegisterFunctions(realEngineAssembly);
+		m_AssemblyWatcher = CreateScope<filewatch::FileWatch<std::filesystem::path>>(m_AssemblyFile, Utils:: OnAppAssemblyFileSystemEvent);
 
-		std::filesystem::path assemblyPath = scriptPath / (libName + ".dll");
-		m_Assembly = m_AppLoadContext.LoadAssembly(assemblyPath.string());
+		ReloadAssembly();
 	}
 
 	ScriptEngine::~ScriptEngine() {
 		RE_PROFILE_FUNCTION();
 
-		m_CoralInstance.UnloadAssemblyLoadContext(m_AppLoadContext);
-		m_CoralInstance.Shutdown();
+		s_CoralInstance.UnloadAssemblyLoadContext(m_AppLoadContext);
+		// Don't shutdown Coral here as there may be other ScriptEngine instances
+		// s_CoralInstance.Shutdown();
+	}
+
+	void ScriptEngine::ReloadAssembly() {
+		RE_PROFILE_FUNCTION();
+
+		// Collect garbage before reloading to clean up old references
+		UpdateGC();
+
+		// Unload the current assembly load context
+		s_CoralInstance.UnloadAssemblyLoadContext(m_AppLoadContext);
+
+		// Create a new assembly load context
+		m_AppLoadContext = s_CoralInstance.CreateAssemblyLoadContext("AppContext");
+
+		// Load RealEngine assembly first to register internal calls
+		std::filesystem::path realEngineAssemblyPath = m_AssemblyFile.parent_path() / "RealEngine.dll";
+		Coral::ManagedAssembly& realEngineAssembly = m_AppLoadContext.LoadAssembly(realEngineAssemblyPath.string());
+		ScriptGlue::RegisterFunctions(realEngineAssembly);
+
+		m_Assembly = m_AppLoadContext.LoadAssembly(m_AssemblyFile.string());
 	}
 
 	void ScriptEngine::UpdateGC() {

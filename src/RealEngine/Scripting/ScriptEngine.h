@@ -6,6 +6,7 @@
 #include <Coral/HostInstance.hpp>
 #pragma warning(pop)
 
+#include <FileWatch.h>
 
 namespace RealEngine {
 	struct ScriptField {
@@ -15,8 +16,10 @@ namespace RealEngine {
 
 	class ScriptEngine {
 	public:
-		ScriptEngine(const std::filesystem::path& scriptPath, const std::string& libName);
+		ScriptEngine(const std::filesystem::path& scriptFile);
 		~ScriptEngine();
+
+		void ReloadAssembly();
 
 		void UpdateGC();
 
@@ -25,8 +28,11 @@ namespace RealEngine {
 		std::vector<std::string> GetValidScriptClasses();
 		HashMap<std::string, std::vector<ScriptField>> GetAllClassFields();
 	private:
-		Coral::HostInstance m_CoralInstance;
+		inline static Coral::HostInstance s_CoralInstance;
 		Coral::AssemblyLoadContext m_AppLoadContext;
 		Coral::ManagedAssembly m_Assembly;
+
+		Scope<filewatch::FileWatch<std::filesystem::path>> m_AssemblyWatcher;
+		std::filesystem::path m_AssemblyFile;
 	};
 }

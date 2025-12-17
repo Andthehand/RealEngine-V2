@@ -92,6 +92,10 @@ namespace RealEngine {
 		 * @return Reference to the Application instance.
 		 */
 		static Application& Get() { return *s_Instance; }
+
+		void SubmitToMainThread(const std::function<void()>& function);
+	private:
+		void ExecuteMainThreadQueue();
 	private:
 		inline static Application* s_Instance = nullptr; ///< Singleton instance.
 		const ApplicationSpecification m_Specification;
@@ -102,6 +106,9 @@ namespace RealEngine {
 		Window m_Window;
 
 		bool m_Running = true;
+
+		std::vector<std::function<void()>> m_MainThreadQueue;
+		std::mutex m_MainThreadQueueMutex;
 	};
 
 	/**

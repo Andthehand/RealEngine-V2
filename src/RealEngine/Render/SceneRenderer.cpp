@@ -55,7 +55,7 @@ namespace RealEngine {
 			RE_PROFILE_SCOPE("SceneRenderer::OnRender - 2D");
 
 			auto entities = m_Scene->GetAllEntitiesWithComponents<TransformComponent, SpriteRendererComponent>();
-			for (const auto& entity : entities) {
+			for (const auto entity : entities) {
 				auto [transform, sprite] = entities.get<TransformComponent, SpriteRendererComponent>(entity);
 
 				AddSprite(transform, sprite);

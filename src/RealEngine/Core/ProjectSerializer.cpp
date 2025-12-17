@@ -57,7 +57,7 @@ namespace RealEngine {
 
 		std::filesystem::path projectScriptsPath = Project::GetScriptsPath() / "Build";
 		project->m_ScriptEngine.reset();
-		project->m_ScriptEngine = CreateRef<ScriptEngine>(projectScriptsPath, project->m_ProjectName);
+		project->m_ScriptEngine = CreateRef<ScriptEngine>(projectScriptsPath / (project->m_ProjectName + ".dll"));
 
 		if (root.has_child("CurrentScene")) {
 			std::string scenePath;

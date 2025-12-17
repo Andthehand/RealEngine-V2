@@ -40,6 +40,8 @@ namespace RealEngine {
 		while (m_Running) {
 			RE_PROFILE_FRAME();
 
+			ExecuteMainThreadQueue();
+
 			{
 				RE_PROFILE_SCOPE("OnUpdate");
 				m_Window.OnUpdate();
@@ -97,5 +99,24 @@ namespace RealEngine {
 		RenderCommands::SetViewport(0, 0, e.GetWidth(), e.GetHeight());
 
 		return false;
+	}
+
+	void Application::SubmitToMainThread(const std::function<void()>& function) {
+		RE_PROFILE_FUNCTION();
+
+		std::scoped_lock<std::mutex> lock(m_MainThreadQueueMutex);
+
+		m_MainThreadQueue.emplace_back(function);
+	}
+
+	void Application::ExecuteMainThreadQueue() {
+		RE_PROFILE_FUNCTION();
+		std::scoped_lock<std::mutex> lock(m_MainThreadQueueMutex);
+
+		for (auto& func : m_MainThreadQueue) {
+			func();
+		}
+
+		m_MainThreadQueue.clear();
 	}
 }
