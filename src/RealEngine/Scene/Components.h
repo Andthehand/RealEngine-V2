@@ -170,6 +170,20 @@ namespace RealEngine {
         RE_REGISTER_COMPONENT(SpriteRendererComponent)
 	};
 
+    struct TextRendererComponent {
+        std::string Text;
+        glm::vec4 Color = { 1.0f, 1.0f, 1.0f, 1.0f };
+        TextRendererComponent() = default;
+        TextRendererComponent(const std::string& text, const glm::vec4& color)
+            : Text(text), Color(color) { }
+
+        bool operator==(const TextRendererComponent& other) const {
+            return Text == other.Text && Color == other.Color;
+        }
+
+        RE_REGISTER_COMPONENT(TextRendererComponent)
+    };
+
     struct ScriptComponent {
         Scope<ScriptInstance> Instance;
 		std::string ClassName;

@@ -105,6 +105,29 @@ namespace RealEngine {
         return true;
 	}
 
+    inline bool write(ryml::NodeRef* node, const TextRendererComponent& comp) {
+        *node |= ryml::MAP;
+        (*node)["Text"] << comp.Text;
+        (*node)["Color"] << comp.Color;
+        return true;
+    }
+
+    inline bool read(const ryml::ConstNodeRef& node, TextRendererComponent* out) {
+        if (!node.has_child("Text")) {
+            RE_CORE_ASSERT(false, "TextRendererComponent does not have a 'Text' child node");
+            return false;
+        }
+        node["Text"] >> out->Text;
+
+        if (!node.has_child("Color")) {
+            RE_CORE_ASSERT(false, "TextRendererComponent does not have a 'Color' child node");
+            return false;
+        }
+        node["Color"] >> out->Color;
+
+        return true;
+	}
+
     inline bool write(ryml::NodeRef* node, const ScriptComponent& comp) {
         *node |= ryml::MAP;
         (*node)["ClassName"] << comp.ClassName;

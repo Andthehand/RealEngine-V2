@@ -24,6 +24,40 @@ namespace RealEngine {
 	private:
 		Scene* m_Scene;
 
+		/// Holds all state information relevant to a character as loaded using FreeType
+		struct Character {
+			int TextureID;			// ID handle of the glyph texture
+			glm::ivec2   Size;      // Size of glyph
+			glm::ivec2   Bearing;   // Offset from baseline to left/top of glyph
+			unsigned int Advance;   // Horizontal offset to advance to next glyph
+		};
+
+		struct GlyphData {
+			glm::mat4 transform;
+			int letter;
+		};
+		
+
+		struct TextData {
+			Ref<VertexArray> VAO;
+			Ref<VertexBuffer> VBO;
+			Ref<ShaderStorageBuffer> SSBO;
+
+			Ref<Shader> TextShader;
+			Ref<Texture2DArray> FontAtlas;
+
+			static constexpr uint32_t MaxBatchLetters = 1000;
+
+			struct TextRenderData {
+				glm::vec3 textColor;
+				GlyphData glyphs[MaxBatchLetters];
+			};
+
+			TextRenderData RenderData;
+			GlyphData* RenderDataHead = RenderData.glyphs;
+			HashMap<char, Character> Characters;
+		};
+
 		struct SpriteRenderData {
 			glm::vec3 Position;
 			glm::vec4 Color;
@@ -52,5 +86,6 @@ namespace RealEngine {
 
 		Ref<UniformBuffer> m_CameraBuffer;
 		Render2DData m_Render2DData;
+		TextData m_TextData;
 	};
 }

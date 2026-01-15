@@ -4,14 +4,9 @@
 
 namespace RealEngine {
 	namespace Utils {
-		Buffer::Buffer(BufferType type, uint32_t size)
-			: m_Type(type), m_Size(size) {
-			CreateBuffer(nullptr, size);
-		}
-
-		Buffer::Buffer(BufferType type, const void* data, uint32_t size)
-			: m_Type(type), m_Size(size) {
-			CreateBuffer(data, size);
+		Buffer::Buffer(BufferType Type, const BufferCreateInfo& specs)
+			: m_Type(Type), m_Size(specs.Size) {
+			CreateBuffer(specs.Data, m_Size, specs.Usage);
 		}
 
 		Buffer::~Buffer() {
@@ -26,11 +21,11 @@ namespace RealEngine {
 			glBindBuffer(m_Type, 0);
 		}
 
-		void Buffer::CreateBuffer(const void* data, uint32_t size) {
+		void Buffer::CreateBuffer(const void* data, uint32_t size, BufferUsage usage) {
 			RE_PROFILE_FUNCTION();
 
 			glCreateBuffers(1, &m_RendererID);
-			glNamedBufferData(m_RendererID, size, data, GL_DYNAMIC_DRAW); // TODO: Customize draw type
+			glNamedBufferData(m_RendererID, size, data, (GLenum)usage);
 		}
 
 		void Buffer::SetData(const void* data, uint32_t size, uint32_t offset) {
@@ -42,20 +37,18 @@ namespace RealEngine {
 	}
 
 	IndexBuffer::IndexBuffer(uint32_t count)
-		: Buffer(Utils::BufferType::IndexBuffer, count * sizeof(uint32_t)), m_Count(count) {
-	}
+		: Buffer(Utils::BufferType::IndexBuffer, BufferCreateInfo{ 
+													.Size = (uint32_t)(count * sizeof(uint32_t)) 
+												}), m_Count(count) { }
 
 	IndexBuffer::IndexBuffer(const uint32_t* data, uint32_t count)
-		: Buffer(Utils::BufferType::IndexBuffer, (void*)data, count * sizeof(uint32_t)), m_Count(count) {
-	}
+		: Buffer(Utils::BufferType::IndexBuffer, BufferCreateInfo{ 
+													.Size = (uint32_t)(count * sizeof(uint32_t)), 
+													.Data = (void*)data 
+												}), m_Count(count) { }
 
-	ShaderStorageBuffer::ShaderStorageBuffer(uint32_t size, uint32_t binding)
-		: Buffer(Utils::BufferType::ShaderStorageBuffer, size) {
-		SetBinding(binding);
-	}
-
-	ShaderStorageBuffer::ShaderStorageBuffer(const void* data, uint32_t size, uint32_t binding)
-		: Buffer(Utils::BufferType::ShaderStorageBuffer, data, size) {
+	ShaderStorageBuffer::ShaderStorageBuffer(const BufferCreateInfo& specs, uint32_t binding)
+		: Buffer(Utils::BufferType::ShaderStorageBuffer, specs) {
 		SetBinding(binding);
 	}
 
@@ -64,14 +57,10 @@ namespace RealEngine {
 		glBindBufferBase(GL_SHADER_STORAGE_BUFFER, binding, m_RendererID);
 	}
 
-	UniformBuffer::UniformBuffer(uint32_t size, uint32_t binding) 
-		: Buffer(Utils::BufferType::UniformBuffer, size) {
+	UniformBuffer::UniformBuffer(const BufferCreateInfo& specs, uint32_t binding) 
+		: Buffer(Utils::BufferType::UniformBuffer, specs){
 		SetBinding(binding);
-	}
 
-	UniformBuffer::UniformBuffer(const void* data, uint32_t size, uint32_t binding)
-		: Buffer(Utils::BufferType::UniformBuffer, data, size) {
-		SetBinding(binding);
 	}
 
 	void UniformBuffer::SetBinding(uint32_t binding) {

@@ -84,6 +84,7 @@ namespace RealEngine {
 	}
 
 	void ScriptGlue::RegisterFunctions(Coral::ManagedAssembly& assembly) {
+		// Register all components to add/get/has functions
 		RegisterComponents(assembly);
 
 		RE_ADD_INTERNAL_CALL(Entity_HasComponent);

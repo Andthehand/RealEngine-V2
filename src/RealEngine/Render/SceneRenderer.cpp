@@ -6,44 +6,81 @@ namespace RealEngine {
 	SceneRenderer::SceneRenderer(Scene* scene) : m_Scene(scene) {
 		RE_PROFILE_FUNCTION();
 
-		m_CameraBuffer = UniformBuffer::Create(sizeof(glm::mat4), 0);
+		BufferCreateInfo cameraBufferInfo{
+			.Size = sizeof(glm::mat4),
+			.Usage = BufferUsage::DynamicDraw
+		};
+		m_CameraBuffer = UniformBuffer::Create(cameraBufferInfo, 0);
 
-		uint32_t indices[m_Render2DData.MaxIndicesCount];
-		uint32_t vertexOffset = 0;
-		for (uint32_t i = 0; i < m_Render2DData.MaxIndicesCount; i += 6) {
-			indices[i + 0] = vertexOffset + 0;
-			indices[i + 1] = vertexOffset + 1;
-			indices[i + 2] = vertexOffset + 2;
+		// TODO: Move into SpriteRenderer class
+		// Render2DData initialization
+		{	
+			uint32_t indices[m_Render2DData.MaxIndicesCount];
+			uint32_t vertexOffset = 0;
+			for (uint32_t i = 0; i < m_Render2DData.MaxIndicesCount; i += 6) {
+				indices[i + 0] = vertexOffset + 0;
+				indices[i + 1] = vertexOffset + 1;
+				indices[i + 2] = vertexOffset + 2;
 
-			indices[i + 3] = vertexOffset + 2;
-			indices[i + 4] = vertexOffset + 3;
-			indices[i + 5] = vertexOffset + 0;
+				indices[i + 3] = vertexOffset + 2;
+				indices[i + 4] = vertexOffset + 3;
+				indices[i + 5] = vertexOffset + 0;
 
-			vertexOffset += 4;
+				vertexOffset += 4;
+			}
+
+			Ref<IndexBuffer> ibo = IndexBuffer::Create(indices, m_Render2DData.MaxIndicesCount);
+
+			BufferCreateInfo vboCreateInfo{
+				.Size = (uint32_t)sizeof(SpriteRenderData) * 4 * m_Render2DData.MaxVerticesCount,
+				.Usage = BufferUsage::DynamicDraw
+			};
+
+			m_Render2DData.VBO = VertexBuffer::Create(vboCreateInfo);
+			m_Render2DData.VBO->SetLayout(BufferAttributes{
+				{ DataType::Float3 }, // Position
+				{ DataType::Float4 }, // Color
+				{ DataType::Uint },   // TexIndex
+			});
+
+			m_Render2DData.VAO = VertexArray::Create();
+			m_Render2DData.VAO->SetVertexBuffer(m_Render2DData.VBO);
+			m_Render2DData.VAO->SetIndexBuffer(ibo);
+
+			m_Render2DData.SpriteShader = Shader::Create("assets/shaders/sprite.shader");
+			Texture2DCreateInfo whiteTextureInfo;
+			whiteTextureInfo.Width = 1;
+			whiteTextureInfo.Height = 1;
+			uint32_t whitePixel = UINT32_MAX;
+			m_Render2DData.WhiteTexture = Texture2D::Create(whiteTextureInfo, &whitePixel);
+
+			// Texture slots
+			m_Render2DData.TextureSlots[0] = m_Render2DData.WhiteTexture;
+			m_Render2DData.TextureSlotIndex = 1;
 		}
 
-		Ref<IndexBuffer> ibo = IndexBuffer::Create(indices, m_Render2DData.MaxIndicesCount);
-		m_Render2DData.VBO = VertexBuffer::Create((uint32_t)sizeof(SpriteRenderData) * 4 * m_Render2DData.MaxVerticesCount);
-		m_Render2DData.VBO->SetLayout(BufferAttributes{
-			{ DataType::Float3 }, // Position
-			{ DataType::Float4 }, // Color
-			{ DataType::Uint },   // TexIndex
-		});
 
-		m_Render2DData.VAO = VertexArray::Create();
-		m_Render2DData.VAO->SetVertexBuffer(m_Render2DData.VBO);
-		m_Render2DData.VAO->SetIndexBuffer(ibo);
+		// TODO: Move into TextRenderer class
+		// Text Rendering initialization
+		{
+			constexpr glm::vec2 vertexData[] = {
+				{ 0.0f, 1.0f },
+				{ 0.0f, 0.0f },
+				{ 1.0f, 1.0f },
+				{ 1.0f, 0.0f }
+			};
 
-		m_Render2DData.SpriteShader = Shader::Create("assets/shaders/sprite.shader");
-		Texture2DCreateInfo whiteTextureInfo;
-		whiteTextureInfo.Width = 1;
-		whiteTextureInfo.Height = 1;
-		uint32_t whitePixel = UINT32_MAX;
-		m_Render2DData.WhiteTexture = Texture2D::Create(whiteTextureInfo, &whitePixel);
+			BufferCreateInfo vboCreateInfo{
+				.Size = sizeof(vertexData),
+				.Data = vertexData,
+				.Usage = BufferUsage::StaticDraw
+			};
 
-		// Texture slots
-		m_Render2DData.TextureSlots[0] = m_Render2DData.WhiteTexture;
-		m_Render2DData.TextureSlotIndex = 1;
+			m_TextData.VBO = VertexBuffer::Create(vboCreateInfo);
+
+			m_TextData.TextShader = Shader::Create("assets/shaders/text.shader");
+		}
+
 	}
 
 	void SceneRenderer::OnRender(const glm::mat4& cameraProjection) {
@@ -54,13 +91,24 @@ namespace RealEngine {
 		{
 			RE_PROFILE_SCOPE("SceneRenderer::OnRender - 2D");
 
-			auto entities = m_Scene->GetAllEntitiesWithComponents<TransformComponent, SpriteRendererComponent>();
+			auto entities = m_Scene->GetAllEntitiesWithTransformAndComponents<SpriteRendererComponent>();
 			for (const auto entity : entities) {
 				auto [transform, sprite] = entities.get<TransformComponent, SpriteRendererComponent>(entity);
 
 				AddSprite(transform, sprite);
 			}
 			Flush2D();
+		}
+
+		{
+			RE_PROFILE_SCOPE("SceneRenderer::OnRender - Text");
+
+			auto entities = m_Scene->GetAllEntitiesWithTransformAndComponents<TextRendererComponent>();
+			for (const auto entity : entities) {
+				auto [transform, text] = entities.get<TransformComponent, TextRendererComponent>(entity);
+
+
+			}
 		}
 	}
 

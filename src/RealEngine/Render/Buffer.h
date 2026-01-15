@@ -7,8 +7,7 @@
  * @def BUFFER_CLASS_TYPE(type)
  * @brief Declares constructor overloads, static creation methods, and a name override for a buffer type.
  */
-#define BUFFER_CLASS_TYPE(type)		type(uint32_t size) : Utils::Buffer(Utils::type, size) {}\
-									type(const void* data, uint32_t size) : Utils::Buffer(Utils::type, data, size) {}\
+#define BUFFER_CLASS_TYPE(type)		type(const BufferCreateInfo& specs) : Utils::Buffer(Utils::type, specs) {} \
 									BUFFER_CLASS_CREATE(type)\
 									BUFFER_CLASS_NAME(type)
 
@@ -16,8 +15,7 @@
   * @def BUFFER_CLASS_CREATE(type)
   * @brief Declares static factory creation methods for the buffer type.
   */
-#define BUFFER_CLASS_CREATE(type)	static Ref<type> Create(uint32_t size) { return CreateRef<type>(size); }\
-									static Ref<type> Create(const void* data, uint32_t size) { return CreateRef<type>(data, size); }
+#define BUFFER_CLASS_CREATE(type)	static Ref<type> Create(const BufferCreateInfo& specs) { return CreateRef<type>(specs); }
 
 
   /**
@@ -27,16 +25,29 @@
 #define BUFFER_CLASS_NAME(type)		virtual const char* GetName() const override { return #type; }
 
 namespace RealEngine {
+	enum BufferUsage {
+		StaticDraw = GL_STATIC_DRAW,
+		DynamicDraw = GL_DYNAMIC_DRAW,
+		StreamDraw = GL_STREAM_DRAW,
+	};
+
+	struct BufferCreateInfo {
+		uint32_t Size;
+
+		const void* Data = nullptr;
+		BufferUsage Usage = BufferUsage::DynamicDraw;
+	};
+
 	namespace Utils {
 		/**
 		 * @brief Enum representing OpenGL buffer binding targets.
 		 */
 		enum BufferType {
-			VertexBuffer = GL_ARRAY_BUFFER,
-			IndexBuffer = GL_ELEMENT_ARRAY_BUFFER,
-			ShaderStorageBuffer = GL_SHADER_STORAGE_BUFFER,
-			UniformBuffer = GL_UNIFORM_BUFFER,
-			CommandBuffer = GL_DRAW_INDIRECT_BUFFER,
+			VertexBuffer		=	GL_ARRAY_BUFFER,
+			IndexBuffer			=	GL_ELEMENT_ARRAY_BUFFER,
+			ShaderStorageBuffer =	GL_SHADER_STORAGE_BUFFER,
+			UniformBuffer		=	GL_UNIFORM_BUFFER,
+			CommandBuffer		=	GL_DRAW_INDIRECT_BUFFER,
 		};
 		
 		/**
@@ -44,8 +55,7 @@ namespace RealEngine {
 		 */
 		class Buffer {
 		public:
-			Buffer(BufferType type, uint32_t size);
-			Buffer(BufferType type, const void* data, uint32_t size);
+			Buffer(BufferType Type, const BufferCreateInfo& specs);
 			~Buffer();
 
 			virtual const char* GetName() const = 0;
@@ -59,7 +69,7 @@ namespace RealEngine {
 			BufferType GetType() const { return m_Type; }
 			uint32_t GetSize() const { return m_Size; }
 		private:
-			void CreateBuffer(const void* data, uint32_t size);
+			void CreateBuffer(const void* data, uint32_t size, BufferUsage usage);
 		protected:
 			uint32_t m_RendererID;
 			uint32_t m_Size;
@@ -232,6 +242,7 @@ namespace RealEngine {
 	 */
 	class IndexBuffer : public Utils::Buffer {
 	public:
+		// TODO: Change this to use BufferCreateInfo?
 		IndexBuffer(uint32_t count);
 		IndexBuffer(const uint32_t* data, uint32_t count);
 
@@ -239,8 +250,8 @@ namespace RealEngine {
 
 		BUFFER_CLASS_NAME(IndexBuffer)
 
-		static Ref<IndexBuffer> Create(uint32_t size) { return CreateRef<IndexBuffer>(size); }
-		static Ref<IndexBuffer> Create(const uint32_t* data, uint32_t size) { return CreateRef<IndexBuffer>(data, size); }
+		static Ref<IndexBuffer> Create(uint32_t count) { return CreateRef<IndexBuffer>(count); }
+		static Ref<IndexBuffer> Create(const uint32_t* data, uint32_t count) { return CreateRef<IndexBuffer>(data, count); }
 	private:
 		const uint32_t m_Count;
 	};
@@ -250,16 +261,14 @@ namespace RealEngine {
 	 */
 	class ShaderStorageBuffer : public Utils::Buffer {
 	public:
-		ShaderStorageBuffer(uint32_t size, uint32_t binding);
-		ShaderStorageBuffer(const void* data, uint32_t size, uint32_t binding);
+		ShaderStorageBuffer(const BufferCreateInfo& specs, uint32_t binding);
 
 		void SetBinding(uint32_t binding);
 		uint32_t GetBinding() const { return m_Binding; }
 
 		BUFFER_CLASS_NAME(ShaderStorageBuffer)
 
-		static Ref<ShaderStorageBuffer> Create(uint32_t size, uint32_t binding) { return CreateRef<ShaderStorageBuffer>(size, binding); }
-		static Ref<ShaderStorageBuffer> Create(const void* data, uint32_t size, uint32_t binding) { return CreateRef<ShaderStorageBuffer>(data, size, binding); }
+		static Ref<ShaderStorageBuffer> Create(const BufferCreateInfo& specs, uint32_t binding) { return CreateRef<ShaderStorageBuffer>(specs, binding); }
 	private:
 		uint32_t m_Binding;
 	};
@@ -270,16 +279,14 @@ namespace RealEngine {
 	 */
 	class UniformBuffer : public Utils::Buffer {
 	public:
-		UniformBuffer(uint32_t size, uint32_t binding);
-		UniformBuffer(const void* data, uint32_t size, uint32_t binding);
+		UniformBuffer(const BufferCreateInfo& specs, uint32_t binding);
 
 		void SetBinding(uint32_t binding);
 		uint32_t GetBinding() const { return m_Binding; }
 
 		BUFFER_CLASS_NAME(UniformBuffer)
 
-		static Ref<UniformBuffer> Create(uint32_t size, uint32_t binding) { return CreateRef<UniformBuffer>(size, binding); }
-		static Ref<UniformBuffer> Create(const void* data, uint32_t size, uint32_t binding) { return CreateRef<UniformBuffer>(data, size, binding); }
+		static Ref<UniformBuffer> Create(const BufferCreateInfo& specs, uint32_t binding) { return CreateRef<UniformBuffer>(specs, binding); }
 	private:
 		uint32_t m_Binding;
 	};

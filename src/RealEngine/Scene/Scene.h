@@ -55,6 +55,10 @@ namespace RealEngine {
 			return m_Registry.group<Component...>();
 		}
 
+		template<typename... Component>
+		auto GetAllEntitiesWithTransformAndComponents() {
+			return m_Registry.group<Component...>(entt::get<TransformComponent>);
+		}
 	private:
 		entt::registry m_Registry;
 		HashMap<UUID, Entity> m_EntityMap;
