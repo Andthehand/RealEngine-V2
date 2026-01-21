@@ -35,6 +35,7 @@ add_subdirectory(vendor/ImGui)
 add_subdirectory(vendor/rapidyaml)
 add_subdirectory(vendor/entt)
 add_subdirectory(vendor/coral/cmake)
+add_subdirectory(vendor/freetype)
 
 if(BUILD_DOCS)
     add_subdirectory(docs)
@@ -199,5 +200,6 @@ target_link_libraries(RealEngine
     ryml::ryml
     EnTT::EnTT
     Coral.Native
+    freetype
     $<$<BOOL:${PLATFORM_LIBS}>:${PLATFORM_LIBS}>
 )

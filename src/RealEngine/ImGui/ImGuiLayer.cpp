@@ -165,7 +165,7 @@ namespace RealEngine {
 		ImFontConfig fontConfig = ImFontConfig();
 		fontConfig.FontDataOwnedByAtlas = false; // So we don't try to free the static memory
 		io.Fonts->AddFontFromMemoryTTF((void*)Utils::OpenSans_Bold, sizeof(Utils::OpenSans_Bold), 0.0f, &fontConfig);
-		io.FontDefault = io.Fonts->AddFontFromMemoryTTF((void*)Utils::OpenSans_Regular, sizeof(Utils::OpenSans_Bold), 0.0f, &fontConfig);
+		io.FontDefault = io.Fonts->AddFontFromMemoryTTF((void*)Utils::OpenSans_Regular, sizeof(Utils::OpenSans_Regular), 0.0f, &fontConfig);
 
 		Application& app = Application::Get();
 		GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());

@@ -20,8 +20,6 @@ namespace RealEngine {
 
 		// --------------------- RED ---------------------
 		RED8	 =	 GL_R8,			// 8-bit Red channel
-		RED8I	 =   GL_R8I,		// 8-bit signed integer Red channel (GL_R8I)
-		RED8UI	 =   GL_R8UI,		// 8-bit unsigned integer Red channel (GL_R8UI)
 				 	 
 	 	RED16    =   GL_R16,		// 16-bit Red channel 
 		RED16I	 =   GL_R16I,		// 16-bit signed integer Red channel (GL_R16I)
@@ -174,7 +172,7 @@ namespace RealEngine {
 
 		void Bind(uint32_t slot = 0) const;
 
-		void SetSubTextureData(const void* data, uint32_t zOffset);
+		void SetSubTextureData(const void* data, uint32_t width, uint32_t height, uint32_t zOffset);
 
 		uint32_t GetWidth() const { return m_Width; }
 		uint32_t GetHeight() const { return m_Height; }
@@ -197,8 +195,8 @@ namespace RealEngine {
 		static Ref<Texture2DArray> Create(const std::vector<std::filesystem::path>& paths, uint32_t mipLevels = 1) { return CreateRef<Texture2DArray>(paths, mipLevels); }
 	private:
 		template<class It>
-		void LoadTextures(It begin, uint32_t numTextures, uint32_t mipLevels);
-		void CreateTextureArray(const void** data, TextureDataType internalFormat, TextureFormat dataFormat, uint32_t numTextures, uint32_t mipLevels);
+		void LoadTextures(It begin, uint32_t mipLevels);
+		void CreateTextureArray(const void** data, uint32_t mipLevels);
 	private:
 		// Used in the LoadTextures function to store texture data
 		struct TextureData {
@@ -240,6 +238,7 @@ namespace RealEngine {
 	private:
 		glm::uvec3 m_Size;
 		TextureDataType m_InternalFormat;
+		TextureFormat m_DataFormat;
 
 		uint32_t m_RendererID;
 	};

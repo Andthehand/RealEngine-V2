@@ -23,3 +23,6 @@
 [submodule "vendor/coral"]
 	path = vendor/coral
 	url = https://github.com/Andthehand/Coral.git
+[submodule "vendor/freetype"]
+	path = vendor/freetype
+	url = https://gitlab.freedesktop.org/freetype/freetype.git

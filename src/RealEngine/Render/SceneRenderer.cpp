@@ -1,6 +1,10 @@
 #include "SceneRenderer.h"
 
 #include "RealEngine/Scene/Scene.h"
+#include "RealEngine/ImGui/OpenSansRegular.h"
+
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 namespace RealEngine {
 	SceneRenderer::SceneRenderer(Scene* scene) : m_Scene(scene) {
@@ -77,8 +81,77 @@ namespace RealEngine {
 			};
 
 			m_TextData.VBO = VertexBuffer::Create(vboCreateInfo);
+			m_TextData.VBO->SetLayout(BufferAttributes{
+				{ DataType::Float2 } // Vertex Position
+			});
+
+			BufferCreateInfo ssboCreateInfo{
+				.Size = sizeof(TextData::TextRenderData),
+				.Usage = BufferUsage::DynamicDraw
+			};
+
+			m_TextData.VAO = VertexArray::Create();
+			m_TextData.VAO->SetVertexBuffer(m_TextData.VBO);
+
+			m_TextData.SSBO = ShaderStorageBuffer::Create(ssboCreateInfo, 1);
 
 			m_TextData.TextShader = Shader::Create("assets/shaders/text.shader");
+
+			// Load FreeType
+			FT_Library ft;
+			if (FT_Init_FreeType(&ft)) {
+				RE_CORE_ASSERT(false, "Could not init FreeType Library");
+			}
+
+			FT_Face face;
+			if (FT_New_Memory_Face(ft, Utils::OpenSans_Regular, sizeof(Utils::OpenSans_Regular), 0, &face)) {
+				RE_CORE_ASSERT(false, "Failed to load font from memory!");
+			}
+
+			FT_Set_Pixel_Sizes(face, m_TextData.FontSize, m_TextData.FontSize);
+			m_TextData.Line_Spacing = face->size->metrics.height >> 6;
+
+			RenderCommands::SetPixelStoreUnpack(1);
+
+			Texture2DArrayCreateInfo fontAtlasInfo{
+				.Width = m_TextData.FontSize,
+				.Height = m_TextData.FontSize,
+				.NumTextures = m_TextData.NumCharecters,
+				.InternalFormat = TextureDataType::RED8,
+				.DataFormat = TextureFormat::RED,
+			};
+
+			m_TextData.FontAtlas = Texture2DArray::Create(fontAtlasInfo);
+
+			for (uint32_t i = m_TextData.StartCharecterIndex; i < m_TextData.EndCharecterIndex; i++) {
+				if (FT_Load_Char(face, i, FT_LOAD_RENDER)) {
+					RE_CORE_ERROR("Failed to load Glyph for char code {}", i);
+					continue;
+				}
+
+				uint32_t width = face->glyph->bitmap.width;
+				uint32_t height = face->glyph->bitmap.rows;
+				uint32_t textureOffset = i - m_TextData.StartCharecterIndex;
+				if (width != 0 && width <= m_TextData.FontSize && 
+					height != 0 && height <= m_TextData.FontSize) {
+					m_TextData.FontAtlas->SetSubTextureData(face->glyph->bitmap.buffer, face->glyph->bitmap.width, face->glyph->bitmap.rows, textureOffset);
+				}
+				else {
+					RE_CORE_WARN("Glyph for char code {} has invalid size: {}x{}", i, width, height);
+				}
+
+				// Now store character for later use
+				Character character{
+					.TextureID = textureOffset,
+					.Size = glm::ivec2(face->glyph->bitmap.width, face->glyph->bitmap.rows),
+					.Bearing = glm::ivec2(face->glyph->bitmap_left, face->glyph->bitmap_top),
+					.Advance = face->glyph->advance.x
+				};
+				m_TextData.Characters.insert({ (char)i, character });
+			}
+		
+			FT_Done_Face(face);
+			FT_Done_FreeType(ft);
 		}
 
 	}
@@ -107,8 +180,52 @@ namespace RealEngine {
 			for (const auto entity : entities) {
 				auto [transform, text] = entities.get<TransformComponent, TextRendererComponent>(entity);
 
+				if (text.Color != m_TextData.RenderData.textColor) {
+					FlushText();
+				}
 
+				m_TextData.RenderData.textColor = text.Color;
+				
+				const glm::vec3& translation = transform.GetTransation();
+				float x = translation.x;
+				float y = translation.y;
+
+				const glm::vec3& scale = transform.GetScale();
+				float scaleX = scale.x;
+				float scaleY = scale.y;
+
+				float originalXPos = translation.x;
+
+				std::string::const_iterator c;
+				for (c = text.Text.begin(); c != text.Text.end(); c++) {
+					const Character& ch = m_TextData.Characters[*c];
+
+					if (*c == '\n') {
+						x = originalXPos;
+						y -= m_TextData.Line_Spacing * scaleY;
+					}
+					else if (*c == ' ') {
+						x += (ch.Advance >> 6) * scaleX;
+					}
+					else {
+						// Check if we exceed max letters
+						if (m_TextData.RenderDataHead - m_TextData.RenderData.glyphs >= TextData::MaxBatchLetters) {
+							FlushText();
+						}
+
+						float xpos = x + ch.Bearing.x * scaleX;
+						float ypos = y - (m_TextData.FontSize - ch.Bearing.y) * scaleY;
+
+						m_TextData.RenderDataHead->transform = glm::translate(glm::mat4(1.0f), glm::vec3(xpos, ypos, translation.z)) *
+																glm::scale(glm::mat4(1.0f), glm::vec3(m_TextData.FontSize * scaleX, m_TextData.FontSize * scaleY, 0));
+						m_TextData.RenderDataHead->letter = ch.TextureID;
+						m_TextData.RenderDataHead++;
+
+						x += (ch.Advance >> 6) * scaleX;
+					}
+				}
 			}
+			FlushText();
 		}
 	}
 
@@ -172,5 +289,24 @@ namespace RealEngine {
 		m_Render2DData.QuadCount = 0;
 		m_Render2DData.RenderDataHead = m_Render2DData.RenderData;
 		m_Render2DData.TextureSlotIndex = 1; // Reset to only white texture
+	}
+
+	void SceneRenderer::FlushText() {
+		RE_PROFILE_FUNCTION();
+
+		// Check if there is somethings to draw
+		if (m_TextData.RenderDataHead == m_TextData.RenderData.glyphs)
+			return;
+
+		uint32_t dataSize = (uint32_t)((uint8_t*)m_TextData.RenderDataHead - (uint8_t*)m_TextData.RenderData.glyphs);
+		m_TextData.SSBO->SetData(&m_TextData.RenderData, dataSize + sizeof(glm::vec3));
+		m_TextData.SSBO->SetBinding(1);
+
+		m_TextData.FontAtlas->Bind();
+		m_TextData.TextShader->Bind();
+
+		RenderCommands::DrawArraysInstanced(m_TextData.VAO, 4, (uint32_t)(dataSize / sizeof(GlyphData)));
+
+		m_TextData.RenderDataHead = m_TextData.RenderData.glyphs;
 	}
 }

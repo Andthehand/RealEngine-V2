@@ -81,6 +81,10 @@ namespace RealEngine {
 		}
 	}
 
+	void RenderCommands::SetPixelStoreUnpack(uint8_t alignment) {
+		glPixelStorei(GL_UNPACK_ALIGNMENT, alignment);
+	}
+
 	void RenderCommands::DrawIndexed(Ref<VertexArray> vertexArray, uint32_t indexCount) {
 		RE_PROFILE_FUNCTION();
 		vertexArray->Bind();
@@ -94,6 +98,13 @@ namespace RealEngine {
 		vertexArray->Bind();
 
 		glDrawArrays(GL_TRIANGLES, 0, count);
+	}
+
+	void RenderCommands::DrawArraysInstanced(Ref<VertexArray> vertexArray, uint32_t count, uint32_t instanceCount) {
+		RE_PROFILE_FUNCTION();
+		vertexArray->Bind();
+
+		glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, count, instanceCount);
 	}
 
 	void RenderCommands::DrawMultiIndexedIndirect(Ref<VertexArray> vertexArray, uint32_t commandCount) {

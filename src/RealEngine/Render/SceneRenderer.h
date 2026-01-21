@@ -21,22 +21,23 @@ namespace RealEngine {
 		void AddSprite(TransformComponent& transform, const SpriteRendererComponent& sprite);
 
 		void Flush2D();
+		void FlushText();
 	private:
 		Scene* m_Scene;
 
 		/// Holds all state information relevant to a character as loaded using FreeType
 		struct Character {
-			int TextureID;			// ID handle of the glyph texture
+			uint32_t TextureID;		// ID handle of the glyph texture
 			glm::ivec2   Size;      // Size of glyph
 			glm::ivec2   Bearing;   // Offset from baseline to left/top of glyph
-			unsigned int Advance;   // Horizontal offset to advance to next glyph
+			signed long Advance;		// Horizontal offset to advance to next glyph
 		};
 
 		struct GlyphData {
 			glm::mat4 transform;
-			int letter;
+			uint32_t letter;
+			uint32_t  _pad0[3];  // 12 bytes padding
 		};
-		
 
 		struct TextData {
 			Ref<VertexArray> VAO;
@@ -46,10 +47,16 @@ namespace RealEngine {
 			Ref<Shader> TextShader;
 			Ref<Texture2DArray> FontAtlas;
 
+			static constexpr uint32_t FontSize = 256;
+			static constexpr uint32_t StartCharecterIndex = 32;
+			static constexpr uint32_t EndCharecterIndex = 123;
+			static constexpr uint32_t NumCharecters = EndCharecterIndex - StartCharecterIndex;
 			static constexpr uint32_t MaxBatchLetters = 1000;
+			static constexpr float ScaleFactor = 0.01f;
 
+			int Line_Spacing;
 			struct TextRenderData {
-				glm::vec3 textColor;
+				glm::vec4 textColor;
 				GlyphData glyphs[MaxBatchLetters];
 			};
 

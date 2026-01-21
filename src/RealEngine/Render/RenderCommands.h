@@ -50,6 +50,8 @@ namespace RealEngine {
 		*/
 		static void SetFaceCulling(bool enabled);
 
+		static void SetPixelStoreUnpack(uint8_t alignment);
+
 		/**
 		 * @brief Draws primitives from the currently bound vertex array using indexed drawing.
 		 * @param vertexArray Reference to the vertex array to draw.
@@ -58,6 +60,8 @@ namespace RealEngine {
 		static void DrawIndexed(Ref<VertexArray> vertexArray, uint32_t indexCount = 0);
 		//TODO: If you pass in 0 for count, it will draw the entire buffer by querying the buffer size from the vertexArray
 		static void DrawArrays(Ref<VertexArray> vertexArray, uint32_t count);
+
+		static void DrawArraysInstanced(Ref<VertexArray> vertexArray, uint32_t count, uint32_t instanceCount);
 
 		static void DrawMultiIndexedIndirect(Ref<VertexArray> vertexArray, uint32_t commandCount);
 
