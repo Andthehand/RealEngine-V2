@@ -117,6 +117,8 @@ namespace RealEngine {
 		uint32_t GetWidth() const { return m_Width; }
 		uint32_t GetHeight() const { return m_Height; }
 
+		void SetData(const void* data);
+
 		uint32_t GetRendererID() const { return m_RendererID; }
 
 		static AssetType GetStaticType() { return AssetType::Texture2D; }

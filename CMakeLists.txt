@@ -35,7 +35,7 @@ add_subdirectory(vendor/ImGui)
 add_subdirectory(vendor/rapidyaml)
 add_subdirectory(vendor/entt)
 add_subdirectory(vendor/coral/cmake)
-add_subdirectory(vendor/freetype)
+add_subdirectory(vendor/msdf-atlas-gen)
 
 if(BUILD_DOCS)
     add_subdirectory(docs)
@@ -125,7 +125,7 @@ set(SOURCE_FILES
     vendor/ankerl/unordered_dense.h
     vendor/filewatch/FileWatch.h
 
- "src/RealEngine/Types/RingBuffer.h"  "src/RealEngine/Core/ImGuiLogSink.h" "src/RealEngine/Asset/AssetManager.h" "src/RealEngine/Asset/Asset.h" "src/RealEngine/Asset/AssetManager.cpp"  "src/RealEngine/Asset/AssetMetadata.h" "src/RealEngine/Asset/AssetImporter.h" "src/RealEngine/Asset/AssetImporter.cpp" "src/RealEngine/Asset/TextureImporter.h" "src/RealEngine/Asset/TextureImporter.cpp" "src/RealEngine/Scripting/ScriptEngine.h" "src/RealEngine/Scripting/ScriptEngine.cpp" "src/RealEngine/Scripting/ScriptGlue.h" "src/RealEngine/Scripting/ScriptGlue.cpp" "src/RealEngine/Formatter/CoreFormatter.h" "src/RealEngine/Events/ProjectEvents.h" "src/RealEngine/Core/ProjectSerializer.h" "src/RealEngine/Core/ProjectSerializer.cpp" "src/RealEngine/Types/HashMap.h" "src/RealEngine/Scripting/ScriptInstance.h" "src/RealEngine/Scripting/ScriptInstance.cpp")
+ "src/RealEngine/Types/RingBuffer.h"  "src/RealEngine/Core/ImGuiLogSink.h" "src/RealEngine/Asset/AssetManager.h" "src/RealEngine/Asset/Asset.h" "src/RealEngine/Asset/AssetManager.cpp"  "src/RealEngine/Asset/AssetMetadata.h" "src/RealEngine/Asset/AssetImporter.h" "src/RealEngine/Asset/AssetImporter.cpp" "src/RealEngine/Asset/TextureImporter.h" "src/RealEngine/Asset/TextureImporter.cpp" "src/RealEngine/Scripting/ScriptEngine.h" "src/RealEngine/Scripting/ScriptEngine.cpp" "src/RealEngine/Scripting/ScriptGlue.h" "src/RealEngine/Scripting/ScriptGlue.cpp" "src/RealEngine/Formatter/CoreFormatter.h" "src/RealEngine/Events/ProjectEvents.h" "src/RealEngine/Core/ProjectSerializer.h" "src/RealEngine/Core/ProjectSerializer.cpp" "src/RealEngine/Types/HashMap.h" "src/RealEngine/Scripting/ScriptInstance.h" "src/RealEngine/Scripting/ScriptInstance.cpp" "src/RealEngine/Types/Font.h" "src/RealEngine/Types/Font.cpp")
 
 # Platform-specific files
 if(WIN32)
@@ -164,7 +164,7 @@ target_compile_definitions(RealEngine
 # Platform-specific flags & libs
 # ------------------------
 if(WIN32)
-    target_compile_options(RealEngine PUBLIC /W4 /WX)
+    #target_compile_options(RealEngine PRIVATE /W4 /WX)
     target_compile_definitions(RealEngine PUBLIC RE_PLATFORM_WINDOWS)
 elseif(UNIX AND NOT APPLE)
     target_compile_definitions(RealEngine PUBLIC RE_PLATFORM_LINUX)
@@ -200,6 +200,6 @@ target_link_libraries(RealEngine
     ryml::ryml
     EnTT::EnTT
     Coral.Native
-    freetype
+    msdf-atlas-gen::msdf-atlas-gen
     $<$<BOOL:${PLATFORM_LIBS}>:${PLATFORM_LIBS}>
 )

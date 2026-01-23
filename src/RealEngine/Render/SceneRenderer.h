@@ -4,6 +4,7 @@
 
 #include "RealEngine/Render/VertexArray.h"
 #include "RealEngine/Render/Shader.h"
+#include "RealEngine/Types/Font.h"
 
 namespace RealEngine {
 	// Forward declare because of circular dependency
@@ -34,9 +35,9 @@ namespace RealEngine {
 		};
 
 		struct GlyphData {
-			glm::mat4 transform;
-			uint32_t letter;
-			uint32_t  _pad0[3];  // 12 bytes padding
+			glm::mat4 Transform;
+			glm::vec4 Color;
+			glm::vec2 UV[4];
 		};
 
 		struct TextData {
@@ -45,23 +46,16 @@ namespace RealEngine {
 			Ref<ShaderStorageBuffer> SSBO;
 
 			Ref<Shader> TextShader;
-			Ref<Texture2DArray> FontAtlas;
+			Ref<Font> Font;
 
-			static constexpr uint32_t FontSize = 256;
+			static constexpr uint32_t FontSize = 32;
 			static constexpr uint32_t StartCharecterIndex = 32;
 			static constexpr uint32_t EndCharecterIndex = 123;
 			static constexpr uint32_t NumCharecters = EndCharecterIndex - StartCharecterIndex;
 			static constexpr uint32_t MaxBatchLetters = 1000;
-			static constexpr float ScaleFactor = 0.01f;
 
-			int Line_Spacing;
-			struct TextRenderData {
-				glm::vec4 textColor;
-				GlyphData glyphs[MaxBatchLetters];
-			};
-
-			TextRenderData RenderData;
-			GlyphData* RenderDataHead = RenderData.glyphs;
+			GlyphData RenderData[MaxBatchLetters];
+			GlyphData* RenderDataHead = RenderData;
 			HashMap<char, Character> Characters;
 		};
 

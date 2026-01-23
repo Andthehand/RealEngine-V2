@@ -83,7 +83,7 @@ namespace RealEngine {
 		
 		//Upload the image to the GPU
 		if (data != nullptr) {
-			glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, (GLenum)info.DataFormat, GL_UNSIGNED_BYTE, data);
+			SetData(data);
 			glGenerateTextureMipmap(m_RendererID);
 		}
 	}
@@ -103,6 +103,10 @@ namespace RealEngine {
 		RE_PROFILE_FUNCTION();
 
 		glBindImageTexture(slot, m_RendererID, 0, GL_FALSE, 0, access, (GLenum)m_InternalFormat);
+	}
+
+	void Texture2D::SetData(const void* data) {
+		glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, (GLenum)m_DataFormat, Utils::GetGLType(m_InternalFormat), data);
 	}
 
 	Texture2DArray::Texture2DArray(const Texture2DArrayCreateInfo& info, const void** data)

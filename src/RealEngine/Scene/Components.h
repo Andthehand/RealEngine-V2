@@ -112,7 +112,7 @@ namespace RealEngine {
 		const glm::vec3& GetScale()    const { return Scale; }
 
         const glm::mat4& GetTransform() {
-            if (dirty) {
+            if (true) {
                 // Use matrix_transform + quaternion conversion; supply base matrices explicitly
                 glm::mat4 translation = glm::translate(glm::mat4(1.0f), Transation);
                 glm::mat4 rotation    = glm::toMat4(Rotation);
