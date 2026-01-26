@@ -110,8 +110,8 @@ namespace RealEngine {
         (*node)["Text"] << comp.Text;
         (*node)["Color"] << comp.Color;
 
-        if (comp.Font)
-            (*node)["Font"] << comp.Font->GetHandle();
+        if (comp.TextFont)
+            (*node)["Font"] << comp.TextFont->GetHandle();
         return true;
     }
 
@@ -133,7 +133,7 @@ namespace RealEngine {
             node["Font"] >> handle;
             Ref<Asset> asset = RealEngine::Project::GetAssetManager().GetAsset<Font>(handle);
             if (asset) {
-                out->Font = std::dynamic_pointer_cast<Font>(asset);
+                out->TextFont = std::dynamic_pointer_cast<Font>(asset);
             }
             else {
                 RE_CORE_WARN("Failed to load Font asset with handle: {}", (uint64_t)handle);

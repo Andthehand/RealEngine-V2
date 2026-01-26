@@ -18,7 +18,7 @@ namespace RealEngine {
 		// TODO: Move into SpriteRenderer class
 		// Render2DData initialization
 		{	
-			uint32_t indices[m_Render2DData.MaxIndicesCount];
+			uint32_t indices[Render2DData::MaxIndicesCount];
 			uint32_t vertexOffset = 0;
 			for (uint32_t i = 0; i < m_Render2DData.MaxIndicesCount; i += 6) {
 				indices[i + 0] = vertexOffset + 0;
@@ -122,15 +122,15 @@ namespace RealEngine {
 			for (const auto entity : entities) {
 				auto [transform, text] = entities.get<TransformComponent, TextRendererComponent>(entity);
 
-				if (!text.Font) {
+				if (!text.TextFont) {
 					return;	// Can't render without Font duh!
 				}
 
 				m_TextData.RenderData.Transform = transform.GetTransform();
 				m_TextData.RenderData.Color = text.Color;
 
-				Ref<Texture2D> fontAtlas = text.Font->GetFontAtlas();
-				const auto& fontGeometry = text.Font->GetFontGeometry();
+				Ref<Texture2D> fontAtlas = text.TextFont->GetFontAtlas();
+				const auto& fontGeometry = text.TextFont->GetFontGeometry();
 				const auto& metrics = fontGeometry.getMetrics();
 
 				double x = 0.0;
@@ -157,7 +157,7 @@ namespace RealEngine {
 					}
 
 					if (m_TextData.RenderDataHead - m_TextData.RenderData.Glyphs >= TextData::MaxBatchLetters) {
-						FlushText(text.Font);
+						FlushText(text.TextFont);
 					}
 
 					auto glyph = fontGeometry.getGlyph(character);
@@ -212,12 +212,12 @@ namespace RealEngine {
 
 						double advance;
 
-						text.Font->GetAdvance(&advance, character, nextCharacter);
+						text.TextFont->GetAdvance(&advance, character, nextCharacter);
 						x += fsScale * advance;
 					}
 				}
 				// Flush text after each entity
-				FlushText(text.Font);
+				FlushText(text.TextFont);
 			}
 		}
 	}

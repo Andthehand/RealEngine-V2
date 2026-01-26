@@ -22,8 +22,6 @@ namespace RealEngine {
 			{ "System.UInt32", ScriptFieldType::UInt },
 			{ "System.UInt64", ScriptFieldType::ULong },
 
-			{ "RealEngine.Color", ScriptFieldType::Color },
-
 			{ "System.Numerics.Vector2", ScriptFieldType::Vector2 },
 			{ "System.Numerics.Vector3", ScriptFieldType::Vector3 },
 			{ "System.Numerics.Vector4", ScriptFieldType::Vector4 },
