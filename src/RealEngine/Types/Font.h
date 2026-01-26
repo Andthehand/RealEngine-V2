@@ -1,13 +1,15 @@
 #pragma once
-
 #include "RealEngine/Render/Texture.h"
 
 #include <msdf-atlas-gen/msdf-atlas-gen.h>
 
+#include <filesystem>
+
 namespace RealEngine {
-	class Font {
+	class Font : public Asset {
 	public:
 		Font(void* fontData, uint32_t size);
+		Font(const std::filesystem::path& fontPath);
 
 		void Bind(uint32_t slot = 0);
 
@@ -17,11 +19,16 @@ namespace RealEngine {
 
 		Ref<Texture2D> GetFontAtlas() const { return m_FontAtlas; }
 		const msdf_atlas::FontGeometry& GetFontGeometry() const { return m_FontGeometry; }
+
+		static AssetType GetStaticType() { return AssetType::Font; }
+		virtual AssetType GetType() const override { return GetStaticType(); }
 	private:
 		struct AtlasDimensions {
 			int Width;
 			int Height;
 		};
+
+		void InitFont(msdfgen::FontHandle* font);
 
 		AtlasDimensions CreateAtlasPacker();
 		void LoadCharset(msdfgen::FontHandle* font);

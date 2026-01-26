@@ -11,7 +11,6 @@
 #include "RealEngine/Core/Dialogs.h"
 #include "RealEngine/Core/Input.h"
 #include "RealEngine/Core/KeyCodes.h"
-#include "RealEngine/Core/Layer.h"
 #include "RealEngine/Core/Logger.h"
 #include "RealEngine/Core/MouseCodes.h"
 #include "RealEngine/Core/Project.h"
@@ -59,6 +58,7 @@
 // ==============================
 // Types
 // ==============================
+#include "RealEngine/Types/Layer.h"
 #include "RealEngine/Types/RingBuffer.h"
 #include "RealEngine/Types/StringHash.h"
 #include "RealEngine/Types/UUID.h"

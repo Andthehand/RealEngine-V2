@@ -6,6 +6,7 @@
 #include <Coral/ManagedObject.hpp>
 
 #include "RealEngine/Types/UUID.h"
+#include "RealEngine/Types/Font.h"
 #include "RealEngine/Render/Texture.h"
 #include "RealEngine/Scripting/ScriptInstance.h"
 
@@ -173,6 +174,7 @@ namespace RealEngine {
     struct TextRendererComponent {
         std::string Text;
         glm::vec4 Color = { 1.0f, 1.0f, 1.0f, 1.0f };
+		Ref<Font> Font; // Keep as Ref not handle to manage lifetime
         TextRendererComponent() = default;
         TextRendererComponent(const std::string& text, const glm::vec4& color)
             : Text(text), Color(color) { }

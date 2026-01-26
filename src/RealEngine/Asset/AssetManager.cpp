@@ -10,7 +10,8 @@ namespace RealEngine {
 			{ ".png", AssetType::Texture2D },
 			{ ".jpg", AssetType::Texture2D },
 			{ ".jpeg", AssetType::Texture2D },
-			{ ".shader", AssetType::Shader }
+			{ ".shader", AssetType::Shader },
+			{ ".ttf", AssetType::Font }
 		};
 
 		static AssetType GetAssetTypeFromFileExtension(const std::filesystem::path& extension) {
@@ -26,6 +27,8 @@ namespace RealEngine {
 			switch (type) {
 				case AssetType::Texture2D:
 					return Texture2DMetadata{};
+				case AssetType::Font:
+					return {}; // No custom metadata for fonts yet
 				default:
 					RE_CORE_ASSERT(false, "AssetType {} is not supported for CustomMetadata", (uint16_t)type);
 					return {};
@@ -181,7 +184,9 @@ namespace RealEngine {
 			if (it->second.use_count() == 1) {
 				AssetHandle handle = it->first;
 				std::filesystem::path& path = m_AssetRegistry[handle].FilePath;
-				RE_CORE_INFO("Unloading unused asset with filename: {}", path.filename());
+
+				AssetType type = m_AssetRegistry[handle].Type;
+				RE_CORE_INFO("Unloading unused {} asset with filename: {}", Utils::GetAssetTypeString(type), path.filename());
 
 				it = m_LoadedAssets.erase(it);
 			}

@@ -109,6 +109,9 @@ namespace RealEngine {
         *node |= ryml::MAP;
         (*node)["Text"] << comp.Text;
         (*node)["Color"] << comp.Color;
+
+        if (comp.Font)
+            (*node)["Font"] << comp.Font->GetHandle();
         return true;
     }
 
@@ -124,6 +127,18 @@ namespace RealEngine {
             return false;
         }
         node["Color"] >> out->Color;
+
+        if (node.has_child("Font")) {
+            AssetHandle handle;
+            node["Font"] >> handle;
+            Ref<Asset> asset = RealEngine::Project::GetAssetManager().GetAsset<Font>(handle);
+            if (asset) {
+                out->Font = std::dynamic_pointer_cast<Font>(asset);
+            }
+            else {
+                RE_CORE_WARN("Failed to load Font asset with handle: {}", (uint64_t)handle);
+            }
+        }
 
         return true;
 	}

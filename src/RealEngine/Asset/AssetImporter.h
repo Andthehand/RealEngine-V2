@@ -3,6 +3,7 @@
 #include "AssetMetadata.h"
 
 #include "TextureImporter.h"
+#include "FontImporter.h"
 
 namespace RealEngine {
 	class AssetImporter {

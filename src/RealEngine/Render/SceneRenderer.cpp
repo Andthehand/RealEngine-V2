@@ -95,7 +95,6 @@ namespace RealEngine {
 			m_TextData.SSBO = ShaderStorageBuffer::Create(ssboCreateInfo, 1);
 
 			m_TextData.TextShader = Shader::Create("assets/shaders/text.shader");
-			m_TextData.Font = CreateRef<Font>((void*)Utils::OpenSans_Regular, (uint32_t)sizeof(Utils::OpenSans_Regular));
 		}
 	}
 
@@ -123,11 +122,15 @@ namespace RealEngine {
 			for (const auto entity : entities) {
 				auto [transform, text] = entities.get<TransformComponent, TextRendererComponent>(entity);
 
+				if (!text.Font) {
+					return;	// Can't render without Font duh!
+				}
+
 				m_TextData.RenderData.Transform = transform.GetTransform();
 				m_TextData.RenderData.Color = text.Color;
 
-				Ref<Texture2D> fontAtlas = m_TextData.Font->GetFontAtlas();
-				const auto& fontGeometry = m_TextData.Font->GetFontGeometry();
+				Ref<Texture2D> fontAtlas = text.Font->GetFontAtlas();
+				const auto& fontGeometry = text.Font->GetFontGeometry();
 				const auto& metrics = fontGeometry.getMetrics();
 
 				double x = 0.0;
@@ -154,7 +157,7 @@ namespace RealEngine {
 					}
 
 					if (m_TextData.RenderDataHead - m_TextData.RenderData.Glyphs >= TextData::MaxBatchLetters) {
-						FlushText();
+						FlushText(text.Font);
 					}
 
 					auto glyph = fontGeometry.getGlyph(character);
@@ -209,12 +212,12 @@ namespace RealEngine {
 
 						double advance;
 
-						m_TextData.Font->GetAdvance(&advance, character, nextCharacter);
+						text.Font->GetAdvance(&advance, character, nextCharacter);
 						x += fsScale * advance;
 					}
 				}
 				// Flush text after each entity
-				FlushText();
+				FlushText(text.Font);
 			}
 		}
 	}
@@ -281,7 +284,7 @@ namespace RealEngine {
 		m_Render2DData.TextureSlotIndex = 1; // Reset to only white texture
 	}
 
-	void SceneRenderer::FlushText() {
+	void SceneRenderer::FlushText(Ref<Font> font) {
 		RE_PROFILE_FUNCTION();
 
 		// Check if there is somethings to draw
@@ -293,7 +296,7 @@ namespace RealEngine {
 		m_TextData.SSBO->SetData(&m_TextData.RenderData, dataSize + textRenderDataSize);
 		m_TextData.SSBO->SetBinding(1);
 
-		m_TextData.Font->Bind();
+		font->Bind();
 		m_TextData.TextShader->Bind();
 
 		RenderCommands::DrawArraysInstanced(m_TextData.VAO, 4, (uint32_t)(dataSize / sizeof(GlyphData)));

@@ -22,7 +22,7 @@ namespace RealEngine {
 		void AddSprite(TransformComponent& transform, const SpriteRendererComponent& sprite);
 
 		void Flush2D();
-		void FlushText();
+		void FlushText(Ref<Font> font);
 	private:
 		Scene* m_Scene;
 
@@ -39,7 +39,6 @@ namespace RealEngine {
 			Ref<ShaderStorageBuffer> SSBO;
 
 			Ref<Shader> TextShader;
-			Ref<Font> Font;
 
 			static constexpr uint32_t MaxBatchLetters = 2000;
 

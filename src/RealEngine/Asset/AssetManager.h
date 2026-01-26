@@ -62,9 +62,10 @@ namespace RealEngine {
 		Ref<T> LoadAsset(AssetHandle handle) {
 			RE_PROFILE_FUNCTION();
 			RE_CORE_ASSERT(IsAssetValid(handle), "Achivment unlocked how did we get here?");
-			RE_CORE_INFO("Loading asset with handle: {}", (uint64_t)handle);
 
-			auto& assetMetaData = m_AssetRegistry.at(handle);
+			AssetMetadata& assetMetaData = m_AssetRegistry.at(handle);
+			RE_CORE_INFO("Loading {} asset with handle: {}", Utils::GetAssetTypeString(assetMetaData.Type), (uint64_t)handle);
+
 			Ref<Asset> asset = AssetImporter::ImportAsset(assetMetaData);
 			asset->m_Handle = handle;
 			m_LoadedAssets.emplace(handle, asset);

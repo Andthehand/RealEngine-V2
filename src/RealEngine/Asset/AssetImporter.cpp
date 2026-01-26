@@ -1,9 +1,11 @@
 #include "AssetImporter.h"
 
+
 namespace RealEngine {
 	using AssetImportFunction = std::function<Ref<Asset>(const AssetMetadata&)>;
 	static HashMap<AssetType, AssetImportFunction> s_AssetImportFunctions = {
 		{ AssetType::Texture2D, TextureImporter::ImportTexture2D },
+		{ AssetType::Font, FontImporter::ImportFont },
 	};
 
 	Ref<Asset> AssetImporter::ImportAsset(const AssetMetadata& metadata) {

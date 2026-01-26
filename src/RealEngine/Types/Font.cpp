@@ -7,12 +7,17 @@ namespace RealEngine {
 		msdfgen::FreetypeHandle* ft = msdfgen::initializeFreetype();
 		msdfgen::FontHandle* font = msdfgen::loadFontData(ft, (msdfgen::byte*)fontData, size);
 
-		LoadCharset(font);
-		Font::AtlasDimensions atlasDimensions = CreateAtlasPacker();
-		ApplyEdgeColoring(); // Makes the glyphs into MSDFs
+		InitFont(font);
 
-		ComputeAdvanceCache();
-		CreateTextureAtlas(atlasDimensions);
+		msdfgen::destroyFont(font);
+		msdfgen::deinitializeFreetype(ft);
+	}
+
+	Font::Font(const std::filesystem::path& fontPath) {
+		msdfgen::FreetypeHandle* ft = msdfgen::initializeFreetype();
+		msdfgen::FontHandle* font = msdfgen::loadFont(ft, fontPath.string().c_str());
+
+		InitFont(font);
 
 		msdfgen::destroyFont(font);
 		msdfgen::deinitializeFreetype(ft);
@@ -20,6 +25,15 @@ namespace RealEngine {
 
 	void Font::Bind(uint32_t slot) {
 		m_FontAtlas->Bind(slot);
+	}
+
+	void Font::InitFont(msdfgen::FontHandle* font) {
+		LoadCharset(font);
+		Font::AtlasDimensions atlasDimensions = CreateAtlasPacker();
+		ApplyEdgeColoring(); // Makes the glyphs into MSDFs
+
+		ComputeAdvanceCache();
+		CreateTextureAtlas(atlasDimensions);
 	}
 
 	Font::AtlasDimensions Font::CreateAtlasPacker() {

@@ -55,10 +55,10 @@ set(SOURCE_FILES
     src/RealEngine/Core/Logger.cpp
     src/RealEngine/Core/Assert.h
     src/RealEngine/Core/Profiler.h
-    src/RealEngine/Core/Layer.h
-    src/RealEngine/Core/Layer.cpp
-    src/RealEngine/Core/LayerStack.h
-    src/RealEngine/Core/LayerStack.cpp
+    "src/RealEngine/Types/Layer.h"
+    "src/RealEngine/Types/Layer.cpp"
+    "src/RealEngine/Types/LayerStack.h"
+    "src/RealEngine/Types/LayerStack.cpp"
     src/RealEngine/Core/Window.h
     src/RealEngine/Core/Window.cpp
     src/RealEngine/Core/KeyCodes.h
@@ -125,7 +125,7 @@ set(SOURCE_FILES
     vendor/ankerl/unordered_dense.h
     vendor/filewatch/FileWatch.h
 
- "src/RealEngine/Types/RingBuffer.h"  "src/RealEngine/Core/ImGuiLogSink.h" "src/RealEngine/Asset/AssetManager.h" "src/RealEngine/Asset/Asset.h" "src/RealEngine/Asset/AssetManager.cpp"  "src/RealEngine/Asset/AssetMetadata.h" "src/RealEngine/Asset/AssetImporter.h" "src/RealEngine/Asset/AssetImporter.cpp" "src/RealEngine/Asset/TextureImporter.h" "src/RealEngine/Asset/TextureImporter.cpp" "src/RealEngine/Scripting/ScriptEngine.h" "src/RealEngine/Scripting/ScriptEngine.cpp" "src/RealEngine/Scripting/ScriptGlue.h" "src/RealEngine/Scripting/ScriptGlue.cpp" "src/RealEngine/Formatter/CoreFormatter.h" "src/RealEngine/Events/ProjectEvents.h" "src/RealEngine/Core/ProjectSerializer.h" "src/RealEngine/Core/ProjectSerializer.cpp" "src/RealEngine/Types/HashMap.h" "src/RealEngine/Scripting/ScriptInstance.h" "src/RealEngine/Scripting/ScriptInstance.cpp" "src/RealEngine/Types/Font.h" "src/RealEngine/Types/Font.cpp")
+ "src/RealEngine/Types/RingBuffer.h"  "src/RealEngine/Core/ImGuiLogSink.h" "src/RealEngine/Asset/AssetManager.h" "src/RealEngine/Asset/Asset.h" "src/RealEngine/Asset/AssetManager.cpp"  "src/RealEngine/Asset/AssetMetadata.h" "src/RealEngine/Asset/AssetImporter.h" "src/RealEngine/Asset/AssetImporter.cpp" "src/RealEngine/Asset/TextureImporter.h" "src/RealEngine/Asset/TextureImporter.cpp" "src/RealEngine/Scripting/ScriptEngine.h" "src/RealEngine/Scripting/ScriptEngine.cpp" "src/RealEngine/Scripting/ScriptGlue.h" "src/RealEngine/Scripting/ScriptGlue.cpp" "src/RealEngine/Formatter/CoreFormatter.h" "src/RealEngine/Events/ProjectEvents.h" "src/RealEngine/Core/ProjectSerializer.h" "src/RealEngine/Core/ProjectSerializer.cpp" "src/RealEngine/Types/HashMap.h" "src/RealEngine/Scripting/ScriptInstance.h" "src/RealEngine/Scripting/ScriptInstance.cpp" "src/RealEngine/Types/Font.h" "src/RealEngine/Types/Font.cpp"  "src/RealEngine/Asset/FontImporter.h" "src/RealEngine/Asset/FontImporter.cpp")
 
 # Platform-specific files
 if(WIN32)
