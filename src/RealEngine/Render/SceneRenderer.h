@@ -26,17 +26,10 @@ namespace RealEngine {
 	private:
 		Scene* m_Scene;
 
-		/// Holds all state information relevant to a character as loaded using FreeType
-		struct Character {
-			uint32_t TextureID;		// ID handle of the glyph texture
-			glm::ivec2   Size;      // Size of glyph
-			glm::ivec2   Bearing;   // Offset from baseline to left/top of glyph
-			signed long Advance;		// Horizontal offset to advance to next glyph
-		};
-
 		struct GlyphData {
-			glm::mat4 Transform;
-			glm::vec4 Color;
+			glm::vec2 Position;
+			glm::vec2 Size;
+
 			glm::vec2 UV[4];
 		};
 
@@ -48,15 +41,16 @@ namespace RealEngine {
 			Ref<Shader> TextShader;
 			Ref<Font> Font;
 
-			static constexpr uint32_t FontSize = 32;
-			static constexpr uint32_t StartCharecterIndex = 32;
-			static constexpr uint32_t EndCharecterIndex = 123;
-			static constexpr uint32_t NumCharecters = EndCharecterIndex - StartCharecterIndex;
-			static constexpr uint32_t MaxBatchLetters = 1000;
+			static constexpr uint32_t MaxBatchLetters = 2000;
 
-			GlyphData RenderData[MaxBatchLetters];
-			GlyphData* RenderDataHead = RenderData;
-			HashMap<char, Character> Characters;
+			struct TextRenderData {
+				glm::mat4 Transform;
+				glm::vec4 Color;
+				GlyphData Glyphs[MaxBatchLetters];
+			};
+
+			TextRenderData RenderData;
+			GlyphData* RenderDataHead = RenderData.Glyphs;
 		};
 
 		struct SpriteRenderData {

@@ -85,7 +85,7 @@ namespace RealEngine {
 			});
 
 			BufferCreateInfo ssboCreateInfo{
-				.Size = sizeof(GlyphData) * m_TextData.MaxBatchLetters,
+				.Size = sizeof(TextData::TextRenderData),
 				.Usage = BufferUsage::DynamicDraw
 			};
 
@@ -123,7 +123,9 @@ namespace RealEngine {
 			for (const auto entity : entities) {
 				auto [transform, text] = entities.get<TransformComponent, TextRendererComponent>(entity);
 
-				const glm::mat4& transformMat = transform.GetTransform();
+				m_TextData.RenderData.Transform = transform.GetTransform();
+				m_TextData.RenderData.Color = text.Color;
+
 				Ref<Texture2D> fontAtlas = m_TextData.Font->GetFontAtlas();
 				const auto& fontGeometry = m_TextData.Font->GetFontGeometry();
 				const auto& metrics = fontGeometry.getMetrics();
@@ -136,9 +138,11 @@ namespace RealEngine {
 				float invW = 1.0f / fontAtlas->GetWidth();
 				float invH = 1.0f / fontAtlas->GetHeight();
 
-				std::string::const_iterator c;
-				for (c = text.Text.begin(); c != text.Text.end(); c++) {
-					char character = *c;
+				// Process each character
+				const std::string& textStr = text.Text;
+				const size_t textLength = textStr.length();
+				for (size_t i = 0; i < textLength; ++i) {
+					char character = textStr[i];
 
 					if (character == '\r')
 						continue;
@@ -149,7 +153,7 @@ namespace RealEngine {
 						continue;
 					}
 
-					if (m_TextData.RenderDataHead - m_TextData.RenderData >= TextData::MaxBatchLetters) {
+					if (m_TextData.RenderDataHead - m_TextData.RenderData.Glyphs >= TextData::MaxBatchLetters) {
 						FlushText();
 					}
 
@@ -190,14 +194,8 @@ namespace RealEngine {
 					);
 
 
-					glm::vec2 size = quadMax - quadMin;
-					glm::mat4 glyphTransform =
-						transformMat *
-						glm::translate(glm::mat4(1.0f), glm::vec3(quadMin, 0.0f)) *
-						glm::scale(glm::mat4(1.0f), glm::vec3(size, 1.0f));
-
-					m_TextData.RenderDataHead->Transform = glyphTransform;
-					m_TextData.RenderDataHead->Color = text.Color;
+					m_TextData.RenderDataHead->Position = quadMin;
+					m_TextData.RenderDataHead->Size = quadMax - quadMin;
 
 					// Vertex order: TL, BL, TR, BR
 					m_TextData.RenderDataHead->UV[0] = glm::vec2(uvMin.x, uvMax.y); // TL
@@ -206,17 +204,18 @@ namespace RealEngine {
 					m_TextData.RenderDataHead->UV[3] = glm::vec2(uvMax.x, uvMin.y); // BR
 					m_TextData.RenderDataHead++;
 
-					auto next = std::next(c);
-					if (next != text.Text.end()) {
-						double advance = glyph->getAdvance();
-						char nextCharacter = *next;
-						fontGeometry.getAdvance(advance, character, nextCharacter);
+					if (i + 1 < textLength) {
+						char nextCharacter = textStr[i + 1];
 
+						double advance;
+
+						m_TextData.Font->GetAdvance(&advance, character, nextCharacter);
 						x += fsScale * advance;
 					}
 				}
+				// Flush text after each entity
+				FlushText();
 			}
-			FlushText();
 		}
 	}
 
@@ -286,11 +285,12 @@ namespace RealEngine {
 		RE_PROFILE_FUNCTION();
 
 		// Check if there is somethings to draw
-		if (m_TextData.RenderDataHead == m_TextData.RenderData)
+		if (m_TextData.RenderDataHead == m_TextData.RenderData.Glyphs)
 			return;
 
-		uint32_t dataSize = (uint32_t)((uint8_t*)m_TextData.RenderDataHead - (uint8_t*)m_TextData.RenderData);
-		m_TextData.SSBO->SetData(&m_TextData.RenderData, dataSize);
+		constexpr uint32_t textRenderDataSize = sizeof(TextData::TextRenderData) - (sizeof(GlyphData) * (TextData::MaxBatchLetters));
+		uint32_t dataSize = (uint32_t)((uint8_t*)m_TextData.RenderDataHead - (uint8_t*)m_TextData.RenderData.Glyphs);
+		m_TextData.SSBO->SetData(&m_TextData.RenderData, dataSize + textRenderDataSize);
 		m_TextData.SSBO->SetBinding(1);
 
 		m_TextData.Font->Bind();
@@ -298,6 +298,6 @@ namespace RealEngine {
 
 		RenderCommands::DrawArraysInstanced(m_TextData.VAO, 4, (uint32_t)(dataSize / sizeof(GlyphData)));
 
-		m_TextData.RenderDataHead = m_TextData.RenderData;
+		m_TextData.RenderDataHead = m_TextData.RenderData.Glyphs;
 	}
 }
