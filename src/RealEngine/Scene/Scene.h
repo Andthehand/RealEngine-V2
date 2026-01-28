@@ -28,6 +28,7 @@ namespace RealEngine {
 		void OnUpdateRuntime(float deltaTime, const EditorCamera& camera);
 
 		void RenderScene(const glm::mat4 cameraProjection);
+		const RenderStats& GetRenderStats() const { return m_SceneRenderer.GetRenderStats(); }
 
 		Entity CreateEntity(std::string_view name);
 		Entity CreateEntity(UUID id, std::string_view name);
