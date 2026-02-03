@@ -82,6 +82,8 @@ namespace RealEngine {
 		bool OnWindowClose(WindowCloseEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);
 
+		const ApplicationCommandLineArgs& GetCommandLineArgs() const { return m_Specification.CommandLineArgs; }
+
 		/**
 		 * @brief Gets the main application window.
 		 * @return Reference to the Window object.

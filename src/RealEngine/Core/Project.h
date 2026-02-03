@@ -42,7 +42,7 @@ namespace RealEngine {
 		 * Reads project metadata, restores the project path and name, and loads
 		 * the current scene and asset data.
 		 */
-		static void Load(const std::filesystem::path& filePath);
+		static bool Load(const std::filesystem::path& filePath);
 
 		/**
 		 * @brief Saves the current project using its existing name and path.

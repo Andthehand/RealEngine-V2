@@ -42,14 +42,14 @@ namespace RealEngine {
 		s_ActiveProject->m_CurrentScene->Save();
 	}
 
-	void Project::Load(const std::filesystem::path& filePath) {
+	bool Project::Load(const std::filesystem::path& filePath) {
 		RE_CORE_ASSERT(std::filesystem::is_regular_file(filePath), "Project file does not exist!");
 		
 		s_ActiveProject = CreateRef<Project>();
 		s_ActiveProject->m_ProjectPath = filePath.parent_path();
 		s_ActiveProject->m_ProjectName = filePath.stem().string();
 
-		ProjectSerializer::Deserialize(s_ActiveProject, filePath);
+		return ProjectSerializer::Deserialize(s_ActiveProject, filePath);
 	}
 
 	void Project::Save(const std::string& projectName) {
