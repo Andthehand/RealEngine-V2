@@ -11,36 +11,44 @@ namespace RealEngine {
 		m_ScriptEngine.reset();
 	}
 
-	void Project::CreateNewProject() {
+	void Project::CreateNewProject(const std::string& projectName, const std::filesystem::path& path) {
 		s_ActiveProject = CreateRef<Project>();
 
-		s_ActiveProject->m_ProjectPath = "";
-		s_ActiveProject->m_ProjectName = "NewProject";
+		s_ActiveProject->m_ProjectName = projectName;
+		s_ActiveProject->m_ProjectPath = path / projectName;
+
+		// Create all the necessary directories
+		std::filesystem::create_directories(s_ActiveProject->m_ProjectPath);
+
+		std::filesystem::path assetsPath = GetAssetsPath();
+		std::filesystem::create_directories(assetsPath);
+		std::filesystem::create_directories(assetsPath / "Scenes");
+		std::filesystem::create_directories(assetsPath / "Textures");
+
 		s_ActiveProject->m_CurrentScene = CreateRef<Scene>();
+		s_ActiveProject->m_CurrentScene->SetFilePath(assetsPath / "Scenes" / "Default.rescene");
+
+		std::filesystem::path scriptPath = GetScriptsPath();
+		std::filesystem::create_directories(scriptPath);
+		Save();
 	}
 
 	void Project::Delete() {
-		s_ActiveProject->m_CurrentScene.reset();
+		s_ActiveProject.reset();
 	}
 
 	void Project::Save() {
-		if (!IsFullyInitialized()) {
-			// Prompt user to select save location
-			std::filesystem::path filePath = FileDialogs::SaveFile("Real Engine Project (*.reproj)\0*.reproj\0");
-			if (filePath.empty()) {
-				RE_CORE_WARN("Project save was canceled or failed!");
-				return;
-			}
-
-			SetupProject(filePath);
-		}
-
 		Save(s_ActiveProject->m_ProjectName);
 		s_ActiveProject->m_CurrentScene->Save();
 	}
 
 	void Project::Load(const std::filesystem::path& filePath) {
 		RE_CORE_ASSERT(std::filesystem::is_regular_file(filePath), "Project file does not exist!");
+		
+		s_ActiveProject = CreateRef<Project>();
+		s_ActiveProject->m_ProjectPath = filePath.parent_path();
+		s_ActiveProject->m_ProjectName = filePath.stem().string();
+
 		ProjectSerializer::Deserialize(s_ActiveProject, filePath);
 	}
 
@@ -61,26 +69,10 @@ namespace RealEngine {
 	}
 
 	std::filesystem::path Project::GetRelativePathToAssetFolder(const std::filesystem::path& absolutePath) {
-		RE_CORE_ASSERT(IsFullyInitialized(), "Project is not fully initialized!");
-
 		return std::filesystem::relative(absolutePath, GetAssetsPath());
 	}
 
 	std::filesystem::path Project::ResolveAssetPathFromAssetFolder(const std::filesystem::path& relativePath) {
-		RE_CORE_ASSERT(IsFullyInitialized(), "Project is not fully initialized!");
-
 		return GetAssetsPath() / relativePath;
-	}
-
-	void Project::SetupProject(const std::filesystem::path& projectFilePath) {
-		s_ActiveProject->m_ProjectPath = std::filesystem::absolute(projectFilePath.parent_path());
-		s_ActiveProject->m_ProjectName = projectFilePath.stem().string();
-
-		std::filesystem::path assetsPath = s_ActiveProject->m_ProjectPath / "assets";
-		std::filesystem::path scriptsPath = assetsPath / "Scripts";
-
-		// This will create the directories if they do not already exist
-		std::filesystem::create_directory(assetsPath);
-		std::filesystem::create_directory(scriptsPath);
 	}
 }

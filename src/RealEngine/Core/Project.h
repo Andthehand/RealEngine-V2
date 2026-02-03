@@ -31,7 +31,7 @@ namespace RealEngine {
 		 * This sets up a default project state with an empty name and new scene,
 		 * but does not save anything to disk.
 		 */
-		static void CreateNewProject();
+		static void CreateNewProject(const std::string& projectName, const std::filesystem::path& path);
 
 		static void Delete();
 
@@ -122,27 +122,6 @@ namespace RealEngine {
 		 * @return Absolute filesystem path to the asset.
 		 */
 		static std::filesystem::path ResolveAssetPathFromAssetFolder(const std::filesystem::path& relativePath);
-
-		//-------------------------------------------------------------------------
-		// Status Checks
-		//-------------------------------------------------------------------------
-
-		/**
-		 * @brief Checks whether the project has been fully initialized.
-		 * @return True if the project path is set, false otherwise.
-		 */
-		static bool IsFullyInitialized() { return !s_ActiveProject->m_ProjectPath.empty(); }
-
-	private:
-		/**
-		 * @brief Sets up internal state for a new project given its file path.
-		 * @param projectFilePath Path to the project file (.reproj).
-		 *
-		 * Extracts the project name, initializes directories, and prepares
-		 * the environment for scene and asset loading.
-		 */
-		static void SetupProject(const std::filesystem::path& projectFilePath);
-
 	private:
 		// Project metadata
 		std::string m_ProjectName;

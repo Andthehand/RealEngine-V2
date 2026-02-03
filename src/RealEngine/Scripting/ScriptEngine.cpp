@@ -79,7 +79,7 @@ namespace RealEngine {
 
 		if (!s_CoralInstance.IsInitialized()) {
 			if (s_CoralInstance.Initialize(settings) != Coral::CoralInitStatus::Success) {
-				RE_CORE_ASSERT(false, "Coral failed to initialize");
+				RE_CORE_WARN("Coral failed to initialize! This is problably due to the project not having a valid dll");
 				return;
 			}
 		}
@@ -91,10 +91,13 @@ namespace RealEngine {
 
 	ScriptEngine::~ScriptEngine() {
 		RE_PROFILE_FUNCTION();
+		
+		if (s_CoralInstance.IsInitialized()) {
+			s_CoralInstance.UnloadAssemblyLoadContext(m_AppLoadContext);
 
-		s_CoralInstance.UnloadAssemblyLoadContext(m_AppLoadContext);
-		// Don't shutdown Coral here as there may be other ScriptEngine instances
-		// s_CoralInstance.Shutdown();
+			// Don't shutdown Coral here as there may be other ScriptEngine instances
+			// s_CoralInstance.Shutdown();
+		}
 	}
 
 	void ScriptEngine::ReloadAssembly() {
@@ -120,8 +123,10 @@ namespace RealEngine {
 	void ScriptEngine::UpdateGC() {
 		RE_PROFILE_FUNCTION();
 
-		Coral::GC::Collect();
-		Coral::GC::WaitForPendingFinalizers();
+		if (s_CoralInstance.IsInitialized()) {
+			Coral::GC::Collect();
+			Coral::GC::WaitForPendingFinalizers();
+		}
 	}
 
 	Scope<ScriptInstance> ScriptEngine::CreateObject(UUID entityID, std::string_view className) {

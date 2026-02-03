@@ -35,7 +35,6 @@ namespace RealEngine {
 
 	bool ProjectSerializer::Deserialize(Ref<Project> project, const std::filesystem::path& filepath) {
 		RE_CORE_ASSERT(std::filesystem::is_regular_file(filepath), "Project file does not exist!");
-		Project::SetupProject(filepath);
 
 		// Read in file
 		FileHelper fileHelper(filepath, "r");
