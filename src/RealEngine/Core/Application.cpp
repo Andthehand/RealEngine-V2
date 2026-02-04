@@ -75,7 +75,6 @@ namespace RealEngine {
 		RE_PROFILE_FUNCTION();
 
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<WindowCloseEvent>(RE_BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(RE_BIND_EVENT_FN(Application::OnWindowResize));
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();) {
@@ -84,10 +83,15 @@ namespace RealEngine {
 				break;
 			}
 		}
+
+		// This is in case one of the layers doesn't want to close
+		dispatcher.Dispatch<WindowCloseEvent>(RE_BIND_EVENT_FN(Application::OnWindowClose));
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& e) {
 		RE_PROFILE_FUNCTION();
+		if (e.Handled) // This is a special case where a layer has already handled the close event
+			return true;
 
 		Stop();
 
