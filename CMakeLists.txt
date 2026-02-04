@@ -36,6 +36,7 @@ add_subdirectory(vendor/rapidyaml)
 add_subdirectory(vendor/entt)
 add_subdirectory(vendor/coral/cmake)
 add_subdirectory(vendor/msdf-atlas-gen)
+add_subdirectory(vendor/nfd)
 
 if(BUILD_DOCS)
     add_subdirectory(docs)
@@ -67,7 +68,8 @@ set(SOURCE_FILES
     src/RealEngine/Core/Input.cpp
     src/RealEngine/Core/Project.h
     src/RealEngine/Core/Project.cpp
-    "src/RealEngine/Core/Dialogs.h"
+    "src/RealEngine/Core/FileDialogs.h"
+    "src/RealEngine/Core/FileDialogs.cpp"
 
     # Events
     src/RealEngine/Events/Event.h
@@ -127,13 +129,6 @@ set(SOURCE_FILES
 
  "src/RealEngine/Types/RingBuffer.h"  "src/RealEngine/Core/ImGuiLogSink.h" "src/RealEngine/Asset/AssetManager.h" "src/RealEngine/Asset/Asset.h" "src/RealEngine/Asset/AssetManager.cpp"  "src/RealEngine/Asset/AssetMetadata.h" "src/RealEngine/Asset/AssetImporter.h" "src/RealEngine/Asset/AssetImporter.cpp" "src/RealEngine/Asset/TextureImporter.h" "src/RealEngine/Asset/TextureImporter.cpp" "src/RealEngine/Scripting/ScriptEngine.h" "src/RealEngine/Scripting/ScriptEngine.cpp" "src/RealEngine/Scripting/ScriptGlue.h" "src/RealEngine/Scripting/ScriptGlue.cpp" "src/RealEngine/Formatter/CoreFormatter.h" "src/RealEngine/Events/ProjectEvents.h" "src/RealEngine/Core/ProjectSerializer.h" "src/RealEngine/Core/ProjectSerializer.cpp" "src/RealEngine/Types/HashMap.h" "src/RealEngine/Scripting/ScriptInstance.h" "src/RealEngine/Scripting/ScriptInstance.cpp" "src/RealEngine/Types/Font.h" "src/RealEngine/Types/Font.cpp"  "src/RealEngine/Asset/FontImporter.h" "src/RealEngine/Asset/FontImporter.cpp" "src/RealEngine/Render/Renderer2D.h" "src/RealEngine/Render/Renderer2D.cpp" "src/RealEngine/Render/TextRenderer.h" "src/RealEngine/Render/TextRenderer.cpp" "src/RealEngine/Render/RenderStats.h")
 
-# Platform-specific files
-if(WIN32)
-    list(APPEND SOURCE_FILES "src/Platform/Windows/WindowsFileDialogs.cpp" "src/Platform/Windows/WindowsInfoDialog.cpp")
-elseif(UNIX AND NOT APPLE)
-    list(APPEND SOURCE_FILES "src/Platform/Linux/LinuxFileDialogs.cpp" "src/Platform/Linux/LinuxInfoDialog.cpp")
-endif()
-
 # ------------------------
 # Library target
 # ------------------------
@@ -169,11 +164,6 @@ if(WIN32)
 elseif(UNIX AND NOT APPLE)
     target_compile_definitions(RealEngine PUBLIC RE_PLATFORM_LINUX)
 
-    # GTK3 support for file dialogs (Linux)
-    find_package(PkgConfig REQUIRED) 
-    pkg_check_modules(GTK3 REQUIRED gtk+-3.0) 
-    target_include_directories(RealEngine PRIVATE ${GTK3_INCLUDE_DIRS}) 
-
     # Link with X11 for ImGui backend
     find_package(X11 REQUIRED)
     target_include_directories(RealEngine PRIVATE ${X11_INCLUDE_DIR})
@@ -201,5 +191,6 @@ target_link_libraries(RealEngine
     EnTT::EnTT
     Coral.Native
     msdf-atlas-gen::msdf-atlas-gen
+    nfd
     $<$<BOOL:${PLATFORM_LIBS}>:${PLATFORM_LIBS}>
 )

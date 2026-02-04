@@ -26,3 +26,6 @@
 [submodule "vendor/msdf-atlas-gen"]
 	path = vendor/msdf-atlas-gen
 	url = https://github.com/Andthehand/msdf-atlas-gen.git
+[submodule "vendor/nfd"]
+	path = vendor/nfd
+	url = https://github.com/btzy/nativefiledialog-extended.git
