@@ -29,3 +29,6 @@
 [submodule "vendor/nfd"]
 	path = vendor/nfd
 	url = https://github.com/btzy/nativefiledialog-extended.git
+[submodule "vendor/nmb"]
+	path = vendor/nmb
+	url = https://github.com/Andthehand/native_message_box.git

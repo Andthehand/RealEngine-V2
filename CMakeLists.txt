@@ -37,6 +37,7 @@ add_subdirectory(vendor/entt)
 add_subdirectory(vendor/coral/cmake)
 add_subdirectory(vendor/msdf-atlas-gen)
 add_subdirectory(vendor/nfd)
+add_subdirectory(vendor/nmb)
 
 if(BUILD_DOCS)
     add_subdirectory(docs)
@@ -127,7 +128,7 @@ set(SOURCE_FILES
     vendor/ankerl/unordered_dense.h
     vendor/filewatch/FileWatch.h
 
- "src/RealEngine/Types/RingBuffer.h"  "src/RealEngine/Core/ImGuiLogSink.h" "src/RealEngine/Asset/AssetManager.h" "src/RealEngine/Asset/Asset.h" "src/RealEngine/Asset/AssetManager.cpp"  "src/RealEngine/Asset/AssetMetadata.h" "src/RealEngine/Asset/AssetImporter.h" "src/RealEngine/Asset/AssetImporter.cpp" "src/RealEngine/Asset/TextureImporter.h" "src/RealEngine/Asset/TextureImporter.cpp" "src/RealEngine/Scripting/ScriptEngine.h" "src/RealEngine/Scripting/ScriptEngine.cpp" "src/RealEngine/Scripting/ScriptGlue.h" "src/RealEngine/Scripting/ScriptGlue.cpp" "src/RealEngine/Formatter/CoreFormatter.h" "src/RealEngine/Events/ProjectEvents.h" "src/RealEngine/Core/ProjectSerializer.h" "src/RealEngine/Core/ProjectSerializer.cpp" "src/RealEngine/Types/HashMap.h" "src/RealEngine/Scripting/ScriptInstance.h" "src/RealEngine/Scripting/ScriptInstance.cpp" "src/RealEngine/Types/Font.h" "src/RealEngine/Types/Font.cpp"  "src/RealEngine/Asset/FontImporter.h" "src/RealEngine/Asset/FontImporter.cpp" "src/RealEngine/Render/Renderer2D.h" "src/RealEngine/Render/Renderer2D.cpp" "src/RealEngine/Render/TextRenderer.h" "src/RealEngine/Render/TextRenderer.cpp" "src/RealEngine/Render/RenderStats.h")
+ "src/RealEngine/Types/RingBuffer.h"  "src/RealEngine/Core/ImGuiLogSink.h" "src/RealEngine/Asset/AssetManager.h" "src/RealEngine/Asset/Asset.h" "src/RealEngine/Asset/AssetManager.cpp"  "src/RealEngine/Asset/AssetMetadata.h" "src/RealEngine/Asset/AssetImporter.h" "src/RealEngine/Asset/AssetImporter.cpp" "src/RealEngine/Asset/TextureImporter.h" "src/RealEngine/Asset/TextureImporter.cpp" "src/RealEngine/Scripting/ScriptEngine.h" "src/RealEngine/Scripting/ScriptEngine.cpp" "src/RealEngine/Scripting/ScriptGlue.h" "src/RealEngine/Scripting/ScriptGlue.cpp" "src/RealEngine/Formatter/CoreFormatter.h" "src/RealEngine/Events/ProjectEvents.h" "src/RealEngine/Core/ProjectSerializer.h" "src/RealEngine/Core/ProjectSerializer.cpp" "src/RealEngine/Types/HashMap.h" "src/RealEngine/Scripting/ScriptInstance.h" "src/RealEngine/Scripting/ScriptInstance.cpp" "src/RealEngine/Types/Font.h" "src/RealEngine/Types/Font.cpp"  "src/RealEngine/Asset/FontImporter.h" "src/RealEngine/Asset/FontImporter.cpp" "src/RealEngine/Render/Renderer2D.h" "src/RealEngine/Render/Renderer2D.cpp" "src/RealEngine/Render/TextRenderer.h" "src/RealEngine/Render/TextRenderer.cpp" "src/RealEngine/Render/RenderStats.h" "src/RealEngine/Core/MessageDialog.h" "src/RealEngine/Core/MessageDialog.cpp")
 
 # ------------------------
 # Library target
@@ -192,5 +193,6 @@ target_link_libraries(RealEngine
     Coral.Native
     msdf-atlas-gen::msdf-atlas-gen
     nfd
+    nmb
     $<$<BOOL:${PLATFORM_LIBS}>:${PLATFORM_LIBS}>
 )
